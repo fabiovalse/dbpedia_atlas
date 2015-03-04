@@ -9,4 +9,39 @@ html, body {
 #map {
     width: 100%;
     height: 100%;
+    background: #404040;
+}
+
+#search_box, #result_box, #selection_box {
+    background: rgba(255,255,255,0.8);
+}
+
+#search_box, #result_box, #selection_box_container {
+    position: absolute;
+}
+
+#search_box {
+    top: 20px;
+    left: 20px;
+    height: 32px;
+    width: 300px;
+}
+#result_box {
+    top: 20px;
+    left: 20px;
+}
+#selection_box_container {
+    top: 0;
+    right: 0;
+    box-sizing: border-box;
+    border-top: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    width: 25%;
+    height: 100%;
+}
+#selection_box {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
 }

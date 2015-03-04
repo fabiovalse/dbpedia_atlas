@@ -5,13 +5,22 @@
         <title>DBpedia Atlas</title>
         <link type="text/css" href="main.css" rel="stylesheet"/>
         <link type="text/css" href="map/map.css" rel="stylesheet"/>
+        <link type="text/css" href="search_box/search_box.css" rel="stylesheet"/>
+        <link type="text/css" href="result_box/result_box.css" rel="stylesheet"/>
+        <link type="text/css" href="selection_box/selection_box.css" rel="stylesheet"/>
         <script src="http://d3js.org/d3.v3.min.js"></script>
         <script src="http://d3js.org/topojson.v1.min.js"></script>
     </head>
     <body>
         <svg id="map"></svg>
+        <div id="search_box"></div>
+        <div id="result_box"></div>
+        <div id="selection_box_container"><div id="selection_box"></div></div>
         
         <script src="map/map.js"></script>
+        <script src="search_box/search_box.js"></script>
+        <script src="result_box/result_box.js"></script>
+        <script src="selection_box/selection_box.js"></script>
         <script src="main.js"></script>
     </body>
 </html>
