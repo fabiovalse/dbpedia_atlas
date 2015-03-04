@@ -3,3 +3,33 @@ rect {
     stroke-width: 3px;
     fill: none;
 }
+
+#land {
+    vector-effect: non-scaling-stroke;
+}
+
+.land-glow-outer, .land-glow-inner {
+    stroke: rgba(255,255,255,0.05);
+}
+.land-glow-outer {
+  stroke-width: 32px;
+  fill: none;
+}
+
+.land-glow-inner {
+  stroke-width: 8px;
+  fill: none;
+}
+
+.land-fill {
+  fill: #BBB;
+  stroke: #444444;
+  stroke-width: 2px;
+}
+
+.boundary {
+  stroke: #444444;
+  fill: none;
+  pointer-events: none;
+  vector-effect: non-scaling-stroke;
+}
