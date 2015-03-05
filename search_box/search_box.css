@@ -1,0 +1,16 @@
+#search_textbox {
+	height: 26px;
+	width: 250px;
+	font-size: 15px;
+}
+
+#search_button {
+	display: inline-block;
+	height: 32px;
+	width: 44px;
+	text-align: center;
+}
+
+#search_button {
+	cursor: pointer;
+}
