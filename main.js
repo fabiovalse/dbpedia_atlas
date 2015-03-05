@@ -30,8 +30,8 @@ main.on('select', function() {
             if (error) return console.warn(error);
             
             // extract integer coordinates from RDF
-            json.i = int(json.data_properties['http://wafi.iit.cnr.it/lod/dbpedia/atlas#i'].value);
-            json.j = int(json.data_properties['http://wafi.iit.cnr.it/lod/dbpedia/atlas#j'].value);
+            json.i = parseInt(json.data_properties['http://wafi.iit.cnr.it/lod/ns/atlas#i'][0].value);
+            json.j = parseInt(json.data_properties['http://wafi.iit.cnr.it/lod/ns/atlas#j'][0].value);
             
             selection_box.update(json);
             map.update_selection(json);

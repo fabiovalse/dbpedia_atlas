@@ -84,13 +84,10 @@ map.init = (dom_node) ->
         # see https://github.com/mbostock/d3/wiki/Drag-Behavior
         return if d3.event.defaultPrevented
         
-        ### move the cursor ###
+        ### move the cursor to provide feedback ###
         h = _get_hexagon(d3.mouse(this))
+        _move_cursor(h[0], h[1])
         
-        cursor
-            .attr
-                transform: "translate(#{h[1]*(cos30*CELL_RADIUS*2)+(if h[0] % 2 is 0 then 0 else cos30*CELL_RADIUS)},#{h[0]*3/2*CELL_RADIUS})"
-                
         ### trigger a selection event ###
         trigger map.node, 'select', {i: h[0], j: h[1]}
         
@@ -165,6 +162,14 @@ map.load = (data) ->
         .attr('class', 'boundary')
         .style('stroke-width', '1px')
         
+map.update_selection = (selection) ->
+    _move_cursor(selection.i, selection.j)
+    
+_move_cursor = (i, j) ->
+    cursor
+        .attr
+            transform: "translate(#{j*(cos30*CELL_RADIUS*2)+(if i % 2 is 0 then 0 else cos30*CELL_RADIUS)},#{i*3/2*CELL_RADIUS})"
+            
 ### find a hex given SVG coordinates ###
 GRID_HEIGHT = sin30*CELL_RADIUS*3
 GRID_WIDTH = cos30*CELL_RADIUS*2
