@@ -5,6 +5,8 @@ var box;
 
 selection_box.init = function(dom_selector) {
     box = d3.select(dom_selector);
+
+    selection_box.node = box;
 }
 
 selection_box.update = function(selection) {
@@ -13,14 +15,14 @@ selection_box.update = function(selection) {
 	/*	Sets the title = entity name
 	*/
 	box.select('header')
-		.text(decodeURI(selection["uri"].replace("http://dbpedia.org/resource/", "").replace("_", " ")));
+		.text(decodeURI(selection["uri"].replace("http://dbpedia.org/resource/", "").replace(/_/g, " ")));
 
 	var section = box.select('section');
 	section.selectAll("*").remove();
 
 	/*	Data properties
 	*/
-	data_properties = Object.keys(selection["data_properties"]).map(function(k){ o = {}; o[k] = selection["data_properties"][k]; return o;});
+	data_properties = Object.keys(selection["data_properties"]).map(function(k){ var o = {}; o[k] = selection["data_properties"][k]; return o;});
 
 	var data_property = section
 		.append('div')
@@ -28,9 +30,7 @@ selection_box.update = function(selection) {
 		.selectAll('.data_property')
 		.data(data_properties.sort(sort_data_prop));
 
-	data_property.enter().append('div');
-
-	data_property.append('text')
+	data_property.enter().append('div')
 		.attr('class', 'data_property')
 		.html(function(d) {
 			for (key in d) {
@@ -40,7 +40,22 @@ selection_box.update = function(selection) {
 
 	/*	Object properties OUTGOING
 	*/
-	data_outgoing = selection["object_properties"]["outgoing"].sort(sort_obj_prop);
+	var data = selection["object_properties"]["outgoing"].sort(sort_obj_prop);
+	var data_outgoing = [];
+	var current_p = "";
+
+	data.forEach(function(d) {
+		if (current_p != d["p"]["value"]) {
+			data_outgoing.push({"p": d["p"], "o": [d["o"]]});
+			current_p = d["p"]["value"];
+		}
+		else {
+			data_outgoing.forEach(function(d2) {
+				if (d["p"]["value"] == d2["p"]["value"])
+					d2["o"].push(d["o"]);
+			});
+		}
+	});
 
 	var outgoing = section
 		.append('div')
@@ -48,12 +63,18 @@ selection_box.update = function(selection) {
 		.selectAll('.outgoing')
 		.data(data_outgoing);
 
-	outgoing.enter().append('div');
-
-	outgoing.append('text')
+	outgoing.enter().append('div')
 		.attr('class', 'outgoing')
-		.html(function(d, i) {
-			return "<span class='predicate' title='" + d["p"]["value"] +  "'>" + format_uri(d["p"]["value"]) + ":</span> <span class='object' title='" + d["o"]["value"] + "'>" + format_uri(d["o"]["value"]) + "</span>";
+		.html(function(d) {
+			html = "<table><tr><td class='predicate' title='" + d["p"]["value"] +  "' rowspan='" + d["o"].length + "'>" + format_uri(d["p"]["value"]) + ":</td>";
+			d["o"].forEach(function(o, i) {
+				if (i > 0)
+					html += "<tr>";
+
+				html += "<td title='" + o["value"] + "' onclick='trigger(selection_box.node, \"select\", {uri: \"" + o["value"] + "\"})'>" + format_uri(o["value"]) + "</td></tr>";
+			});
+			return html + "</table>";
+			//return "<span class='predicate' title='" + d["p"]["value"] +  "'>" + format_uri(d["p"]["value"]) + ":</span> <span class='object' title='" + d["o"]["value"] + "'>" + format_uri(d["o"]["value"]) + "</span>";
 		});
 
 	/*	Object properties INCOMING
