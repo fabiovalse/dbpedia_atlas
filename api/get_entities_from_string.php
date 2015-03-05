@@ -8,6 +8,10 @@
 		$query = urlencode('SELECT DISTINCT ?x {?x ?y ?z .FILTER(STRSTARTS(STR(?x), "http://dbpedia.org/resource/") && REGEX(STR(?x), "' . $_GET["string"] . '"))} LIMIT' . $limit);
 		$result = make_query($query);
 
-		echo json_encode($result);
+		foreach ($result["results"]["bindings"] as $entity) {
+			$data[] = array("uri" => $entity["x"]["value"]);
+		}
+
+		echo json_encode($data);
 	}
 ?>
