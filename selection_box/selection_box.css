@@ -1,0 +1,23 @@
+header {
+	font-size: 20px;
+	font-weight: bold;
+	color: black;
+
+	padding: 12px;
+}
+
+section {
+	padding: 12px;
+}
+
+.data_box {
+	margin-bottom: 15px;
+}
+
+.predicate {
+	font-weight: bold;
+}
+
+.object {
+
+}
