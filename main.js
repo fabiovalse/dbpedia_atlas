@@ -23,13 +23,18 @@ function preprocess_topojson(data) {
 
 // selection event
 main.on('select', function() {
-	if (d3.event.extra.hasOwnProperty("uri")) {
+    if (d3.event.extra.hasOwnProperty("uri")) {
 
-	} else {
-		d3.json("api/get_entity.php?i=" + d3.event.extra.i + "&j=" + d3.event.extra.j, function(error, json) {
-			if (error) return console.warn(error);
-
-			selection_box.update(json);
-		});
-	}
+    } else {
+        d3.json("api/get_entity.php?i=" + d3.event.extra.i + "&j=" + d3.event.extra.j, function(error, json) {
+            if (error) return console.warn(error);
+            
+            // extract integer coordinates from RDF
+            json.i = int(json.data_properties['http://wafi.iit.cnr.it/lod/dbpedia/atlas#i'].value);
+            json.j = int(json.data_properties['http://wafi.iit.cnr.it/lod/dbpedia/atlas#j'].value);
+            
+            selection_box.update(json);
+            map.update_selection(json);
+        });
+    }
 });
