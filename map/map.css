@@ -9,6 +9,10 @@ rect {
 
 /* cartography */
 
+svg {
+    background: #404040;
+}
+
 #land {
     vector-effect: non-scaling-stroke;
 }
