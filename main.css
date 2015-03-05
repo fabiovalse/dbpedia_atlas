@@ -9,7 +9,6 @@ html, body {
 #map {
     width: 100%;
     height: 100%;
-    background: #404040;
 }
 
 #search_box, #result_box, #selection_box {
