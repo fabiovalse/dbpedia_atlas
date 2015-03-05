@@ -31,17 +31,39 @@
   cos30 = Math.cos(Math.PI / 6);
 
   map.init = function(dom_node) {
-    var bcr, bluerect, u_px_ratio;
+    var bcr, bluerect, sea_pattern, u_px_ratio;
     svg = d3.select(dom_node);
     map.node = svg;
     svg.attr({
       viewBox: "" + (-SIZE / 2) + " " + (-SIZE / 2) + " " + SIZE + " " + SIZE
     });
     defs = svg.append('defs');
+    /* define sea pattern
+    */
+
+    sea_pattern = defs.append('pattern').attr({
+      id: 'sea_pattern',
+      x: 0,
+      y: 0,
+      width: 30,
+      height: 30,
+      patternUnits: 'userSpaceOnUse'
+    });
+    sea_pattern.append('path').attr({
+      d: 'M0 0.5 L 10 0.5',
+      stroke: 'rgba(30,0,0,0.4)',
+      'stroke-width': '0.3'
+    });
+    sea_pattern.append('path').attr({
+      d: 'M15 15.5 L 25 15.5',
+      stroke: 'rgba(30,0,0,0.4)',
+      'stroke-width': '0.3'
+    });
     /* init test
     */
 
     svg.append('rect').attr({
+      "class": 'debug',
       x: -SIZE / 2,
       y: -SIZE / 2,
       width: SIZE,
@@ -51,6 +73,7 @@
     bcr = svg.node().getBoundingClientRect();
     u_px_ratio = SIZE / Math.min(bcr.width, bcr.height);
     bluerect = svg.append('rect').attr({
+      "class": 'debug',
       x: -bcr.width / 2 * u_px_ratio,
       y: -bcr.height / 2 * u_px_ratio,
       width: bcr.width * u_px_ratio,
@@ -81,7 +104,7 @@
       });
     }));
     vis = zoom_layer.append('g').attr({
-      transform: 'translate(26,-25) rotate(-60)'
+      transform: 'translate(26,0)'
     });
     map_layer = vis.append('g');
     /* cursor
@@ -142,13 +165,13 @@
 
 
   class_color = {
-    'Person': '#E14E5F',
-    'Organisation': '#A87621',
-    'Place': '#43943E',
-    'Work': '#AC5CC4',
-    'Species': '#2E99A0',
-    'Event': '#2986EC',
-    'Other': '#7E7F7E'
+    'Person': 'rgba(228, 110, 121, 1)',
+    'Organisation': 'rgba(182, 142, 71, 1)',
+    'Place': 'rgba(101, 166, 94, 1)',
+    'Work': 'rgba(185, 121, 201, 1)',
+    'Species': 'rgba(84, 170, 173, 1)',
+    'Event': 'rgba(80, 155, 233, 1)',
+    'Other': 'rgba(148, 149, 145, 1)'
   };
 
   map.load = function(data) {
@@ -157,6 +180,21 @@
     console.debug('Map - Presimplifying...');
     topojson.presimplify(data);
     console.debug('Map - ...done.');
+    /* fill the sea
+    */
+
+    /* cover the sea with a pattern
+    */
+
+    map_layer.append('rect').attr({
+      id: 'sea',
+      width: 10000,
+      height: 10000,
+      x: -5000,
+      y: -5000,
+      fill: 'url(#sea_pattern)',
+      transform: 'scale(0.05)'
+    });
     /* define the level zero region (the land)
     */
 
@@ -168,9 +206,6 @@
 
     map_layer.append('use').attr('class', 'land-glow-outer').attr('xlink:href', '#land');
     map_layer.append('use').attr('class', 'land-glow-inner').attr('xlink:href', '#land');
-    /* actual land
-    */
-
     /* draw all the leaf regions
     */
 
@@ -187,15 +222,18 @@
         }
       }
     });
+    /* actual land boundary
+    */
+
     /* draw the leaf regions boundaries
     */
 
     map_layer.append('path').datum(topojson.mesh(data, data.objects.leaf_regions, function(a, b) {
-      return a !== b;
-    })).attr('d', path_generator).attr('class', 'boundary').style('stroke-width', '0.2px');
+      return a !== b && a.properties.path[1] === b.properties.path[1];
+    })).attr('d', path_generator).attr('class', 'boundary low').style('stroke-width', '0.1px');
     return map_layer.append('path').datum(topojson.mesh(data, data.objects.leaf_regions, function(a, b) {
-      return a.properties.path[1] !== b.properties.path[1];
-    })).attr('d', path_generator).attr('class', 'boundary').style('stroke-width', '1px');
+      return a === b || a.properties.path[1] !== b.properties.path[1];
+    })).attr('d', path_generator).attr('class', 'boundary high').style('stroke-width', '1.1px');
   };
 
   map.update_selection = function(selection) {
@@ -253,7 +291,7 @@
         var ox, oy, sx, sy, _ref, _ref1;
         _ref = _ij_to_xy(r.s.i, r.s.j), sx = _ref[0], sy = _ref[1];
         _ref1 = _ij_to_xy(r.o.i, r.o.j), ox = _ref1[0], oy = _ref1[1];
-        return "M" + sx + " " + sy + " L" + ox + " " + oy;
+        return "M" + sx + " " + sy + " C" + sx + " " + (sy - 12) + " " + ox + " " + (oy - 12) + " " + ox + " " + oy;
       }
     });
     return relations.exit().remove();

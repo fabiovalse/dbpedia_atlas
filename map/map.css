@@ -1,43 +1,45 @@
 /* debug */
 
-rect {
+.debug {
     vector-effect: non-scaling-stroke;
     stroke-width: 3px;
     fill: none;
+    display: none;
 }
 
 
 /* cartography */
 
 svg {
-    background: #404040;
+    background: #F5F4E6;
 }
 
 #land {
-    vector-effect: non-scaling-stroke;
+    
 }
 
 .land-glow-outer, .land-glow-inner {
-    stroke: rgba(255,255,255,0.05);
+     stroke-linejoin: round;
 }
 .land-glow-outer {
-  stroke-width: 32px;
+  stroke: rgba(30,0,0,0.03);
+  stroke-width: 3;
   fill: none;
 }
 
 .land-glow-inner {
-  stroke-width: 8px;
+  stroke: rgba(40,0,0,0.1);
+  stroke-width: 1;
   fill: none;
 }
 
-.land-fill {
-  fill: #BBB;
-  stroke: #444444;
-  stroke-width: 2px;
+.high.boundary {
+    stroke: #333;
 }
-
+.low.boundary {
+    stroke: #F5F4E6;
+}
 .boundary {
-  stroke: #444444;
   fill: none;
   pointer-events: none;
   vector-effect: non-scaling-stroke;
@@ -46,12 +48,29 @@ svg {
 
 /* overlays */
 
+@keyframes cursor_pulse {
+  from { stroke: yellow; }
+  50% { stroke: brown; }
+  to { stroke: yellow; }
+}
+@-webkit-keyframes cursor_pulse {
+  from { stroke: yellow; }
+  50% { stroke: brown; }
+  to { stroke: yellow; }
+}
+
 .cursor {
   fill: none;
-  stroke: yellow;
-  stroke-width: 3px;
+  stroke-width: 4px;
   pointer-events: none;
   vector-effect: non-scaling-stroke;
+  
+  animation-name: cursor_pulse;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  -webkit-animation-name: cursor_pulse;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-iteration-count: infinite;
 }
 
 .relation {

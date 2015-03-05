@@ -24,9 +24,32 @@ map.init = (dom_node) ->
             
     defs = svg.append('defs')
     
+    ### define sea pattern ###
+    sea_pattern = defs.append('pattern')
+        .attr
+            id: 'sea_pattern'
+            x: 0
+            y: 0
+            width: 30
+            height: 30
+            patternUnits: 'userSpaceOnUse'
+            
+    sea_pattern.append('path')
+        .attr
+            d: 'M0 0.5 L 10 0.5'
+            stroke: 'rgba(30,0,0,0.4)'
+            'stroke-width': '0.3'
+            
+    sea_pattern.append('path')
+        .attr
+            d: 'M15 15.5 L 25 15.5'
+            stroke: 'rgba(30,0,0,0.4)'
+            'stroke-width': '0.3'
+            
     ### init test ###
     svg.append('rect')
         .attr
+            class: 'debug'
             x: -SIZE/2
             y: -SIZE/2
             width: SIZE
@@ -39,6 +62,7 @@ map.init = (dom_node) ->
     
     bluerect = svg.append('rect')
         .attr
+            class: 'debug'
             x: -bcr.width/2*u_px_ratio
             y: -bcr.height/2*u_px_ratio
             width: bcr.width*u_px_ratio
@@ -70,7 +94,7 @@ map.init = (dom_node) ->
                 
     vis = zoom_layer.append('g')
         .attr
-            transform: 'translate(26,-25) rotate(-60)'
+            transform: 'translate(26,0)'
         
     map_layer = vis.append('g')
     
@@ -111,7 +135,7 @@ path_generator = d3.geo.path()
     })
     
 ### colors ###
-class_color = {'Person': '#E14E5F', 'Organisation': '#A87621', 'Place': '#43943E', 'Work': '#AC5CC4', 'Species': '#2E99A0', 'Event': '#2986EC', 'Other': '#7E7F7E'}
+class_color = {'Person': 'rgba(228, 110, 121, 1)', 'Organisation': 'rgba(182, 142, 71, 1)', 'Place': 'rgba(101, 166, 94, 1)', 'Work': 'rgba(185, 121, 201, 1)', 'Species': 'rgba(84, 170, 173, 1)', 'Event': 'rgba(80, 155, 233, 1)', 'Other': 'rgba(148, 149, 145, 1)'}
     
 map.load = (data) ->
     ### presimplify the topology (compute the effective area (z) of each point) ###
@@ -119,12 +143,24 @@ map.load = (data) ->
     topojson.presimplify(data)
     console.debug('Map - ...done.')
     
+    ### fill the sea ###
+    ### cover the sea with a pattern ###
+    map_layer.append('rect')
+        .attr
+            id: 'sea'
+            width: 10000
+            height: 10000
+            x: -5000
+            y: -5000
+            fill: 'url(#sea_pattern)'
+            transform: 'scale(0.05)'
+    
     ### define the level zero region (the land) ###
     defs.append('path')
         .datum(topojson.mesh(data, data.objects.leaf_regions, (a,b) -> a is b))
         .attr('id', 'land')
         .attr('d', path_generator)
-
+    
     ### faux land glow (using filters takes too much resources) ###
     map_layer.append('use')
         .attr('class', 'land-glow-outer')
@@ -133,11 +169,6 @@ map.load = (data) ->
     map_layer.append('use')
         .attr('class', 'land-glow-inner')
         .attr('xlink:href', '#land')
-
-    ### actual land ###
-    #map_layer.append('use')
-    #    .attr('class', 'land-fill')
-    #    .attr('xlink:href', '#land')
     
     ### draw all the leaf regions ###
     map_layer.selectAll('.region')
@@ -154,18 +185,23 @@ map.load = (data) ->
                 else
                     return class_color['Other']
                     
+    ### actual land boundary ###
+    # map_layer.append('use')
+        # .attr('class', 'boundary high land-fill')
+        # .attr('xlink:href', '#land')
+        
     ### draw the leaf regions boundaries ###
     map_layer.append('path')
-        .datum(topojson.mesh(data, data.objects.leaf_regions, (a,b) -> a isnt b))
+        .datum(topojson.mesh(data, data.objects.leaf_regions, (a,b) -> a isnt b and a.properties.path[1] is b.properties.path[1]))
         .attr('d', path_generator)
-        .attr('class', 'boundary')
-        .style('stroke-width', '0.2px')
+        .attr('class', 'boundary low')
+        .style('stroke-width', '0.1px')
         
     map_layer.append('path')
-        .datum(topojson.mesh(data, data.objects.leaf_regions, (a,b) -> a.properties.path[1] isnt b.properties.path[1]))
+        .datum(topojson.mesh(data, data.objects.leaf_regions, (a,b) -> a is b or a.properties.path[1] isnt b.properties.path[1]))
         .attr('d', path_generator)
-        .attr('class', 'boundary')
-        .style('stroke-width', '1px')
+        .attr('class', 'boundary high')
+        .style('stroke-width', '1.1px')
         
 map.update_selection = (selection) ->
     _move_cursor(selection.i, selection.j)
@@ -198,8 +234,7 @@ map.update_selection = (selection) ->
             d: (r) ->
                 [sx, sy] = _ij_to_xy(r.s.i, r.s.j)
                 [ox, oy] = _ij_to_xy(r.o.i, r.o.j)
-                #return "M#{sx} #{sy} C#{sx} #{sy-12} #{ox} #{oy-12} #{ox} #{oy}"
-                return "M#{sx} #{sy} L#{ox} #{oy}"
+                return "M#{sx} #{sy} C#{sx} #{sy-12} #{ox} #{oy-12} #{ox} #{oy}"
                 
     relations.exit()
         .remove()
