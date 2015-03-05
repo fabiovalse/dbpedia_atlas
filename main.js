@@ -23,5 +23,13 @@ function preprocess_topojson(data) {
 
 // selection event
 main.on('select', function() {
-    console.log(d3.event.extra);
+	if (d3.event.extra.hasOwnProperty("uri")) {
+
+	} else {
+		d3.json("api/get_entity.php?i=" + d3.event.extra.i + "&j=" + d3.event.extra.j, function(error, json) {
+			if (error) return console.warn(error);
+
+			selection_box.update(json);
+		});
+	}
 });
