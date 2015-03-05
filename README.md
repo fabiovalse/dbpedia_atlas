@@ -1,2 +1,2 @@
-# dbpedia_atlas
+# DBpedia Atlas
 The atlas of DBpedia
