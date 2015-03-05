@@ -10,8 +10,6 @@ selection_box.init = function(dom_selector) {
 }
 
 selection_box.update = function(selection) {
-	console.log(selection);
-
 	/*	Sets the title = entity name
 	*/
 	box.select('header')
@@ -34,7 +32,7 @@ selection_box.update = function(selection) {
 		.attr('class', 'data_property')
 		.html(function(d) {
 			for (key in d) {
-				return "<span class='predicate' title='" + key + "'>" + format_uri(key) + ":</span> <span class='object'>" + d[key][0]["value"] + "</span>";
+				return "<span class='predicate' title='" + key + "'>" + format_uri(key) + ":</span> <span>" + d[key][0]["value"] + "</span>";
 			}
 		});
 
@@ -71,26 +69,51 @@ selection_box.update = function(selection) {
 				if (i > 0)
 					html += "<tr>";
 
-				html += "<td title='" + o["value"] + "' onclick='trigger(selection_box.node, \"select\", {uri: \"" + o["value"] + "\"})'>" + format_uri(o["value"]) + "</td></tr>";
+				html += "<td class='object' title='" + o["value"] + "' onclick='trigger(selection_box.node, \"select\", {uri: \"" + o["value"] + "\"})'>" + format_uri(o["value"]) + "</td></tr>";
 			});
 			return html + "</table>";
-			//return "<span class='predicate' title='" + d["p"]["value"] +  "'>" + format_uri(d["p"]["value"]) + ":</span> <span class='object' title='" + d["o"]["value"] + "'>" + format_uri(d["o"]["value"]) + "</span>";
 		});
 
 	/*	Object properties INCOMING
 	*/
+	data = selection["object_properties"]["incoming"].sort(sort_obj_prop);
+	var data_incoming = [];
+	current_p = "";
+
+	data.forEach(function(d) {
+		if (current_p != d["p"]["value"]) {
+			data_incoming.push({"p": d["p"], "s": [d["s"]]});
+			current_p = d["p"]["value"];
+		}
+		else {
+			data_incoming.forEach(function(d2) {
+				if (d["p"]["value"] == d2["p"]["value"])
+					d2["s"].push(d["s"]);
+			});
+		}
+	});
+
 	var incoming = section
 		.append('div')
 		.attr('class', 'data_box')
 		.selectAll('.incoming')
-		.data(selection["object_properties"]["incoming"].sort(sort_obj_prop));
+		.data(data_incoming);
 
-	incoming.enter().append('div');
-
-	incoming.append('text')
+	incoming.enter().append('div')
 		.attr('class', 'incoming')
 		.html(function(d) {
-			return "<span class='object' title='" + d["s"]["value"] + "'>" + format_uri(d["s"]["value"]) + ":</span> <span class='predicate' title='" + d["p"]["value"] +  "'>" + format_uri(d["p"]["value"]) + "</span>";
+			html = "<table>";
+
+			d["s"].forEach(function(s, i) {
+				html += "<tr><td class='object right_text' title='" + s["value"] + "' onclick='trigger(selection_box.node, \"select\", {uri: \"" + s["value"] + "\"})'>" + format_uri(s["value"]) + "</td>";
+
+				if (i == 0)
+					html += "<td class='predicate right_text' title='" + d["p"]["value"] +  "' rowspan='" + d["s"].length + "'>:" + format_uri(d["p"]["value"]) + "</td>";
+				
+				html += "</tr>";
+			});
+
+			return html + "</table>";
 		});
 }
 
@@ -98,9 +121,10 @@ var format_uri = function(key) {
 	var newKey = "";
 	var flag = false;
 
+	key = decodeURIComponent(key).replace(/_/g, " ");
 	uriKey = key;
 
-	splittedKey = key.replace(/_/g, " ").split("/");
+	splittedKey = key.split("/");
 	key = splittedKey[splittedKey.length-1];
 
 	if (key.indexOf("#") != -1) {
@@ -108,7 +132,7 @@ var format_uri = function(key) {
 	}
 
 	for (i in key) {
-		if (!flag && key.charAt(i) === key.charAt(i).toUpperCase()) {
+		if (!flag && key.charAt(i) === key.charAt(i).toUpperCase() && key.charAt(i) !== key.charAt(i).toLowerCase()) {
 			newKey += " ";
 			newKey += key.charAt(i);
 			flag = true;

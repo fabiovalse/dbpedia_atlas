@@ -18,5 +18,11 @@ section {
 	font-weight: bold;
 }
 
-.object {
+.object:hover {
+	color: #404040;
+	cursor: pointer;
+}
+
+.right_text {
+	text-align: right;
 }
