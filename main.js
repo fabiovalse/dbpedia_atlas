@@ -1,3 +1,5 @@
+main = d3.select(document);
+
 map.init('#map');
 search_box.init('#search_box');
 result_box.init('#result_box');
@@ -15,3 +17,11 @@ function preprocess_topojson(data) {
         f.properties.path = JSON.parse(f.properties.path);
     });
 }
+
+// UI callbacks
+// ------------
+
+// selection event
+main.on('select', function() {
+    console.log(d3.event.extra);
+});

@@ -1,8 +1,13 @@
+/* debug */
+
 rect {
     vector-effect: non-scaling-stroke;
     stroke-width: 3px;
     fill: none;
 }
+
+
+/* cartography */
 
 #land {
     vector-effect: non-scaling-stroke;
@@ -30,6 +35,17 @@ rect {
 .boundary {
   stroke: #444444;
   fill: none;
+  pointer-events: none;
+  vector-effect: non-scaling-stroke;
+}
+
+
+/* cursor */
+
+.cursor {
+  fill: none;
+  stroke: yellow;
+  stroke-width: 3px;
   pointer-events: none;
   vector-effect: non-scaling-stroke;
 }

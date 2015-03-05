@@ -1,5 +1,5 @@
 (function() {
-  var RADIUS, SIMPLIFICATION, SIZE, class_color, defs, dx, dy, map_layer, path_generator, svg, vis, zoom_layer;
+  var C, CELL_RADIUS, GRID_HEIGHT, GRID_WIDTH, M, SIMPLIFICATION, SIZE, class_color, cos30, cursor, defs, dx, dy, map_layer, path_generator, sin30, svg, vis, zoom_layer, _get_hexagon;
 
   window.map = {};
 
@@ -16,11 +16,20 @@
 
   map_layer = null;
 
+  cursor = null;
+
   SIZE = 100;
+
+  CELL_RADIUS = 0.02;
+
+  sin30 = Math.sin(Math.PI / 6);
+
+  cos30 = Math.cos(Math.PI / 6);
 
   map.init = function(dom_node) {
     var bcr, bluerect, u_px_ratio;
     svg = d3.select(dom_node);
+    map.node = svg;
     svg.attr({
       viewBox: "" + (-SIZE / 2) + " " + (-SIZE / 2) + " " + SIZE + " " + SIZE
     });
@@ -67,17 +76,37 @@
     vis = zoom_layer.append('g').attr({
       transform: 'translate(26,-25) rotate(-60)'
     });
-    return map_layer = vis.insert('g', ':last-child');
+    map_layer = vis.append('g');
+    /* cursor
+    */
+    cursor = vis.append('path').attr({
+      "class": 'cursor',
+      d: function(r) {
+        return "M0," + CELL_RADIUS + " L" + (cos30 * CELL_RADIUS) + "," + (sin30 * CELL_RADIUS) + " L" + (cos30 * CELL_RADIUS) + "," + (-sin30 * CELL_RADIUS) + " L0," + (-CELL_RADIUS) + " L" + (-cos30 * CELL_RADIUS) + "," + (-sin30 * CELL_RADIUS) + " L" + (-cos30 * CELL_RADIUS) + "," + (sin30 * CELL_RADIUS) + " Z";
+      }
+    });
+    return vis.on('click', function() {
+      var h;
+      if (d3.event.defaultPrevented) return;
+      /* move the cursor
+      */
+      h = _get_hexagon(d3.mouse(this));
+      cursor.attr({
+        transform: "translate(" + (h[1] * (cos30 * CELL_RADIUS * 2) + (h[0] % 2 === 0 ? 0 : cos30 * CELL_RADIUS)) + "," + (h[0] * 3 / 2 * CELL_RADIUS) + ")"
+      });
+      return trigger(svg.node(), 'select', {
+        i: h[0],
+        j: h[1]
+      });
+    });
   };
 
   /* custom projection to make hexagons appear regular (y axis is also flipped)
   */
 
-  RADIUS = 0.02;
+  dx = CELL_RADIUS * 2 * Math.sin(Math.PI / 3);
 
-  dx = RADIUS * 2 * Math.sin(Math.PI / 3);
-
-  dy = RADIUS * 1.5;
+  dy = CELL_RADIUS * 1.5;
 
   SIMPLIFICATION = 100;
 
@@ -142,6 +171,46 @@
     return map_layer.append('path').datum(topojson.mesh(data, data.objects.leaf_regions, function(a, b) {
       return a.properties.path[1] !== b.properties.path[1];
     })).attr('d', path_generator).attr('class', 'boundary').style('stroke-width', '1px');
+  };
+
+  /* find a hex given SVG coordinates
+  */
+
+  GRID_HEIGHT = sin30 * CELL_RADIUS * 3;
+
+  GRID_WIDTH = cos30 * CELL_RADIUS * 2;
+
+  C = sin30 * CELL_RADIUS;
+
+  M = C / (GRID_WIDTH / 2);
+
+  _get_hexagon = function(point) {
+    var column, relX, relY, row, rowIsOdd, x, y;
+    x = point[0] + cos30 * CELL_RADIUS;
+    y = point[1] + CELL_RADIUS;
+    row = Math.floor(y / GRID_HEIGHT);
+    rowIsOdd = row % 2 === 1;
+    if (rowIsOdd) {
+      column = Math.floor((x - GRID_WIDTH / 2) / GRID_WIDTH);
+    } else {
+      column = Math.floor(x / GRID_WIDTH);
+    }
+    relY = y - (row * GRID_HEIGHT);
+    if (rowIsOdd) {
+      relX = x - (column * GRID_WIDTH) - GRID_WIDTH / 2;
+    } else {
+      relX = x - (column * GRID_WIDTH);
+    }
+    /* work out if the point is above either of the hexagon's top edges
+    */
+    if (relY < (-M * relX) + C) {
+      row -= 1;
+      if (!rowIsOdd) column -= 1;
+    } else if (relY < (M * relX) - C) {
+      row -= 1;
+      if (rowIsOdd) column += 1;
+    }
+    return [row, column];
   };
 
 }).call(this);
