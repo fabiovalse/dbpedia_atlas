@@ -40,7 +40,7 @@ rect {
 }
 
 
-/* cursor */
+/* overlays */
 
 .cursor {
   fill: none;
@@ -48,4 +48,12 @@ rect {
   stroke-width: 3px;
   pointer-events: none;
   vector-effect: non-scaling-stroke;
+}
+
+.relation {
+  vector-effect: non-scaling-stroke;
+  stroke: white;
+  stroke-width: 1px;
+  fill: none;
+  pointer-events: none;
 }

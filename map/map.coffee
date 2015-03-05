@@ -7,6 +7,7 @@ zoom_layer = null
 vis = null
 map_layer = null
 cursor = null
+relations_layer = null
 
 SIZE = 100
 CELL_RADIUS = 0.02
@@ -91,6 +92,10 @@ map.init = (dom_node) ->
         ### trigger a selection event ###
         trigger map.node, 'select', {i: h[0], j: h[1]}
         
+        
+    ### relations ###
+    relations_layer = vis.append('g')
+    
 ### custom projection to make hexagons appear regular (y axis is also flipped) ###
 dx = CELL_RADIUS * 2 * Math.sin(Math.PI / 3)
 dy = CELL_RADIUS * 1.5
@@ -165,10 +170,48 @@ map.load = (data) ->
 map.update_selection = (selection) ->
     _move_cursor(selection.i, selection.j)
     
+    ### show relational links ###
+    relations_data = []
+    
+    ### outgoing links ###
+    selection.object_properties.outgoing.forEach (t) ->
+        if 'i' of t and 'j' of t
+            relations_data.push {'s': selection, 'p': t.p.value, 'o': {uri: t.o.value, i: t.i.value, j: t.j.value}}
+        else
+            console.error('Link to out-of-map entity: ' + t.o.value)
+        
+    ### incoming links ###
+    selection.object_properties.incoming.forEach (t) ->
+        if 'i' of t and 'j' of t
+            relations_data.push {'s': {uri: t.s.value, i: t.i.value, j: t.j.value}, 'p': t.p.value, 'o': selection}
+        else
+            console.error('Link from out-of-map entity: ' + t.s.value)
+        
+    ### FIXME links to self are currently ignored ###
+    
+    relations = relations_layer.selectAll('.relation')
+        .data(relations_data, (r) -> "#{r.s.uri}>>>#{r.p}>>>#{r.o.uri}")
+      
+    relations.enter().append('path')
+        .attr
+            class: 'relation'
+            d: (r) ->
+                [sx, sy] = _ij_to_xy(r.s.i, r.s.j)
+                [ox, oy] = _ij_to_xy(r.o.i, r.o.j)
+                #return "M#{sx} #{sy} C#{sx} #{sy-12} #{ox} #{oy-12} #{ox} #{oy}"
+                return "M#{sx} #{sy} L#{ox} #{oy}"
+                
+    relations.exit()
+        .remove()
+        
+_ij_to_xy = (i, j) ->
+    return [j*(cos30*CELL_RADIUS*2)+(if i % 2 is 0 then 0 else cos30*CELL_RADIUS), i*3/2*CELL_RADIUS]
+    
 _move_cursor = (i, j) ->
+    [x, y] = _ij_to_xy(i, j)
     cursor
         .attr
-            transform: "translate(#{j*(cos30*CELL_RADIUS*2)+(if i % 2 is 0 then 0 else cos30*CELL_RADIUS)},#{i*3/2*CELL_RADIUS})"
+            transform: "translate(#{x}, #{y})"
             
 ### find a hex given SVG coordinates ###
 GRID_HEIGHT = sin30*CELL_RADIUS*3
