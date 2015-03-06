@@ -9,6 +9,7 @@ map_layer = null
 cursor = null
 sea_layer = null
 land_layer = null
+cities_layer = null
 relations_layer = null
 
 SIZE = 100
@@ -94,6 +95,11 @@ map.init = (dom_node) ->
             zoom_layer.attr
                 transform: "translate(#{d3.event.translate})scale(#{d3.event.scale})"
                 
+            ### semantic zooming ###
+            zoom_layer.selectAll('.city > *')
+                .attr
+                    transform: "scale(#{1/d3.event.scale})"
+                
     vis = zoom_layer.append('g')
         .attr
             transform: 'translate(26,0)'
@@ -101,6 +107,9 @@ map.init = (dom_node) ->
     map_layer = vis.append('g')
     sea_layer = map_layer.append('g')
     land_layer = map_layer.append('g')
+    cities_layer = map_layer.append('g')
+        .attr
+            'pointer-events': 'none'
     
     ### cursor ###
     cursor = vis.append('path')
@@ -199,13 +208,127 @@ map.load = (data) ->
         .datum(topojson.mesh(data, data.objects.leaf_regions, (a,b) -> a isnt b and a.properties.path[1] is b.properties.path[1]))
         .attr('d', path_generator)
         .attr('class', 'boundary low')
-        .style('stroke-width', '0.1px')
+        .style('stroke-width', '0.2px')
         
     land_layer.append('path')
         .datum(topojson.mesh(data, data.objects.leaf_regions, (a,b) -> a is b or a.properties.path[1] isnt b.properties.path[1]))
         .attr('d', path_generator)
         .attr('class', 'boundary high')
         .style('stroke-width', '1.1px')
+        
+    ### draw notable entities (cities) ###
+    cities_data = [{
+        "uri": "http://dbpedia.org/resource/Isaac_Newton",
+        "i": 573,
+        "j": -865
+    },{
+        "uri": "http://dbpedia.org/resource/Pablo_Picasso",
+        "i": 1365,
+        "j": -1237
+    },{
+        "uri": "http://dbpedia.org/resource/Rome",
+        "i": 72,
+        "j": -519
+    },{
+        "uri": "http://dbpedia.org/resource/New_York_City",
+        "i": 353,
+        "j": -453
+    },{
+        "uri": "http://dbpedia.org/resource/Earth",
+        "i": -1225,
+        "j": -1047
+    },{
+        "uri": "http://dbpedia.org/resource/Microsoft",
+        "i": 264,
+        "j": -1060
+    },{
+        "uri": "http://dbpedia.org/resource/Google",
+        "i": 7,
+        "j": -1110
+    },{
+        "uri": "http://dbpedia.org/resource/Apple_Inc.",
+        "i": 106,
+        "j": -1042
+    },{
+        "uri": "http://dbpedia.org/resource/Pink_Floyd",
+        "i": -126,
+        "j": -1518
+    },{
+        "uri": "http://dbpedia.org/resource/Yale_University",
+        "i": 89,
+        "j": -1227
+    },{
+        "uri": "http://dbpedia.org/resource/CNN",
+        "i": 473,
+        "j": -1203
+    },{
+        "uri": "http://dbpedia.org/resource/Dog",
+        "i": -278,
+        "j": -897
+    },{
+        "uri": "http://dbpedia.org/resource/Mosquito",
+        "i": -419,
+        "j": -880
+    },{
+        "uri": "http://dbpedia.org/resource/Bamboo",
+        "i": -896,
+        "j": -844
+    },{
+        "uri": "http://dbpedia.org/resource/Crow",
+        "i": -856,
+        "j": -1253
+    },{
+        "uri": "http://dbpedia.org/resource/Tulip",
+        "i": -880,
+        "j": -1062
+    },{
+        "uri": "http://dbpedia.org/resource/The_Matrix",
+        "i": -900,
+        "j": -503
+    },{
+        "uri": "http://dbpedia.org/resource/Yesterday",
+        "i": -802,
+        "j": -724
+    },{
+        "uri": "http://dbpedia.org/resource/The_Wall",
+        "i": -331,
+        "j": -519
+    },{
+        "uri": "http://dbpedia.org/resource/Scott_Pilgrim",
+        "i": -728,
+        "j": -646
+    },{
+        "uri": "http://dbpedia.org/resource/Scott_Pilgrim",
+        "i": -728,
+        "j": -646
+    },{
+        "uri": "http://dbpedia.org/resource/Images_and_Words",
+        "i": -558,
+        "j": -636
+    },{
+        "uri": "http://dbpedia.org/resource/Pizza",
+        "i": -1227,
+        "j": -873
+    }]
+    cities = cities_layer.selectAll('.city')
+        .data(cities_data)
+        
+    enter_cities = cities.enter().append('g')
+        .attr
+            class: 'city'
+            transform: (c) ->
+                [x, y] = _ij_to_xy(c.i, c.j)
+                "translate(#{x},#{y})"
+        
+    enter_cities.append('circle')
+        .attr
+            r: 0.35
+            
+    enter_cities.append('text')
+        .text((c) -> decodeURI(c.uri.replace('http://dbpedia.org/resource/','').replace(/_/g,' ')))
+        .attr
+            dx: 0.5
+            dy: -0.5
         
 map.update_selection = (selection) ->
     _move_cursor(selection.i, selection.j)

@@ -11,7 +11,7 @@
 /* cartography */
 
 svg {
-    background: #F5F4E6;
+    background: #D8D6CC;
 }
 
 #land {
@@ -45,6 +45,21 @@ svg {
   vector-effect: non-scaling-stroke;
 }
 
+.city circle {
+    fill: #333;
+}
+
+@font-face {
+  font-family: 'Lacuna';
+  src: url('lacuna.ttf');
+}
+
+.city text {
+    font-family: 'Lacuna';
+    font-size: 1.7px;
+    font-weight: bold;
+    fill: #333;
+}
 
 /* overlays */
 
