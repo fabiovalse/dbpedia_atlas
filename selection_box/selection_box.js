@@ -32,6 +32,20 @@ selection_box.update = function(selection) {
 			.attr('src', 'img/wikipedia_logo.png')
 			.attr();
 
+	var filtered_types = selection["types"].filter(function(d) {return (d.value.indexOf("http://dbpedia.org/ontology/") == 0 && d.value.indexOf("http://dbpedia.org/ontology/Wikidata:") == -1);});
+
+	var rdf_types = box.select('header').append('div')
+		.attr('id', 'rdf_types')
+		.selectAll('rdf_type')
+		.data(filtered_types);
+
+	rdf_types.enter().append('span')
+		.attr('class', 'rdf_type')
+		.attr('title', function(d) {return d.value;})
+		.html(function(d, i) {
+			return (i < filtered_types.length-1) ? format_uri(d.value) + " - " : format_uri(d.value);
+		});
+
 	var section = box.select('section');
 	section.selectAll("*").remove();
 
@@ -49,7 +63,7 @@ selection_box.update = function(selection) {
 		.attr('class', 'data_property')
 		.html(function(d) {
 			for (key in d) {
-				return (d[key][0]["type"] == "uri") ? "<span class='predicate' title='" + key + "'>" + format_uri(key) + " &#8594; </span><span><a href='" + d[key][0]["value"] + "' target='_blank'>" + d[key][0]["value"] + "</a></span>" : "<span class='predicate' title='" + key + "'>" + format_uri(key) + " &#8594; </span><span>" + d[key][0]["value"] + "</span>";
+				return (d[key][0]["type"] == "uri") ? "<span class='predicate' title='" + key + "'>" + format_uri(key) + "&nbsp;&#8594; </span><span><a href='" + d[key][0]["value"] + "' target='_blank'>" + d[key][0]["value"] + "</a></span>" : "<span class='predicate' title='" + key + "'>" + format_uri(key) + "&nbsp;&#8594; </span><span>" + d[key][0]["value"] + "</span>";
 			}
 		});
 
@@ -81,7 +95,7 @@ selection_box.update = function(selection) {
 	outgoing.enter().append('div')
 		.attr('class', 'outgoing')
 		.html(function(d) {
-			html = "<table><tr><td class='predicate' title='" + d["p"]["value"] +  "' rowspan='" + d["o"].length + "'>" + format_uri(d["p"]["value"]) + " &#8594; </td>";
+			html = "<table><tr><td class='predicate' title='" + d["p"]["value"] +  "' rowspan='" + d["o"].length + "'>" + format_uri(d["p"]["value"]) + "&nbsp;&#8594; </td>";
 			d["o"].forEach(function(o, i) {
 				if (i > 0)
 					html += "<tr>";
@@ -125,7 +139,7 @@ selection_box.update = function(selection) {
 				html += "<tr><td class='object_uri right_text' title='" + s["value"] + "' onclick='trigger(selection_box.node, \"select\", {uri: \"" + s["value"] + "\"})'>" + format_uri(s["value"]) + "</td>";
 
 				if (i == 0)
-					html += "<td class='predicate right_text' title='" + d["p"]["value"] +  "' rowspan='" + d["s"].length + "'> &#8592; " + format_uri(d["p"]["value"]) + "</td>";
+					html += "<td class='predicate right_text' title='" + d["p"]["value"] +  "' rowspan='" + d["s"].length + "'>&nbsp;&#8592; " + format_uri(d["p"]["value"]) + "</td>";
 				
 				html += "</tr>";
 			});

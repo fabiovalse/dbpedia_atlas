@@ -47,3 +47,8 @@ a:hover {
 #wikipedia_logo {
 	width: 30px;
 }
+
+#rdf_types {
+	color: #606060;
+	font-size: 15px;
+}
