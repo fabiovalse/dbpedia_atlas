@@ -39,7 +39,7 @@ selection_box.update = function(selection) {
 		.selectAll('rdf_type')
 		.data(filtered_types);
 
-	console.log(get_msc(ontology, filtered_types));
+	console.log(ontology.get_msc(ontology.tree, filtered_types));
 
 	rdf_types.enter().append('span')
 		.attr('class', 'rdf_type')
