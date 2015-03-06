@@ -1,0 +1,4162 @@
+{
+  "name": "owl:Thing",
+  "children": [
+    {
+      "name": "Activity",
+      "children": [
+        {
+          "name": "Game",
+          "children": [
+            {
+              "name": "BoardGame",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "CardGame",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Sport",
+          "children": [
+            {
+              "name": "Athletics",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Boxing",
+              "children": [
+                {
+                  "name": "BoxingCategory",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "BoxingStyle",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "HorseRiding",
+              "children": [
+                
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Agent",
+      "children": [
+        {
+          "name": "Deity",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Employer",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Family",
+          "children": [
+            {
+              "name": "NobleFamily",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Organisation",
+          "children": [
+            {
+              "name": "Broadcaster",
+              "children": [
+                {
+                  "name": "BroadcastNetwork",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "RadioStation",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "TelevisionStation",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Company",
+              "children": [
+                {
+                  "name": "Airline",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Bank",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Brewery",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "BusCompany",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "LawFirm",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Publisher",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "RecordLabel",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Winery",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "EducationalInstitution",
+              "children": [
+                {
+                  "name": "College",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Library",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "School",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "University",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "EmployersOrganisation",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "GeopoliticalOrganisation",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "GovernmentAgency",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Group",
+              "children": [
+                {
+                  "name": "Band",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "ComedyGroup",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Legislature",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "MilitaryUnit",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Non-ProfitOrganisation",
+              "children": [
+                {
+                  "name": "RecordOffice",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Parliament",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "PoliticalParty",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "PublicTransitSystem",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "ReligiousOrganisation",
+              "children": [
+                {
+                  "name": "ClericalOrder",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "SambaSchool",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "SportsLeague",
+              "children": [
+                {
+                  "name": "AmericanFootballLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "AustralianFootballLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "AutoRacingLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "BaseballLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "BasketballLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "BowlingLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "BoxingLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "CanadianFootballLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "CricketLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "CurlingLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "CyclingLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "FieldHockeyLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "FormulaOneRacing",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "GolfLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "HandballLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "IceHockeyLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "InlineHockeyLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "LacrosseLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "MixedMartialArtsLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "MotorcycleRacingLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "PaintballLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "PoloLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "RadioControlledRacingLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "RugbyLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "SoccerLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "SoftballLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "SpeedwayLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "TennisLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "VideogamesLeague",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "VolleyballLeague",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "SportsTeam",
+              "children": [
+                {
+                  "name": "AmericanFootballTeam",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "AustralianFootballTeam",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "BaseballTeam",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "BasketballTeam",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "CanadianFootballTeam",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "CricketTeam",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "CyclingTeam",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "FormulaOneTeam",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "HandballTeam",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "HockeyTeam",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "RugbyClub",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "SoccerClub",
+                  "children": [
+                    {
+                      "name": "NationalSoccerClub",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "SpeedwayTeam",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "TermOfOffice",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "TradeUnion",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Person",
+          "children": [
+            {
+              "name": "Ambassador",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Archeologist",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Architect",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Aristocrat",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Artist",
+              "children": [
+                {
+                  "name": "Actor",
+                  "children": [
+                    {
+                      "name": "AdultActor",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "VoiceActor",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Comedian",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "ComicsCreator",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Dancer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "FashionDesigner",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Humorist",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "MusicalArtist",
+                  "children": [
+                    {
+                      "name": "BackScene",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "ClassicalMusicArtist",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "Instrumentalist",
+                      "children": [
+                        {
+                          "name": "Guitarist",
+                          "children": [
+                            
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "MusicDirector",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "Singer",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Painter",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Photographer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Sculptor",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Writer",
+                  "children": [
+                    {
+                      "name": "MusicComposer",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "PlayWright",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "Poet",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "ScreenWriter",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "SongWriter",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Astronaut",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Athlete",
+              "children": [
+                {
+                  "name": "AthleticsPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "AustralianRulesFootballPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "BadmintonPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "BaseballPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "BasketballPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Bodybuilder",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Boxer",
+                  "children": [
+                    {
+                      "name": "AmateurBoxer",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "BullFighter",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Canoeist",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "ChessPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Cricketer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Curler",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Cyclist",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "DartsPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Fencer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "FigureSkater",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "GaelicGamesPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "GolfPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "GridironFootballPlayer",
+                  "children": [
+                    {
+                      "name": "AmericanFootballPlayer",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "CanadianFootballPlayer",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Gymnast",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "HandballPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "HorseRider",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "IceHockeyPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Jockey",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "LacrossePlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "MartialArtist",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "MotorsportRacer",
+                  "children": [
+                    {
+                      "name": "MotorcycleRider",
+                      "children": [
+                        {
+                          "name": "SpeedwayRider",
+                          "children": [
+                            
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "RacingDriver",
+                      "children": [
+                        {
+                          "name": "FormulaOneRacer",
+                          "children": [
+                            
+                          ]
+                        },
+                        {
+                          "name": "MotocycleRacer",
+                          "children": [
+                            
+                          ]
+                        },
+                        {
+                          "name": "NascarDriver",
+                          "children": [
+                            
+                          ]
+                        },
+                        {
+                          "name": "RallyDriver",
+                          "children": [
+                            
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "NationalCollegiateAthleticAssociationAthlete",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "NetballPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "PokerPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Rower",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "RugbyPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Skater",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Skier",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "SnookerPlayer",
+                  "children": [
+                    {
+                      "name": "SnookerChamp",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "SoccerPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "SquashPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Surfer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Swimmer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "TableTennisPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "TeamMember",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "TennisPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "VolleyballPlayer",
+                  "children": [
+                    {
+                      "name": "BeachVolleyballPlayer",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "WaterPoloPlayer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Wrestler",
+                  "children": [
+                    {
+                      "name": "SumoWrestler",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "BeautyQueen",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Bullfighter",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "BusinessPerson",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Celebrity",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Chef",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Cleric",
+              "children": [
+                {
+                  "name": "Cardinal",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "ChristianBishop",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "ChristianPatriarch",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Pope",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Priest",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Saint",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Vicar",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Coach",
+              "children": [
+                {
+                  "name": "AmericanFootballCoach",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "CollegeCoach",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "VolleyballCoach",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Criminal",
+              "children": [
+                {
+                  "name": "Murderer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "SerialKiller",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Economist",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Egyptologist",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Engineer",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Farmer",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "FictionalCharacter",
+              "children": [
+                {
+                  "name": "ComicsCharacter",
+                  "children": [
+                    {
+                      "name": "AnimangaCharacter",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "DisneyCharacter",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "NarutoCharacter",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "SoapCharacter",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Historian",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "HorseTrainer",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Journalist",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Judge",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Lawyer",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Linguist",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "MemberResistanceMovement",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "MilitaryPerson",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Model",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Monarch",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "MovieDirector",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "MythologicalFigure",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Noble",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "OfficeHolder",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "OrganisationMember",
+              "children": [
+                {
+                  "name": "SportsTeamMember",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Philosopher",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "PlayboyPlaymate",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Politician",
+              "children": [
+                {
+                  "name": "Chancellor",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Congressman",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Deputy",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Governor",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Lieutenant",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Mayor",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "MemberOfParliament",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "President",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "PrimeMinister",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Senator",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "VicePresident",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "VicePrimeMinister",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "PoliticianSpouse",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Presenter",
+              "children": [
+                {
+                  "name": "RadioHost",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "TelevisionHost",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Producer",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Psychologist",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Referee",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Religious",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "RomanEmperor",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Royalty",
+              "children": [
+                {
+                  "name": "BritishRoyalty",
+                  "children": [
+                    {
+                      "name": "Baronet",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "PolishKing",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Scientist",
+              "children": [
+                {
+                  "name": "Entomologist",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Medician",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Professor",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "SportsManager",
+              "children": [
+                {
+                  "name": "SoccerManager",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "TelevisionDirector",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "TelevisionPersonality",
+              "children": [
+                {
+                  "name": "Host",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "TheatreDirector",
+              "children": [
+                
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Altitude",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "AnatomicalStructure",
+      "children": [
+        {
+          "name": "Artery",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Bone",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Brain",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Embryology",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Ligament",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Lymph",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Muscle",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Nerve",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Vein",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Area",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Award",
+      "children": [
+        {
+          "name": "Decoration",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "NobelPrize",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Biomolecule",
+      "children": [
+        {
+          "name": "Enzyme",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Gene",
+          "children": [
+            {
+              "name": "HumanGene",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "MouseGene",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Lipid",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Polysaccharide",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Protein",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Blazon",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "CareerStation",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "CelestialBody",
+      "children": [
+        {
+          "name": "Asteroid",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Constellation",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Galaxy",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Planet",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Star",
+          "children": [
+            {
+              "name": "BrownDwarf",
+              "children": [
+                
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ChartsPlacements",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "ChemicalSubstance",
+      "children": [
+        {
+          "name": "ChemicalCompound",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "ChemicalElement",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Mineral",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Colour",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Competition",
+      "children": [
+        {
+          "name": "Contest",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Currency",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Demographics",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Depth",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Device",
+      "children": [
+        {
+          "name": "AutomobileEngine",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Camera",
+          "children": [
+            {
+              "name": "DigitalCamera",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "InformationAppliance",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Instrument",
+          "children": [
+            {
+              "name": "Guitar",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Organ",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Weapon",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Diploma",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Drug",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "EthnicGroup",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Event",
+      "children": [
+        {
+          "name": "LifeCycleEvent",
+          "children": [
+            {
+              "name": "PersonalEvent",
+              "children": [
+                {
+                  "name": "Birth",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Death",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Divorce",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Marriage",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "NaturalEvent",
+          "children": [
+            {
+              "name": "SolarEclipse",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "StormSurge",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "SocietalEvent",
+          "children": [
+            {
+              "name": "Convention",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Election",
+              "children": [
+                {
+                  "name": "ElectionDiagram",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "FilmFestival",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Meeting",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "MilitaryConflict",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "MusicFestival",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Rebellion",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "SpaceMission",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "SportsEvent",
+              "children": [
+                {
+                  "name": "CyclingCompetition",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "FootballMatch",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "GrandPrix",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "MixedMartialArtsEvent",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "NationalFootballLeagueEvent",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Olympics",
+                  "children": [
+                    {
+                      "name": "OlympicEvent",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Race",
+                  "children": [
+                    {
+                      "name": "CyclingRace",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "HorseRace",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Tournament",
+                  "children": [
+                    {
+                      "name": "GolfTournament",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "SoccerTournament",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "TennisTournament",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "WomensTennisAssociationTournament",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "WrestlingEvent",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Flag",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Food",
+      "children": [
+        {
+          "name": "Beverage",
+          "children": [
+            {
+              "name": "Beer",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Vodka",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Wine",
+              "children": [
+                {
+                  "name": "ControlledDesignationOfOriginWine",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Cheese",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GeneLocation",
+      "children": [
+        {
+          "name": "HumanGeneLocation",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "MouseGeneLocation",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GrossDomesticProduct",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "GrossDomesticProductPerCapita",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Holiday",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "HumanDevelopmentIndex",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Imdb",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Language",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Letter",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "LinkTitle",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "List",
+      "children": [
+        {
+          "name": "TrackList",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "MeanOfTransportation",
+      "children": [
+        {
+          "name": "Aircraft",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Automobile",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Locomotive",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Motorcycle",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Rocket",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Ship",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "SpaceShuttle",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "SpaceStation",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Spacecraft",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Train",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Media",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Medicine",
+      "children": [
+        {
+          "name": "Disease",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Name",
+      "children": [
+        {
+          "name": "GivenName",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Surname",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PenaltyShootOut",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "PersonFunction",
+      "children": [
+        {
+          "name": "PoliticalFunction",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Profession",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Place",
+      "children": [
+        {
+          "name": "Abbey",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "ArchitecturalStructure",
+          "children": [
+            {
+              "name": "AmusementParkAttraction",
+              "children": [
+                {
+                  "name": "RollerCoaster",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "WaterRide",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Arena",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Building",
+              "children": [
+                {
+                  "name": "Casino",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Castle",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Factory",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "HistoricBuilding",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Hospital",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Hotel",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Museum",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Prison",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "ReligiousBuilding",
+                  "children": [
+                    {
+                      "name": "Church",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "Mosque",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "Synagogue",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "Temple",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Restaurant",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "ShoppingMall",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Skyscraper",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Gate",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Infrastructure",
+              "children": [
+                {
+                  "name": "Airport",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Dam",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "LaunchPad",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Lock",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Port",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "PowerStation",
+                  "children": [
+                    {
+                      "name": "NuclearPowerStation",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "RouteOfTransportation",
+                  "children": [
+                    {
+                      "name": "Bridge",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "RailwayLine",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "RailwayTunnel",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "Road",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "RoadJunction",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "RoadTunnel",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "WaterwayTunnel",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Station",
+                  "children": [
+                    {
+                      "name": "MetroStation",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "RailwayStation",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "MilitaryStructure",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Mill",
+              "children": [
+                {
+                  "name": "Treadmill",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Watermill",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "WindMotor",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Windmill",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "NoteworthyPartOfBuilding",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Pyramid",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Shrine",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Square",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Tower",
+              "children": [
+                {
+                  "name": "Lighthouse",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "WaterTower",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Tunnel",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Venue",
+              "children": [
+                {
+                  "name": "Theatre",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Zoo",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Cemetery",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Community",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "ConcentrationCamp",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "CountrySeat",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Garden",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "HistoricPlace",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Mine",
+          "children": [
+            {
+              "name": "CoalPit",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Monastery",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Monument",
+          "children": [
+            {
+              "name": "GraveMonument",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Memorial",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "NaturalPlace",
+          "children": [
+            {
+              "name": "Archipelago",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Beach",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "BodyOfWater",
+              "children": [
+                {
+                  "name": "Lake",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Ocean",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Sea",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Stream",
+                  "children": [
+                    {
+                      "name": "Canal",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "River",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Cave",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Crater",
+              "children": [
+                {
+                  "name": "LunarCrater",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Desert",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Glacier",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "HotSpring",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Mountain",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "MountainPass",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "MountainRange",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Valley",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Volcano",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Park",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "PopulatedPlace",
+          "children": [
+            {
+              "name": "Agglomeration",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Continent",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Country",
+              "children": [
+                {
+                  "name": "HistoricalCountry",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "GatedCommunity",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Intercommunality",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Island",
+              "children": [
+                {
+                  "name": "Atoll",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Locality",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Region",
+              "children": [
+                {
+                  "name": "AdministrativeRegion",
+                  "children": [
+                    {
+                      "name": "ClericalAdministrativeRegion",
+                      "children": [
+                        {
+                          "name": "Deanery",
+                          "children": [
+                            
+                          ]
+                        },
+                        {
+                          "name": "Diocese",
+                          "children": [
+                            
+                          ]
+                        },
+                        {
+                          "name": "Parish",
+                          "children": [
+                            
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "GovernmentalAdministrativeRegion",
+                      "children": [
+                        {
+                          "name": "Arrondissement",
+                          "children": [
+                            
+                          ]
+                        },
+                        {
+                          "name": "Department",
+                          "children": [
+                            {
+                              "name": "OverseasDepartment",
+                              "children": [
+                                
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "District",
+                          "children": [
+                            {
+                              "name": "HistoricalDistrict",
+                              "children": [
+                                
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "DistrictWaterBoard",
+                          "children": [
+                            
+                          ]
+                        },
+                        {
+                          "name": "MicroRegion",
+                          "children": [
+                            
+                          ]
+                        },
+                        {
+                          "name": "Municipality",
+                          "children": [
+                            {
+                              "name": "FormerMunicipality",
+                              "children": [
+                                
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Prefecture",
+                          "children": [
+                            
+                          ]
+                        },
+                        {
+                          "name": "Province",
+                          "children": [
+                            {
+                              "name": "HistoricalProvince",
+                              "children": [
+                                
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Regency",
+                          "children": [
+                            
+                          ]
+                        },
+                        {
+                          "name": "SubMunicipality",
+                          "children": [
+                            
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "HistoricalRegion",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "NaturalRegion",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Settlement",
+              "children": [
+                {
+                  "name": "City",
+                  "children": [
+                    {
+                      "name": "Capital",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "CapitalOfRegion",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "CityDistrict",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "HistoricalSettlement",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Town",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Village",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "State",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Street",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Territory",
+              "children": [
+                {
+                  "name": "OldTerritory",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ProtectedArea",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "SiteOfSpecialScientificInterest",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "SkiArea",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "SkiResort",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "SportFacility",
+          "children": [
+            {
+              "name": "CricketGround",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "GolfCourse",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "RaceTrack",
+              "children": [
+                {
+                  "name": "Racecourse",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Stadium",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "WineRegion",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "WorldHeritageSite",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Polyhedron",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Population",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "PublicService",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Sales",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Satellite",
+      "children": [
+        {
+          "name": "ArtificialSatellite",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SnookerWorldRanking",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Species",
+      "children": [
+        {
+          "name": "Archaea",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Bacteria",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Eukaryote",
+          "children": [
+            {
+              "name": "Animal",
+              "children": [
+                {
+                  "name": "Amphibian",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Arachnid",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Bird",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Crustacean",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Fish",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Insect",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Mammal",
+                  "children": [
+                    {
+                      "name": "Dog",
+                      "children": [
+                        
+                      ]
+                    },
+                    {
+                      "name": "RaceHorse",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Mollusca",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Reptile",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Fungus",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Plant",
+              "children": [
+                {
+                  "name": "ClubMoss",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Conifer",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "CultivatedVariety",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Cycad",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Fern",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "FloweringPlant",
+                  "children": [
+                    {
+                      "name": "Grape",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Ginkgo",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Gnetophytes",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "GreenAlga",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Moss",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SportCompetitionResult",
+      "children": [
+        {
+          "name": "OlympicResult",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SportsSeason",
+      "children": [
+        {
+          "name": "MotorsportSeason",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "SportsTeamSeason",
+          "children": [
+            {
+              "name": "BaseballSeason",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "FootballLeagueSeason",
+              "children": [
+                {
+                  "name": "NationalFootballLeagueSeason",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "NCAATeamSeason",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "SoccerClubSeason",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "SoccerLeagueSeason",
+              "children": [
+                
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Statistic",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Swarm",
+      "children": [
+        {
+          "name": "Globularswarm",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Openswarm",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Tax",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "TimePeriod",
+      "children": [
+        {
+          "name": "GeologicalPeriod",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "HistoricalPeriod",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "PeriodOfArtisticStyle",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "PrehistoricalPeriod",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "ProtohistoricalPeriod",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Year",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "YearInSpaceflight",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TopicalConcept",
+      "children": [
+        {
+          "name": "AcademicSubject",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "CardinalDirection",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Fashion",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Genre",
+          "children": [
+            {
+              "name": "ArtisticGenre",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "LiteraryGenre",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "MovieGenre",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "MusicGenre",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Ideology",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "MathematicalConcept",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "PhilosophicalConcept",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "PoliticalConcept",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "ScientificConcept",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "SystemOfLaw",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Taxon",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "TheologicalConcept",
+          "children": [
+            {
+              "name": "ChristianDoctrine",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Type",
+          "children": [
+            {
+              "name": "DocumentType",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "GovernmentType",
+              "children": [
+                
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "UnitOfWork",
+      "children": [
+        {
+          "name": "Case",
+          "children": [
+            {
+              "name": "LegalCase",
+              "children": [
+                {
+                  "name": "SupremeCourtOfTheUnitedStatesCase",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Project",
+          "children": [
+            {
+              "name": "ResearchProject",
+              "children": [
+                
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Unknown",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "Work",
+      "children": [
+        {
+          "name": "Artwork",
+          "children": [
+            {
+              "name": "Painting",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Sculpture",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Cartoon",
+          "children": [
+            {
+              "name": "Anime",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "HollywoodCartoon",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "CollectionOfValuables",
+          "children": [
+            {
+              "name": "Archive",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Database",
+          "children": [
+            {
+              "name": "BiologicalDatabase",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Document",
+          "children": [
+            {
+              "name": "File",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Image",
+              "children": [
+                {
+                  "name": "MovingImage",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "StillImage",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Sound",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Film",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "LineOfFashion",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Musical",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "MusicalWork",
+          "children": [
+            {
+              "name": "Album",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "ArtistDiscography",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "ClassicalMusicComposition",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "NationalAnthem",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Opera",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Single",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Song",
+              "children": [
+                {
+                  "name": "EurovisionSongContestEntry",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RadioProgram",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Software",
+          "children": [
+            {
+              "name": "ProgrammingLanguage",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "VideoGame",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "TelevisionEpisode",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "TelevisionSeason",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "TelevisionShow",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "Website",
+          "children": [
+            
+          ]
+        },
+        {
+          "name": "WrittenWork",
+          "children": [
+            {
+              "name": "Annotation",
+              "children": [
+                {
+                  "name": "Reference",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Article",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Book",
+              "children": [
+                {
+                  "name": "Novel",
+                  "children": [
+                    {
+                      "name": "LightNovel",
+                      "children": [
+                        
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Comics",
+              "children": [
+                {
+                  "name": "ComicStrip",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Manga",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Manhua",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Manhwa",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Drama",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Installment",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "MultiVolumePublication",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "PeriodicalLiterature",
+              "children": [
+                {
+                  "name": "AcademicJournal",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Magazine",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "Newspaper",
+                  "children": [
+                    
+                  ]
+                },
+                {
+                  "name": "UndergroundJournal",
+                  "children": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Play",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Poem",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "Resume",
+              "children": [
+                
+              ]
+            },
+            {
+              "name": "StatedResolution",
+              "children": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "name": "foaf:Document",
+          "children": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cidoccrm:E4_Period",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "d0:Activity",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "foaf:Image",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "foaf:Person",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "geo:SpatialThing",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "gml:_Feature",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "rdf:Property",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "skos:Concept",
+      "children": [
+        
+      ]
+    },
+    {
+      "name": "skos:OrderedCollection",
+      "children": [
+        
+      ]
+    }
+  ]
+}

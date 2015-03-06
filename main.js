@@ -1,6 +1,7 @@
 main = d3.select(document);
 
 var selection = null;
+var ontology = null;
 
 map.init('#map');
 search_box.init('#search_box');
@@ -11,6 +12,11 @@ selection_box.init('#selection_box');
 d3.json('map/leaf_regions.topo.json', function(data){
     preprocess_topojson(data);
     map.load(data);
+});
+
+// load the ontology hierarchy
+d3.json('ontology/ontology.json', function(data){
+    ontology = data;
 });
 
 function preprocess_topojson(data) {
