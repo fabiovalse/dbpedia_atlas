@@ -90,13 +90,13 @@ map.init = (dom_node) ->
     ### ZOOM and PAN ###
     zoom_layer = svg.append('g')
     svg.call d3.behavior.zoom()
-        .scaleExtent([0.01, 49])
+        .scaleExtent([0.6, 120])
         .on 'zoom', () ->
             zoom_layer.attr
                 transform: "translate(#{d3.event.translate})scale(#{d3.event.scale})"
                 
             ### semantic zooming ###
-            zoom_layer.selectAll('.city > *')
+            zoom_layer.selectAll('.city > text')
                 .attr
                     transform: "scale(#{1/d3.event.scale})"
                 
@@ -114,8 +114,8 @@ map.init = (dom_node) ->
     ### cursor ###
     cursor = vis.append('path')
         .attr
-            class: 'cursor'
-            d: (r) -> "M0,#{CELL_RADIUS} L#{cos30*CELL_RADIUS},#{sin30*CELL_RADIUS} L#{cos30*CELL_RADIUS},#{-sin30*CELL_RADIUS} L0,#{-CELL_RADIUS} L#{-cos30*CELL_RADIUS},#{-sin30*CELL_RADIUS} L#{-cos30*CELL_RADIUS},#{sin30*CELL_RADIUS} Z"
+            class: 'cursor hex_cell'
+            d: (r) -> _hex_path
     
     land_layer.on 'click', () ->
         # disable cursor movement when panning
@@ -298,10 +298,6 @@ map.load = (data) ->
         "i": -728,
         "j": -646
     },{
-        "uri": "http://dbpedia.org/resource/Scott_Pilgrim",
-        "i": -728,
-        "j": -646
-    },{
         "uri": "http://dbpedia.org/resource/Images_and_Words",
         "i": -558,
         "j": -636
@@ -320,9 +316,10 @@ map.load = (data) ->
                 [x, y] = _ij_to_xy(c.i, c.j)
                 "translate(#{x},#{y})"
         
-    enter_cities.append('circle')
+    enter_cities.append('path')
         .attr
-            r: 0.35
+            class: 'hex_cell'
+            d: _hex_path
             
     enter_cities.append('text')
         .text((c) -> decodeURI(c.uri.replace('http://dbpedia.org/resource/','').replace(/_/g,' ')))
@@ -413,3 +410,5 @@ _get_hexagon = (point) ->
     
     return [row, column]
     
+### precomputed hexagonal path ###
+_hex_path = "M0,#{CELL_RADIUS} L#{cos30*CELL_RADIUS},#{sin30*CELL_RADIUS} L#{cos30*CELL_RADIUS},#{-sin30*CELL_RADIUS} L0,#{-CELL_RADIUS} L#{-cos30*CELL_RADIUS},#{-sin30*CELL_RADIUS} L#{-cos30*CELL_RADIUS},#{sin30*CELL_RADIUS} Z"

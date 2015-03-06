@@ -45,8 +45,9 @@ svg {
   vector-effect: non-scaling-stroke;
 }
 
-.city circle {
+.city path {
     fill: #333;
+    stroke: #333;
 }
 
 @font-face {
@@ -60,6 +61,13 @@ svg {
     font-weight: bold;
     fill: #333;
 }
+
+/* hex cells */
+.hex_cell {
+    vector-effect: non-scaling-stroke;
+    stroke-width: 4px;
+}
+
 
 /* overlays */
 
@@ -76,9 +84,7 @@ svg {
 
 .cursor {
   fill: none;
-  stroke-width: 4px;
   pointer-events: none;
-  vector-effect: non-scaling-stroke;
   
   animation-name: cursor_pulse;
   animation-duration: 2s;
