@@ -151,10 +151,7 @@ path_generator = d3.geo.path()
 class_color = {'Person': 'rgba(228, 110, 121, 1)', 'Organisation': 'rgba(182, 142, 71, 1)', 'Place': 'rgba(101, 166, 94, 1)', 'Work': 'rgba(185, 121, 201, 1)', 'Species': 'rgba(84, 170, 173, 1)', 'Event': 'rgba(80, 155, 233, 1)', 'Other': 'rgba(148, 149, 145, 1)'}
     
 map.load = (data) ->
-    ### presimplify the topology (compute the effective area (z) of each point) ###
-    console.debug('Map - Presimplifying...')
-    topojson.presimplify(data)
-    console.debug('Map - ...done.')
+    map.preprocess(data)
     
     ### fill the sea ###
     ### cover the sea with a pattern ###
@@ -182,27 +179,37 @@ map.load = (data) ->
     sea_layer.append('use')
         .attr('class', 'land-glow-inner')
         .attr('xlink:href', '#land')
+        
+    ### actual land boundary ###
+    land_layer.append('use')
+        .attr('class', 'land-fill')
+        .attr('xlink:href', '#land')
     
-    ### draw all the leaf regions ###
+    ### inset coloring of level one regions ###
+    region_clips = land_layer.selectAll('.region_clip')
+        .data(ontology.tree.children)
+        
+    region_clips.enter().append('clipPath')
+        .attr
+            class: 'region_clip'
+            id: (n) -> "region_clip-#{n.name}"
+      .append('path')
+        .attr
+            d: (n) -> path_generator(n.merged_region)
+    
     land_layer.selectAll('.region')
-        .data(topojson.feature(data, data.objects.leaf_regions).features)
+        .data(ontology.tree.children)
       .enter().append('path')
         .attr
             class: 'region'
-            d: path_generator
-            fill: (d) ->
-                if d.properties['path'].length > 2 and d.properties['path'][2] of class_color
-                    return class_color[d.properties['path'][2]]
-                else if d.properties['path'].length > 1 and d.properties['path'][1] of class_color
-                    return class_color[d.properties['path'][1]]
+            d: (n) -> path_generator(n.merged_region)
+            'clip-path': (n) -> "url(#region_clip-#{n.name})"
+            stroke: (n) ->
+                if n.name of class_color
+                    return class_color[n.name]
                 else
                     return class_color['Other']
-                    
-    ### actual land boundary ###
-    # land_layer.append('use')
-        # .attr('class', 'boundary high land-fill')
-        # .attr('xlink:href', '#land')
-        
+            
     ### draw the leaf regions boundaries ###
     land_layer.append('path')
         .datum(topojson.mesh(data, data.objects.leaf_regions, (a,b) -> a isnt b and a.properties.path[1] is b.properties.path[1]))
@@ -315,17 +322,28 @@ map.load = (data) ->
             transform: (c) ->
                 [x, y] = _ij_to_xy(c.i, c.j)
                 "translate(#{x},#{y})"
-        
-    enter_cities.append('path')
-        .attr
-            class: 'hex_cell'
-            d: _hex_path
             
     enter_cities.append('text')
         .text((c) -> decodeURI(c.uri.replace('http://dbpedia.org/resource/','').replace(/_/g,' ')))
         .attr
             dx: 0.5
             dy: -0.5
+            stroke: '#D8D6CC'
+            fill: '#D8D6CC'
+            'stroke-width': '0.5px'
+            'vector-effect': 'non-scaling-stroke'
+            'stroke-opacity': 0.8
+            
+    enter_cities.append('text')
+        .text((c) -> decodeURI(c.uri.replace('http://dbpedia.org/resource/','').replace(/_/g,' ')))
+        .attr
+            dx: 0.5
+            dy: -0.5
+            
+    enter_cities.append('path')
+        .attr
+            class: 'hex_cell'
+            d: _hex_path
         
 map.update_selection = (selection) ->
     _move_cursor(selection.i, selection.j)

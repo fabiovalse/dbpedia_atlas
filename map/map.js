@@ -192,13 +192,8 @@
   };
 
   map.load = function(data) {
-    /* presimplify the topology (compute the effective area (z) of each point)
-    */
-
-    var cities, cities_data, enter_cities;
-    console.debug('Map - Presimplifying...');
-    topojson.presimplify(data);
-    console.debug('Map - ...done.');
+    var cities, cities_data, enter_cities, region_clips;
+    map.preprocess(data);
     /* fill the sea
     */
 
@@ -225,25 +220,40 @@
 
     sea_layer.append('use').attr('class', 'land-glow-outer').attr('xlink:href', '#land');
     sea_layer.append('use').attr('class', 'land-glow-inner').attr('xlink:href', '#land');
-    /* draw all the leaf regions
+    /* actual land boundary
     */
 
-    land_layer.selectAll('.region').data(topojson.feature(data, data.objects.leaf_regions).features).enter().append('path').attr({
+    land_layer.append('use').attr('class', 'land-fill').attr('xlink:href', '#land');
+    /* inset coloring of level one regions
+    */
+
+    region_clips = land_layer.selectAll('.region_clip').data(ontology.tree.children);
+    region_clips.enter().append('clipPath').attr({
+      "class": 'region_clip',
+      id: function(n) {
+        return "region_clip-" + n.name;
+      }
+    }).append('path').attr({
+      d: function(n) {
+        return path_generator(n.merged_region);
+      }
+    });
+    land_layer.selectAll('.region').data(ontology.tree.children).enter().append('path').attr({
       "class": 'region',
-      d: path_generator,
-      fill: function(d) {
-        if (d.properties['path'].length > 2 && d.properties['path'][2] in class_color) {
-          return class_color[d.properties['path'][2]];
-        } else if (d.properties['path'].length > 1 && d.properties['path'][1] in class_color) {
-          return class_color[d.properties['path'][1]];
+      d: function(n) {
+        return path_generator(n.merged_region);
+      },
+      'clip-path': function(n) {
+        return "url(#region_clip-" + n.name + ")";
+      },
+      stroke: function(n) {
+        if (n.name in class_color) {
+          return class_color[n.name];
         } else {
           return class_color['Other'];
         }
       }
     });
-    /* actual land boundary
-    */
-
     /* draw the leaf regions boundaries
     */
 
@@ -356,15 +366,26 @@
         return "translate(" + x + "," + y + ")";
       }
     });
-    enter_cities.append('path').attr({
-      "class": 'hex_cell',
-      d: _hex_path
+    enter_cities.append('text').text(function(c) {
+      return decodeURI(c.uri.replace('http://dbpedia.org/resource/', '').replace(/_/g, ' '));
+    }).attr({
+      dx: 0.5,
+      dy: -0.5,
+      stroke: '#D8D6CC',
+      fill: '#D8D6CC',
+      'stroke-width': '0.5px',
+      'vector-effect': 'non-scaling-stroke',
+      'stroke-opacity': 0.8
     });
-    return enter_cities.append('text').text(function(c) {
+    enter_cities.append('text').text(function(c) {
       return decodeURI(c.uri.replace('http://dbpedia.org/resource/', '').replace(/_/g, ' '));
     }).attr({
       dx: 0.5,
       dy: -0.5
+    });
+    return enter_cities.append('path').attr({
+      "class": 'hex_cell',
+      d: _hex_path
     });
   };
 

@@ -11,7 +11,7 @@
 /* cartography */
 
 svg {
-    background: #D8D6CC;
+    background: #C8B9BD;
 }
 
 #land {
@@ -32,6 +32,9 @@ svg {
   stroke-width: 1;
   fill: none;
 }
+.land-fill {
+    fill: #D8D6CC;
+}
 
 .high.boundary {
     stroke: #333;
@@ -43,6 +46,14 @@ svg {
   fill: none;
   pointer-events: none;
   vector-effect: non-scaling-stroke;
+}
+
+.region {
+    vector-effect: non-scaling-stroke;
+    stroke-width: 12px;
+    fill: none;
+    stroke-opacity: 0.4;
+    stroke-linejoin: round;
 }
 
 .city path {

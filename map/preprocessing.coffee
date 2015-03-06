@@ -1,5 +1,6 @@
 map.preprocess = (data) ->
     features = topojson.feature(data, data.objects.leaf_regions).features
+    geometries = data.objects.leaf_regions.geometries
     
     ### parse paths into arrays, and extract the class of each leaf region ###
     features.forEach (f) ->
@@ -15,4 +16,5 @@ map.preprocess = (data) ->
         
     ### compute level one regions by merging leaf regions together ###
     ontology.tree.children.forEach (child) ->
+        child.merged_region = topojson.merge(data, geometries.filter (g) -> g.properties.path.length > 1 and g.properties.path[1] is child.name)
         

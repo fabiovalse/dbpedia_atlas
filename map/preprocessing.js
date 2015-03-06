@@ -2,8 +2,9 @@
 (function() {
 
   map.preprocess = function(data) {
-    var features;
+    var features, geometries;
     features = topojson.feature(data, data.objects.leaf_regions).features;
+    geometries = data.objects.leaf_regions.geometries;
     /* parse paths into arrays, and extract the class of each leaf region
     */
 
@@ -25,7 +26,9 @@
     */
 
     return ontology.tree.children.forEach(function(child) {
-      return console.log(child);
+      return child.merged_region = topojson.merge(data, geometries.filter(function(g) {
+        return g.properties.path.length > 1 && g.properties.path[1] === child.name;
+      }));
     });
   };
 
