@@ -7,6 +7,8 @@ zoom_layer = null
 vis = null
 map_layer = null
 cursor = null
+sea_layer = null
+land_layer = null
 relations_layer = null
 
 SIZE = 100
@@ -97,6 +99,8 @@ map.init = (dom_node) ->
             transform: 'translate(26,0)'
         
     map_layer = vis.append('g')
+    sea_layer = map_layer.append('g')
+    land_layer = map_layer.append('g')
     
     ### cursor ###
     cursor = vis.append('path')
@@ -104,7 +108,7 @@ map.init = (dom_node) ->
             class: 'cursor'
             d: (r) -> "M0,#{CELL_RADIUS} L#{cos30*CELL_RADIUS},#{sin30*CELL_RADIUS} L#{cos30*CELL_RADIUS},#{-sin30*CELL_RADIUS} L0,#{-CELL_RADIUS} L#{-cos30*CELL_RADIUS},#{-sin30*CELL_RADIUS} L#{-cos30*CELL_RADIUS},#{sin30*CELL_RADIUS} Z"
     
-    vis.on 'click', () ->
+    land_layer.on 'click', () ->
         # disable cursor movement when panning
         # see https://github.com/mbostock/d3/wiki/Drag-Behavior
         return if d3.event.defaultPrevented
@@ -124,7 +128,7 @@ map.init = (dom_node) ->
 dx = CELL_RADIUS * 2 * Math.sin(Math.PI / 3)
 dy = CELL_RADIUS * 1.5
 
-SIMPLIFICATION = 100
+SIMPLIFICATION = 400
 
 path_generator = d3.geo.path()
     .projection d3.geo.transform({
@@ -145,7 +149,7 @@ map.load = (data) ->
     
     ### fill the sea ###
     ### cover the sea with a pattern ###
-    map_layer.append('rect')
+    sea_layer.append('rect')
         .attr
             id: 'sea'
             width: 10000
@@ -162,16 +166,16 @@ map.load = (data) ->
         .attr('d', path_generator)
     
     ### faux land glow (using filters takes too much resources) ###
-    map_layer.append('use')
+    sea_layer.append('use')
         .attr('class', 'land-glow-outer')
         .attr('xlink:href', '#land')
 
-    map_layer.append('use')
+    sea_layer.append('use')
         .attr('class', 'land-glow-inner')
         .attr('xlink:href', '#land')
     
     ### draw all the leaf regions ###
-    map_layer.selectAll('.region')
+    land_layer.selectAll('.region')
         .data(topojson.feature(data, data.objects.leaf_regions).features)
       .enter().append('path')
         .attr
@@ -186,18 +190,18 @@ map.load = (data) ->
                     return class_color['Other']
                     
     ### actual land boundary ###
-    # map_layer.append('use')
+    # land_layer.append('use')
         # .attr('class', 'boundary high land-fill')
         # .attr('xlink:href', '#land')
         
     ### draw the leaf regions boundaries ###
-    map_layer.append('path')
+    land_layer.append('path')
         .datum(topojson.mesh(data, data.objects.leaf_regions, (a,b) -> a isnt b and a.properties.path[1] is b.properties.path[1]))
         .attr('d', path_generator)
         .attr('class', 'boundary low')
         .style('stroke-width', '0.1px')
         
-    map_layer.append('path')
+    land_layer.append('path')
         .datum(topojson.mesh(data, data.objects.leaf_regions, (a,b) -> a is b or a.properties.path[1] isnt b.properties.path[1]))
         .attr('d', path_generator)
         .attr('class', 'boundary high')
