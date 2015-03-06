@@ -108,8 +108,6 @@ map.init = (dom_node) ->
     sea_layer = map_layer.append('g')
     land_layer = map_layer.append('g')
     cities_layer = map_layer.append('g')
-        .attr
-            'pointer-events': 'none'
     
     ### cursor ###
     cursor = vis.append('path')
@@ -317,6 +315,13 @@ map.load = (data) ->
         .data(cities_data)
         
     enter_cities = cities.enter().append('g')
+        .on 'mouseenter', () ->
+            d3.select(this).classed('focus', true)
+        .on 'mouseleave', () ->
+            d3.select(this).classed('focus', false)
+        .on 'click', (c) ->
+            ### trigger the selection of the city ###
+            trigger map.node, 'select', {uri: c.uri}
         .attr
             class: 'city'
             transform: (c) ->
@@ -326,17 +331,14 @@ map.load = (data) ->
     enter_cities.append('text')
         .text((c) -> decodeURI(c.uri.replace('http://dbpedia.org/resource/','').replace(/_/g,' ')))
         .attr
+            class: 'halo'
             dx: 0.5
             dy: -0.5
-            stroke: '#D8D6CC'
-            fill: '#D8D6CC'
-            'stroke-width': '0.5px'
-            'vector-effect': 'non-scaling-stroke'
-            'stroke-opacity': 0.8
             
     enter_cities.append('text')
         .text((c) -> decodeURI(c.uri.replace('http://dbpedia.org/resource/','').replace(/_/g,' ')))
         .attr
+            class: 'city_label'
             dx: 0.5
             dy: -0.5
             

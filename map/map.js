@@ -121,9 +121,7 @@
     map_layer = vis.append('g');
     sea_layer = map_layer.append('g');
     land_layer = map_layer.append('g');
-    cities_layer = map_layer.append('g').attr({
-      'pointer-events': 'none'
-    });
+    cities_layer = map_layer.append('g');
     /* cursor
     */
 
@@ -358,7 +356,17 @@
       }
     ];
     cities = cities_layer.selectAll('.city').data(cities_data);
-    enter_cities = cities.enter().append('g').attr({
+    enter_cities = cities.enter().append('g').on('mouseenter', function() {
+      return d3.select(this).classed('focus', true);
+    }).on('mouseleave', function() {
+      return d3.select(this).classed('focus', false);
+    }).on('click', function(c) {
+      /* trigger the selection of the city
+      */
+      return trigger(map.node, 'select', {
+        uri: c.uri
+      });
+    }).attr({
       "class": 'city',
       transform: function(c) {
         var x, y, _ref;
@@ -369,17 +377,14 @@
     enter_cities.append('text').text(function(c) {
       return decodeURI(c.uri.replace('http://dbpedia.org/resource/', '').replace(/_/g, ' '));
     }).attr({
+      "class": 'halo',
       dx: 0.5,
-      dy: -0.5,
-      stroke: '#D8D6CC',
-      fill: '#D8D6CC',
-      'stroke-width': '0.5px',
-      'vector-effect': 'non-scaling-stroke',
-      'stroke-opacity': 0.8
+      dy: -0.5
     });
     enter_cities.append('text').text(function(c) {
       return decodeURI(c.uri.replace('http://dbpedia.org/resource/', '').replace(/_/g, ' '));
     }).attr({
+      "class": 'city_label',
       dx: 0.5,
       dy: -0.5
     });

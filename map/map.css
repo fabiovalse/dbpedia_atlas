@@ -72,6 +72,23 @@ svg {
     font-weight: bold;
     fill: #333;
 }
+.city .halo {
+    stroke: #D8D6CC;
+    fill: #D8D6CC;
+    stroke-width: 0.5px;
+    vector-effect: non-scaling-stroke;
+    stroke-opacity: 0.8;
+}
+.city:hover {
+    cursor: pointer;
+}
+.city:hover .city_label {
+    fill: #D22;
+}
+.city:hover path {
+    fill: #D22;
+    stroke: #D22;
+}
 
 /* hex cells */
 .hex_cell {
