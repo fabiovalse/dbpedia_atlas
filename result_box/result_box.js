@@ -26,7 +26,7 @@ result_box.update = function(selection) {
 			trigger(result_box.node, 'select', {uri: this.id});
 
 			result_box.node.style("display", "none");
-			search_box.node.text("");
+			d3.select('#search_textbox').text("");
 		});
 }
 
