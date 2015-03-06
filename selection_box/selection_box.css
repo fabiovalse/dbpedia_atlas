@@ -10,6 +10,11 @@ section {
 	padding: 12px;
 }
 
+.data_property {
+	width: 100%;
+	text-align: inter-word;
+}
+
 .data_box {
 	margin-bottom: 15px;
 }
@@ -18,11 +23,27 @@ section {
 	font-weight: bold;
 }
 
-.object:hover {
+.object_uri:hover {
 	color: #404040;
 	cursor: pointer;
 }
 
 .right_text {
 	text-align: right;
+}
+
+a {
+	color: black;
+}
+a:hover {
+	color: #404040;
+	text-decoration: none;
+}
+
+#dbpedia_logo {
+	width: 30px;
+}
+
+#wikipedia_logo {
+	width: 30px;
 }
