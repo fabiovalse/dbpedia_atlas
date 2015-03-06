@@ -26,8 +26,12 @@ html, body {
     width: 300px;
 }
 #result_box {
-    top: 20px;
+    top: 52px;
     left: 20px;
+    width: 300px;
+    height: 150px;
+    display: none;
+    overflow: auto;
 }
 #selection_box_container {
     top: 0;
