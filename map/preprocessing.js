@@ -2,7 +2,7 @@
 (function() {
 
   map.preprocess = function(data) {
-    var features, geometries;
+    var features, geometries, _merge;
     features = topojson.feature(data, data.objects.leaf_regions).features;
     geometries = data.objects.leaf_regions.geometries;
     /* parse paths into arrays, and extract the class of each leaf region
@@ -22,14 +22,20 @@
     features.forEach(function(f) {
       return ontology.get_node_from_class(f.properties["class"]).leaf_region = f;
     });
-    /* compute level one regions by merging leaf regions together
+    /* compute merged regions from leaf regions
     */
 
-    return ontology.tree.children.forEach(function(child) {
-      return child.merged_region = topojson.merge(data, geometries.filter(function(g) {
-        return g.properties.path.length > 1 && g.properties.path[1] === child.name;
+    _merge = function(n, depth) {
+      n.merged_region = topojson.merge(data, geometries.filter(function(g) {
+        return g.properties.path.length > depth && g.properties.path[depth] === n.name;
       }));
-    });
+      if (n.children != null) {
+        return n.children.forEach(function(c) {
+          return _merge(c, depth + 1);
+        });
+      }
+    };
+    return _merge(ontology.tree, 0);
   };
 
 }).call(this);

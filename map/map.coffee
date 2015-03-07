@@ -145,9 +145,6 @@ path_generator = d3.geo.path()
                 this.stream.point(x * dx / 2, -(y - (2 - (y & 1)) / 3) * dy / 2)
     })
     
-### colors ###
-class_color = {'Person': 'rgba(228, 110, 121, 1)', 'Organisation': 'rgba(182, 142, 71, 1)', 'Place': 'rgba(101, 166, 94, 1)', 'Work': 'rgba(185, 121, 201, 1)', 'Species': 'rgba(84, 170, 173, 1)', 'Event': 'rgba(80, 155, 233, 1)', 'Other': 'rgba(148, 149, 145, 1)'}
-    
 map.load = (data) ->
     map.preprocess(data)
     
@@ -178,14 +175,39 @@ map.load = (data) ->
         .attr('class', 'land-glow-inner')
         .attr('xlink:href', '#land')
         
-    ### actual land boundary ###
+    ### actual land ###
     land_layer.append('use')
         .attr('class', 'land-fill')
         .attr('xlink:href', '#land')
-    
+        
+    ### draw the leaf regions boundaries ###
+    land_layer.append('path')
+        .datum(topojson.mesh(data, data.objects.leaf_regions, (a,b) -> a isnt b and a.properties.path[1] is b.properties.path[1]))
+        .attr('d', path_generator)
+        .attr('class', 'boundary low')
+        .style('stroke-width', '0.5px')
+        
+    ### draw the level two boundaries ###
+    land_layer.append('path')
+        .datum(topojson.mesh(data, data.objects.leaf_regions, (a,b) -> a.properties.path.length > 2 and b.properties.path.length > 2 and a.properties.path[1] is b.properties.path[1] and a.properties.path[2] isnt b.properties.path[2]))
+        .attr('d', path_generator)
+        .attr('class', 'boundary low')
+        .style('stroke-width', '0.9px')
+        
     ### inset coloring of level one regions ###
+    ### WARNING this is done explicitly, to handpick colors for important regions and avoid similar color in neighboring regions ###
+    classes = ["MeanOfTransportation", "SportsSeason", "Agent", "Device", "Place", "Biomolecule", "Species", "gml:_Feature", "Event", "CareerStation", "Work", "TopicalConcept", "AnatomicalStructure", "Holiday", "Food", "ChemicalSubstance", "Medicine", "Name", "CelestialBody", "SportCompetitionResult", "UnitOfWork", "GeneLocation", "Satellite", "PersonFunction", "TimePeriod", "Language", "Sales", "Colour", "EthnicGroup", "Award", "Drug", "Activity", "Currency", "SnookerWorldRanking", "Swarm", "Competition", "List"]
+    colors = classes.map (c, i) ->
+        # less readable classes are desaturated
+        chroma = if c in ["TimePeriod", "CareerStation", "PersonFunction", "gml:_Feature", "Sales"] then 30 else 55
+        return d3.hcl(15+i*30, chroma, 70)
+        
+    inset_color = d3.scale.ordinal()
+        .domain(classes)
+        .range(colors)
+        
     region_clips = land_layer.selectAll('.region_clip')
-        .data(ontology.tree.children)
+        .data(ontology.levels[1])
         
     region_clips.enter().append('clipPath')
         .attr
@@ -196,25 +218,15 @@ map.load = (data) ->
             d: (n) -> path_generator(n.merged_region)
     
     land_layer.selectAll('.region')
-        .data(ontology.tree.children)
+        .data(ontology.levels[1])
       .enter().append('path')
         .attr
             class: 'region'
             d: (n) -> path_generator(n.merged_region)
             'clip-path': (n) -> "url(#region_clip-#{n.name})"
-            stroke: (n) ->
-                if n.name of class_color
-                    return class_color[n.name]
-                else
-                    return class_color['Other']
+            stroke: (n) -> inset_color(n.name)
             
-    ### draw the leaf regions boundaries ###
-    land_layer.append('path')
-        .datum(topojson.mesh(data, data.objects.leaf_regions, (a,b) -> a isnt b and a.properties.path[1] is b.properties.path[1]))
-        .attr('d', path_generator)
-        .attr('class', 'boundary low')
-        .style('stroke-width', '0.2px')
-        
+    ### draw the high-level boundaries ###
     land_layer.append('path')
         .datum(topojson.mesh(data, data.objects.leaf_regions, (a,b) -> a is b or a.properties.path[1] isnt b.properties.path[1]))
         .attr('d', path_generator)

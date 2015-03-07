@@ -14,7 +14,11 @@ map.preprocess = (data) ->
     features.forEach (f) ->
         ontology.get_node_from_class(f.properties.class).leaf_region = f
         
-    ### compute level one regions by merging leaf regions together ###
-    ontology.tree.children.forEach (child) ->
-        child.merged_region = topojson.merge(data, geometries.filter (g) -> g.properties.path.length > 1 and g.properties.path[1] is child.name)
+    ### compute merged regions from leaf regions ###
+    _merge = (n, depth) ->
+        n.merged_region = topojson.merge(data, geometries.filter (g) -> g.properties.path.length > depth and g.properties.path[depth] is n.name)
         
+        if n.children?
+            n.children.forEach (c) -> _merge(c, depth+1)
+        
+    _merge(ontology.tree, 0)

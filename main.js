@@ -7,15 +7,17 @@ search_box.init('#search_box');
 result_box.init('#result_box');
 selection_box.init('#selection_box');
 
-// load the TopoJSON map
-d3.json('map/leaf_regions.topo.json', function(data){
-    map.load(data);
-});
-
-// load the ontology hierarchy
-d3.json('ontology/ontology.json', function(data){
-    ontology.init(data);
-});
+// load the ontology hierarchy and the TopoJSON map
+queue()
+    .defer(d3.json, 'ontology/ontology_canonical.json')
+    .defer(d3.json, 'map/leaf_regions.topo.json')
+    .await(function(error, ontology_data, topojson_data){
+        if(error)
+            throw error;
+        
+        ontology.init(ontology_data);
+        map.load(topojson_data);
+    });
 
 function on_new_selection(json) {
     // extract integer coordinates from RDF

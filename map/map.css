@@ -40,7 +40,7 @@ svg {
     stroke: #333;
 }
 .low.boundary {
-    stroke: #F5F4E6;
+    stroke: white;
 }
 .boundary {
   fill: none;
@@ -50,10 +50,10 @@ svg {
 
 .region {
     vector-effect: non-scaling-stroke;
-    stroke-width: 12px;
     fill: none;
-    stroke-opacity: 0.4;
     stroke-linejoin: round;
+    stroke-opacity: 0.5;
+    stroke-width: 12px;
 }
 
 .city path {
