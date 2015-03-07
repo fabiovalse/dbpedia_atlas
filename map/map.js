@@ -354,6 +354,66 @@
         "uri": "http://dbpedia.org/resource/Pizza",
         "i": -1227,
         "j": -873
+      }, {
+        "uri": "http://dbpedia.org/resource/Christopher_Columbus",
+        "i": -350,
+        "j": -1461
+      }, {
+        "uri": "http://dbpedia.org/resource/Cantonese",
+        "i": -299,
+        "j": -2043
+      }, {
+        "uri": "http://dbpedia.org/resource/Euro",
+        "i": -185,
+        "j": -1989
+      }, {
+        "uri": "http://dbpedia.org/resource/Jews",
+        "i": -287,
+        "j": -1944
+      }, {
+        "uri": "http://dbpedia.org/resource/Oscar_Wilde",
+        "i": 1226,
+        "j": -1199
+      }, {
+        "uri": "http://dbpedia.org/resource/IPhone",
+        "i": -1291,
+        "j": -901
+      }, {
+        "uri": "http://dbpedia.org/resource/Adenosine_triphosphate",
+        "i": -1182,
+        "j": -1233
+      }, {
+        "uri": "http://dbpedia.org/resource/Pneumonia",
+        "i": -1012,
+        "j": -1154
+      }, {
+        "uri": "http://dbpedia.org/resource/Michael_Jordan",
+        "i": 1043,
+        "j": -802
+      }, {
+        "uri": "http://dbpedia.org/resource/Elizabeth_II",
+        "i": 1421,
+        "j": -1282
+      }, {
+        "uri": "http://dbpedia.org/resource/Julian_Assange",
+        "i": -454,
+        "j": -1585
+      }, {
+        "uri": "http://dbpedia.org/resource/Alan_Turing",
+        "i": 667,
+        "j": -847
+      }, {
+        "uri": "http://dbpedia.org/resource/Winston_Churchill",
+        "i": 464,
+        "j": -1042
+      }, {
+        "uri": "http://dbpedia.org/resource/Stanley_Kubrick",
+        "i": 464,
+        "j": -1451
+      }, {
+        "uri": "http://dbpedia.org/resource/Freddie_Mercury",
+        "i": 1232,
+        "j": -918
       }
     ];
     cities = cities_layer.selectAll('.city').data(cities_data);
