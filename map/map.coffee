@@ -98,11 +98,11 @@ map.init = (dom_node) ->
             ### semantic zooming ###
             zoom_layer.selectAll('.city > text')
                 .attr
-                    transform: "scale(#{1/d3.event.scale})"
+                    transform: "scale(#{1/d3.event.scale}) rotate(60)"
                 
     vis = zoom_layer.append('g')
         .attr
-            transform: 'translate(26,0)'
+            transform: 'translate(22,-28) rotate(-60)'
         
     map_layer = vis.append('g')
     sea_layer = map_layer.append('g')
@@ -158,7 +158,7 @@ map.load = (data) ->
             x: -5000
             y: -5000
             fill: 'url(#sea_pattern)'
-            transform: 'scale(0.05)'
+            transform: 'scale(0.05) rotate(60)'
     
     ### define the level zero region (the land) ###
     defs.append('path')
@@ -406,6 +406,7 @@ map.load = (data) ->
             class: 'halo'
             dx: 0.5
             dy: -0.5
+            transform: 'rotate(60)'
             
     enter_cities.append('text')
         .text((c) -> decodeURI(c.uri.replace('http://dbpedia.org/resource/','').replace(/_/g,' ')))
@@ -413,6 +414,7 @@ map.load = (data) ->
             class: 'city_label'
             dx: 0.5
             dy: -0.5
+            transform: 'rotate(60)'
             
     enter_cities.append('path')
         .attr
@@ -450,7 +452,8 @@ map.update_selection = (selection) ->
             d: (r) ->
                 [sx, sy] = _ij_to_xy(r.s.i, r.s.j)
                 [ox, oy] = _ij_to_xy(r.o.i, r.o.j)
-                return "M#{sx} #{sy} C#{sx} #{sy-12} #{ox} #{oy-12} #{ox} #{oy}"
+                return "M#{sx} #{sy} L#{ox} #{oy}"
+                #return "M#{sx} #{sy} C#{sx} #{sy-12} #{ox} #{oy-12} #{ox} #{oy}"
                 
     relations.exit()
         .remove()
