@@ -150,6 +150,7 @@ path_generator = d3.geo.path()
     
 map.load = (data) ->
     map.preprocess(data)
+    _init_modes()
     
     ### fill the sea ###
     ### cover the sea with a pattern ###
@@ -178,11 +179,14 @@ map.load = (data) ->
         .attr('class', 'land-glow-inner')
         .attr('xlink:href', '#land')
         
-    ### actual land ###
-    land_layer.append('use')
-        .attr('class', 'land-fill')
-        .attr('xlink:href', '#land')
-        
+    ### actual regions ###
+    land_layer.selectAll('.leaf_region')
+        .data(topojson.feature(data, data.objects.leaf_regions).features)
+      .enter().append('path')
+        .attr
+            class: 'leaf_region'
+            d: path_generator
+            
     ### draw the leaf regions boundaries ###
     land_layer.append('path')
         .datum(topojson.mesh(data, data.objects.leaf_regions, (a,b) -> a isnt b and a.properties.path[1] is b.properties.path[1]))
@@ -197,18 +201,7 @@ map.load = (data) ->
         .attr('class', 'boundary low')
         .style('stroke-width', '0.9px')
         
-    ### inset coloring of level one regions ###
-    ### WARNING this is done explicitly, to handpick colors for important regions and avoid similar color in neighboring regions ###
-    classes = ["MeanOfTransportation", "SportsSeason", "Agent", "Device", "Place", "Biomolecule", "Species", "gml:_Feature", "Event", "CareerStation", "Work", "TopicalConcept", "AnatomicalStructure", "Holiday", "Food", "ChemicalSubstance", "Medicine", "Name", "CelestialBody", "SportCompetitionResult", "UnitOfWork", "GeneLocation", "Satellite", "PersonFunction", "TimePeriod", "Language", "Sales", "Colour", "EthnicGroup", "Award", "Drug", "Activity", "Currency", "SnookerWorldRanking", "Swarm", "Competition", "List"]
-    colors = classes.map (c, i) ->
-        # less readable classes are desaturated
-        chroma = if c in ["TimePeriod", "CareerStation", "PersonFunction", "gml:_Feature", "Sales"] then 30 else 55
-        return d3.hcl(15+i*30, chroma, 70)
-        
-    inset_color = d3.scale.ordinal()
-        .domain(classes)
-        .range(colors)
-        
+    ### inset clipping of level one regions ###
     region_clips = land_layer.selectAll('.region_clip')
         .data(ontology.levels[1])
         
@@ -220,14 +213,13 @@ map.load = (data) ->
         .attr
             d: (n) -> path_generator(n.merged_region)
     
-    land_layer.selectAll('.region')
+    land_layer.selectAll('.high_region')
         .data(ontology.levels[1])
       .enter().append('path')
         .attr
-            class: 'region'
+            class: 'high_region'
             d: (n) -> path_generator(n.merged_region)
             'clip-path': (n) -> "url(#region_clip-#{n.name})"
-            stroke: (n) -> inset_color(n.name)
             
     ### draw the high-level boundaries ###
     land_layer.append('path')
@@ -462,6 +454,9 @@ map.load = (data) ->
         .attr
             x: 0
             dy: '1.2em'
+    
+    # default map mode is 'classes'
+    map.mode 'classes'
     
     _update_lod(1)
     

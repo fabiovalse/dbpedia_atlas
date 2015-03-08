@@ -10,9 +10,11 @@ map.preprocess = (data) ->
     ### presimplify the topology (compute the effective area (z) of each point) ###
     topojson.presimplify(data)
     
-    ### store all leaf_regions into the ontology tree ###
+    ### store all leaf_regions into the ontology tree, and store each node within the feature's properties ###
     features.forEach (f) ->
-        ontology.get_node_from_class(f.properties.class).leaf_region = f
+        n = ontology.get_node_from_class(f.properties.class)
+        n.leaf_region = f
+        f.properties.node = n
         
     ### compute merged regions from leaf regions ###
     _merge = (n, depth) ->

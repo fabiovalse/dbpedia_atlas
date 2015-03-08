@@ -28,12 +28,8 @@ svg {
     background: #C8B9BD;
 }
 
-#land {
-    
-}
-
 .land-glow-outer, .land-glow-inner {
-     stroke-linejoin: round;
+    stroke-linejoin: round;
 }
 .land-glow-outer {
   stroke: rgba(30,0,0,0.03);
@@ -45,9 +41,6 @@ svg {
   stroke: rgba(40,0,0,0.1);
   stroke-width: 1;
   fill: none;
-}
-.land-fill {
-    fill: #D8D6CC;
 }
 
 .high.boundary {
@@ -62,12 +55,11 @@ svg {
   vector-effect: non-scaling-stroke;
 }
 
-.region {
+.high_region {
     vector-effect: non-scaling-stroke;
     fill: none;
     stroke-linejoin: round;
     stroke-opacity: 0.5;
-    stroke-width: 12px;
 }
 
 .city path {

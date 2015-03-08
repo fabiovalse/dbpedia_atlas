@@ -19,8 +19,9 @@ ontology.init = function(data) {
     
     ontology.levels = [];
     ontology.nodes = [];
+    ontology.leaves = [];
     
-    _assign_depth = function(n, depth) {
+    _parse_tree = function(n, depth) {
         n.depth = depth;
         ontology.nodes.push(n);
         
@@ -32,10 +33,14 @@ ontology.init = function(data) {
         
         if(n.hasOwnProperty('children'))
             n.children.forEach(function(c){
-                _assign_depth(c, depth+1);
+                _parse_tree(c, depth+1);
             });
+            
+        if(!(n.hasOwnProperty('children')) || n.children.length === 0) {
+            ontology.leaves.push(n);
+        }
     }
-    _assign_depth(ontology.tree, 0);
+    _parse_tree(ontology.tree, 0);
 }
 
 // Returns the most specific class
