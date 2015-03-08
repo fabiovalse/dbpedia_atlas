@@ -11,6 +11,7 @@ sea_layer = null
 land_layer = null
 cities_layer = null
 relations_layer = null
+region_labels_layer = null
 
 SIZE = 100
 CELL_RADIUS = 0.02
@@ -96,10 +97,13 @@ map.init = (dom_node) ->
                 transform: "translate(#{d3.event.translate})scale(#{d3.event.scale})"
                 
             ### semantic zooming ###
-            zoom_layer.selectAll('.city > text')
+            zoom_layer.selectAll('.label')
                 .attr
                     transform: "scale(#{1/d3.event.scale}) rotate(60)"
                 
+            ### LOD ###
+            _update_lod(d3.event.scale)
+            
     vis = zoom_layer.append('g')
         .attr
             transform: 'translate(22,-28) rotate(-60)'
@@ -109,6 +113,7 @@ map.init = (dom_node) ->
     land_layer = map_layer.append('g')
     relations_layer = map_layer.append('g')
     cities_layer = map_layer.append('g')
+    region_labels_layer = map_layer.append('g')
     
     ### cursor ###
     cursor = vis.append('path')
@@ -401,7 +406,7 @@ map.load = (data) ->
     enter_cities.append('text')
         .text((c) -> decodeURI(c.uri.replace('http://dbpedia.org/resource/','').replace(/_/g,' ')))
         .attr
-            class: 'halo'
+            class: 'label halo'
             dx: 0.5
             dy: -0.5
             transform: 'rotate(60)'
@@ -409,7 +414,7 @@ map.load = (data) ->
     enter_cities.append('text')
         .text((c) -> decodeURI(c.uri.replace('http://dbpedia.org/resource/','').replace(/_/g,' ')))
         .attr
-            class: 'city_label'
+            class: 'label foreground'
             dx: 0.5
             dy: -0.5
             transform: 'rotate(60)'
@@ -418,7 +423,48 @@ map.load = (data) ->
         .attr
             class: 'hex_cell'
             d: _hex_path
+            
+    ### region labels ###
+    region_labels = region_labels_layer.selectAll('.region_label')
+        .data(ontology.levels[1].filter (n) -> n.merged_region.coordinates.length > 0) # some features could have been destroyed by simplification
         
+    enter_region_labels = region_labels.enter().append('g')
+        .attr
+            class: 'region_label'
+            transform: (n) ->
+                [x,y] = path_generator.centroid(n.merged_region)
+                return "translate(#{x},#{y})"
+        
+    enter_region_labels_halo = enter_region_labels.append('text')
+        .attr
+            class: 'halo label'
+            transform: 'rotate(60)'
+            y: (n) -> -(Math.floor(n.readable_label.length / 2) * 1.2 + 0.35) + 'em'
+        
+    enter_region_labels_halo.selectAll('tspan')
+        .data((n) -> n.readable_label)
+      .enter().append('tspan')
+        .text((t) -> t)
+        .attr
+            x: 0
+            dy: '1.2em'
+        
+    enter_region_labels_foreground = enter_region_labels.append('text')
+        .attr
+            class: 'label foreground'
+            transform: 'rotate(60)'
+            y: (n) -> -(Math.floor(n.readable_label.length / 2) * 1.2 + 0.35) + 'em'
+            
+    enter_region_labels_foreground.selectAll('tspan')
+        .data((n) -> n.readable_label)
+      .enter().append('tspan')
+        .text((t) -> t)
+        .attr
+            x: 0
+            dy: '1.2em'
+    
+    _update_lod(1)
+    
 map.update_selection = (selection) ->
     _move_cursor(selection.i, selection.j)
     
@@ -505,3 +551,11 @@ _get_hexagon = (point) ->
     
 ### precomputed hexagonal path ###
 _hex_path = "M0,#{CELL_RADIUS} L#{cos30*CELL_RADIUS},#{sin30*CELL_RADIUS} L#{cos30*CELL_RADIUS},#{-sin30*CELL_RADIUS} L0,#{-CELL_RADIUS} L#{-cos30*CELL_RADIUS},#{-sin30*CELL_RADIUS} L#{-cos30*CELL_RADIUS},#{sin30*CELL_RADIUS} Z"
+
+
+### Level Of Detail ###
+REGION_LABEL_MIN_AREA = 80
+
+_update_lod = (z) ->
+    region_labels_layer.selectAll('.region_label')
+        .classed 'hidden', (n) -> n.area * z*z < REGION_LABEL_MIN_AREA

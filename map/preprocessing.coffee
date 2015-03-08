@@ -22,3 +22,51 @@ map.preprocess = (data) ->
             n.children.forEach (c) -> _merge(c, depth+1)
         
     _merge(ontology.tree, 0)
+    
+    ### compute all region areas ###
+    ontology.nodes.forEach (n) ->
+        n.area = path_generator.area n.merged_region
+        
+    ### define readable, plural, multiline labels for level one regions ###
+    _readable_labels =
+        'Place': ['Places']
+        'Agent': ['Agents']
+        'Event': ['Events']
+        'Species': ['Species']
+        'Work': ['Works']
+        'SportsSeason': ['Sports', 'Seasons']
+        'UnitOfWork': ['Units of', 'Work']
+        'TopicalConcept': ['Topical', 'Concepts']
+        'Biomolecule': ['Biomolecules']
+        'Activity': ['Activities']
+        'Food': ['Food']
+        'MeanOfTransportation': ['Means of', 'Transportation']
+        'Device': ['Devices']
+        'CelestialBody': ['Celestial', 'Bodies']
+        'ChemicalSubstance': ['Chemical', 'Substances']
+        'Medicine': ['Diseases'] # FIXME why are they called Medicine?
+        'TimePeriod': ['Time', 'Periods']
+        'Satellite': ['Satellites']
+        'SportCompetitionResult': ['Sport', 'Competition', 'Results']
+        'AnatomicalStructure': ['Anatomical', 'Structures']
+        'GeneLocation': ['Gene', 'Locations']
+        'CareerStation': ['Career', 'Stations']
+        'PersonFunction': ['Person', 'Functions']
+        'gml:_Feature': ['gml:feature']
+        'Language': ['Languages']
+        'Sales': ['Sales']
+        'Drug': ['Drugs']
+        'EthnicGroup': ['Ethnic', 'Groups']
+        'Award': ['Awards']
+        'Colour': ['Colours']
+        'Holiday': ['Holidays']
+        'Currency': ['Currencies']
+        'SnookerWorldRanking': ['Snooker','World','Rankings']
+        'Swarm': ['Swarms']
+        'Competition': ['Competitions']
+        'List': ['Lists']
+        'Name': ['Names']
+        
+    ontology.levels[1].forEach (n) ->
+        n.readable_label = _readable_labels[n.name]
+        

@@ -18,10 +18,11 @@ ontology.init = function(data) {
     
     
     ontology.levels = [];
+    ontology.nodes = [];
     
     _assign_depth = function(n, depth) {
         n.depth = depth;
-        
+        ontology.nodes.push(n);
         
         // create more levels if needed
         if(ontology.levels.length <= depth)
