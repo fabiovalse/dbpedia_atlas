@@ -121,6 +121,7 @@
     map_layer = vis.append('g');
     sea_layer = map_layer.append('g');
     land_layer = map_layer.append('g');
+    relations_layer = map_layer.append('g');
     cities_layer = map_layer.append('g');
     /* cursor
     */
@@ -131,7 +132,7 @@
         return _hex_path;
       }
     });
-    land_layer.on('click', function() {
+    return land_layer.on('click', function() {
       var h;
       if (d3.event.defaultPrevented) {
         return;
@@ -149,10 +150,6 @@
         j: h[1]
       });
     });
-    /* relations
-    */
-
-    return relations_layer = vis.append('g');
   };
 
   /* custom projection to make hexagons appear regular (y axis is also flipped)

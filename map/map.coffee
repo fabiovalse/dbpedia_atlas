@@ -107,6 +107,7 @@ map.init = (dom_node) ->
     map_layer = vis.append('g')
     sea_layer = map_layer.append('g')
     land_layer = map_layer.append('g')
+    relations_layer = map_layer.append('g')
     cities_layer = map_layer.append('g')
     
     ### cursor ###
@@ -128,9 +129,6 @@ map.init = (dom_node) ->
         trigger map.node, 'select', {i: h[0], j: h[1]}
         
         
-    ### relations ###
-    relations_layer = vis.append('g')
-    
 ### custom projection to make hexagons appear regular (y axis is also flipped) ###
 dx = CELL_RADIUS * 2 * Math.sin(Math.PI / 3)
 dy = CELL_RADIUS * 1.5
