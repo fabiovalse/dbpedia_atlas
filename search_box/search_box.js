@@ -17,3 +17,8 @@ d3.select("#search_button")
 	});
 
 }).call(this);
+
+d3.select("#search_textbox")
+	.on("keydown", function(e) {
+		console.log(e);
+	});

@@ -58,6 +58,33 @@ ontology.get_msc = function(node, classes) {
     return classes;
 }
 
+// Returns the most specific class
+ontology.get_ordered_classes = function(node, classes) {
+    res = ontology._get_ordered_classes(node, classes, [])
+
+    return res[1];
+}
+
+ontology._get_ordered_classes = function(node, classes, ordered_classes) {
+    classes = classes.filter(function(c) {
+        if (c.value.replace("http://dbpedia.org/ontology/", "") != node.name)
+            return true;
+        else {
+            ordered_classes.unshift(c);
+            return false;
+        }
+    });
+    
+    if(node.hasOwnProperty('children'))
+        node.children.forEach(function(child) {
+            res = ontology._get_ordered_classes(child, classes, ordered_classes);
+            classes = res[0];
+            ordered_classes = res[1];
+        });
+
+    return [classes, ordered_classes];
+}
+
 // Returns the tree node corresponding to the given class
 ontology.get_node_from_class = function(klass) {
     return _index[klass];

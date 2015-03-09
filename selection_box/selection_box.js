@@ -39,6 +39,8 @@ selection_box.update = function(selection) {
 		.selectAll('rdf_type')
 		.data(ontology.get_msc(ontology.tree, filtered_types));
 
+	console.log(ontology.get_ordered_classes(ontology.tree, filtered_types, []));
+
 	rdf_types.enter().append('span')
 		.attr('class', 'rdf_type')
 		.attr('title', function(d) {return d.value;})
