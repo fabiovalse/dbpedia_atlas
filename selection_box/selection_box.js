@@ -10,7 +10,7 @@ selection_box.init = function(dom_selector) {
 }
 
 selection_box.update = function(selection) {
-	/*	Sets the title = entity name
+	/*	Sets the title, links (DBpedia, Wikipedia) and the most specific type
 	*/
 	box.select('header')
 		.text(decodeURI(selection["uri"].replace("http://dbpedia.org/resource/", "").replace(/_/g, " ")) + " ");
@@ -37,15 +37,14 @@ selection_box.update = function(selection) {
 	var rdf_types = box.select('header').append('div')
 		.attr('id', 'rdf_types')
 		.selectAll('rdf_type')
-		.data(filtered_types);
-
-	console.log(ontology.get_msc(ontology.tree, filtered_types));
+		.data(ontology.get_msc(ontology.tree, filtered_types));
 
 	rdf_types.enter().append('span')
 		.attr('class', 'rdf_type')
 		.attr('title', function(d) {return d.value;})
 		.html(function(d, i) {
-			return (i < filtered_types.length-1) ? format_uri(d.value) + " - " : format_uri(d.value);
+			//return (i < filtered_types.length-1) ? format_uri(d.value) + " - " : format_uri(d.value);
+			return format_uri(d.value);
 		});
 
 	var section = box.select('section');

@@ -50,7 +50,7 @@ ontology.get_msc = function(node, classes) {
     else
         return classes;
     
-    if(n.hasOwnProperty('children'))
+    if(node.hasOwnProperty('children'))
         node.children.forEach(function(child) {
             classes = ontology.get_msc(child, classes);
         });
