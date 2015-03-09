@@ -58,7 +58,7 @@ ontology.get_msc = function(node, classes) {
     return classes;
 }
 
-// Returns the most specific class
+// Returns a sequence of classes ordered according to the ontology hierarchy
 ontology.get_ordered_classes = function(node, classes) {
     res = ontology._get_ordered_classes(node, classes, [])
 
