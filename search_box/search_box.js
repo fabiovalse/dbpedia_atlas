@@ -14,11 +14,12 @@ var get_entity_from_string = function(string) {
 d3.select("#search_button")
 	.on("click", function() {
 		get_entity_from_string(d3.select("#search_textbox").node().value)
-	});
-
-}).call(this);
+});
 
 d3.select("#search_textbox")
-	.on("keydown", function(e) {
-		console.log(e);
-	});
+.on("keydown", function() {
+	if (d3.event.keyCode == 13)
+		get_entity_from_string(d3.select("#search_textbox").node().value)	
+});
+
+}).call(this);

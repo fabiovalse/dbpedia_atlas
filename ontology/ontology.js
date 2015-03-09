@@ -70,7 +70,8 @@ ontology._get_ordered_classes = function(node, classes, ordered_classes) {
         if (c.value.replace("http://dbpedia.org/ontology/", "") != node.name)
             return true;
         else {
-            ordered_classes.unshift(c);
+            //ordered_classes.unshift(c);
+            ordered_classes.push(c);
             return false;
         }
     });

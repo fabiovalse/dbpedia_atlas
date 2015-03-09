@@ -32,6 +32,10 @@ section {
 	text-align: right;
 }
 
+.msc {
+	text-decoration: underline;
+}
+
 a {
 	color: black;
 }

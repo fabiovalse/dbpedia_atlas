@@ -37,16 +37,13 @@ selection_box.update = function(selection) {
 	var rdf_types = box.select('header').append('div')
 		.attr('id', 'rdf_types')
 		.selectAll('rdf_type')
-		.data(ontology.get_msc(ontology.tree, filtered_types));
-
-	console.log(ontology.get_ordered_classes(ontology.tree, filtered_types, []));
+		.data(ontology.get_ordered_classes(ontology.tree, filtered_types, []));
 
 	rdf_types.enter().append('span')
-		.attr('class', 'rdf_type')
+		.attr('class', function(d, i) {return (i < filtered_types.length-1) ? 'rdf_type' : 'rdf_type msc'})
 		.attr('title', function(d) {return d.value;})
 		.html(function(d, i) {
-			//return (i < filtered_types.length-1) ? format_uri(d.value) + " - " : format_uri(d.value);
-			return format_uri(d.value);
+			return (i < filtered_types.length-1) ? format_uri(d.value) + "/" : format_uri(d.value);
 		});
 
 	var section = box.select('section');

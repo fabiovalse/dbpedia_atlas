@@ -26,7 +26,7 @@ var format_uri = function(key) {
 	}
 
 	for (i in key) {
-		if (!flag && key.charAt(i) === key.charAt(i).toUpperCase() && key.charAt(i) !== key.charAt(i).toLowerCase()) {
+		if (!flag && key.charAt(i) === key.charAt(i).toUpperCase() && key.charAt(i) !== key.charAt(i).toLowerCase() && i != 0) {
 			newKey += " ";
 			newKey += key.charAt(i);
 			flag = true;
