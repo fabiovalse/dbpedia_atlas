@@ -32,18 +32,16 @@ selection_box.update = function(selection) {
 			.attr('src', 'img/wikipedia_logo.png')
 			.attr();
 
-	var filtered_types = selection["types"].filter(function(d) {return (d.value.indexOf("http://dbpedia.org/ontology/") == 0 && d.value.indexOf("http://dbpedia.org/ontology/Wikidata:") == -1);});
-
 	var rdf_types = box.select('header').append('div')
 		.attr('id', 'rdf_types')
 		.selectAll('rdf_type')
-		.data(ontology.get_ordered_classes(ontology.tree, filtered_types, []));
+		.data(selection.path);
 
 	rdf_types.enter().append('span')
-		.attr('class', function(d, i) {return (i < filtered_types.length-1) ? 'rdf_type' : 'rdf_type msc'})
-		.attr('title', function(d) {return d.value;})
+		.attr('class', function(d, i) {return (i < selection.path.length-1) ? 'rdf_type' : 'rdf_type msc'})
+		.attr('title', function(d) {return d;})
 		.html(function(d, i) {
-			return (i < filtered_types.length-1) ? format_uri(d.value) + "/" : format_uri(d.value);
+			return (i < selection.path.length-1) ? format_uri(d) + "/" : format_uri(d);
 		});
 
 	var section = box.select('section');

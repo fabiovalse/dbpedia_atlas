@@ -33,6 +33,7 @@ ontology.init = function(data) {
         
         if(n.hasOwnProperty('children'))
             n.children.forEach(function(c){
+                c.parent = n;
                 _parse_tree(c, depth+1);
             });
             
@@ -43,52 +44,36 @@ ontology.init = function(data) {
     _parse_tree(ontology.tree, 0);
 }
 
-// Returns the most specific class
-ontology.get_msc = function(node, classes) {
-    if (classes.length > 1) 
-        classes = classes.filter(function(c) {return c.value.replace("http://dbpedia.org/ontology/", "") != node.name;});
-    else
-        return classes;
+// Returns the correct path (sequence of classes ordered according to the ontology hierarchy) given a set of classes
+ontology.get_path = function(classes) {
+    classes = classes.map(function(c) { return c.value.replace("http://dbpedia.org/ontology/", ""); });
     
-    if(node.hasOwnProperty('children'))
-        node.children.forEach(function(child) {
-            classes = ontology.get_msc(child, classes);
-        });
-
-    return classes;
-}
-
-// Returns a sequence of classes ordered according to the ontology hierarchy
-ontology.get_ordered_classes = function(node, classes) {
-    res = ontology._get_ordered_classes(node, classes, [])
-
-    return res[1];
-}
-
-ontology._get_ordered_classes = function(node, classes, ordered_classes) {
-    classes = classes.filter(function(c) {
-        if (c.value.replace("http://dbpedia.org/ontology/", "") != node.name)
-            return true;
-        else {
-            //ordered_classes.unshift(c);
-            ordered_classes.push(c);
-            return false;
-        }
+    path = [];
+    classes.forEach(function(c){
+        var new_path = ontology.get_path_from_class(c);
+        if(new_path.length > path.length) // WARNING this works only because there are no entities with incompatible types (classes from different branches)
+            path = new_path;
     });
-    
-    if(node.hasOwnProperty('children'))
-        node.children.forEach(function(child) {
-            res = ontology._get_ordered_classes(child, classes, ordered_classes);
-            classes = res[0];
-            ordered_classes = res[1];
-        });
-
-    return [classes, ordered_classes];
+    return path;
 }
 
 // Returns the tree node corresponding to the given class
 ontology.get_node_from_class = function(klass) {
     return _index[klass];
+}
+
+// Returns the path corresponding to the given class
+ontology.get_path_from_class = function(klass) {
+    var node = ontology.get_node_from_class(klass);
+    return ontology.get_path_from_node(node);
+}
+
+// Returns the path corresponding to the given node
+ontology.get_path_from_node = function(n) {
+    if(!(n.hasOwnProperty('parent')))
+        return [n.name];
+    
+    return ontology.get_path_from_node(n.parent).concat([n.name])
 }
 
 }).call(this);

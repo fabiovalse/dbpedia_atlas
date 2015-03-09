@@ -1,4 +1,4 @@
-map.preprocess = (data) ->
+_preprocess = (data) ->
     features = topojson.feature(data, data.objects.leaf_regions).features
     geometries = data.objects.leaf_regions.geometries
     
@@ -25,6 +25,10 @@ map.preprocess = (data) ->
         
     _merge(ontology.tree, 0)
     
+    ### compute all region centroids ###
+    ontology.nodes.forEach (n) ->
+        [n.x, n.y] = path_generator.centroid n.merged_region
+        
     ### compute all region areas ###
     ontology.nodes.forEach (n) ->
         n.area = path_generator.area n.merged_region
@@ -72,3 +76,55 @@ map.preprocess = (data) ->
     ontology.levels[1].forEach (n) ->
         n.readable_label = _readable_labels[n.name]
         
+_preprocess_selection = (selection) ->
+    ### compute cartesian coordinates ###
+    [selection.x, selection.y] = _ij_to_xy(selection.i, selection.j)
+    
+    ### compute selection parent ###
+    selection.parent = ontology.get_node_from_class(selection.path[selection.path.length-1])
+    
+    ### extract relational links ###
+    ### FIXME links to self are currently ignored ###
+    selection.relations = []
+    
+    ### outgoing links ###
+    selection.object_properties.outgoing.forEach (t) ->
+        if 'i' of t and 'j' of t
+            [ox, oy] = _ij_to_xy(t.i.value, t.j.value)
+            path = ontology.get_path(t.c)
+            
+            selection.relations.push {
+                source: selection,
+                predicate: t.p.value,
+                target: {
+                    uri: t.o.value,
+                    i: t.i.value,
+                    j: t.j.value,
+                    x: ox,
+                    y: oy,
+                    parent: ontology.get_node_from_class(path[path.length-1])
+                }
+            }
+        else
+            console.error('Link to out-of-map entity: ' + t.o.value)
+        
+    ### incoming links ###
+    selection.object_properties.incoming.forEach (t) ->
+        if 'i' of t and 'j' of t
+            [sx, sy] = _ij_to_xy(t.i.value, t.j.value)
+            path = ontology.get_path(t.c)
+            
+            selection.relations.push {
+                source: {
+                    uri: t.s.value,
+                    i: t.i.value,
+                    j: t.j.value,
+                    x: sx,
+                    y: sy,
+                    parent: ontology.get_node_from_class(path[path.length-1])
+                },
+                predicate: t.p.value,
+                target: selection
+            }
+        else
+            console.error('Link from out-of-map entity: ' + t.s.value)

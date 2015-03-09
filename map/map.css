@@ -147,7 +147,7 @@ svg {
 
 .relation {
   vector-effect: non-scaling-stroke;
-  stroke: red;
+  stroke: rgba(255,0,0,0.4);
   stroke-width: 1px;
   fill: none;
   pointer-events: none;

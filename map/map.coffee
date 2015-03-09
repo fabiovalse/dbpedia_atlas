@@ -149,7 +149,7 @@ path_generator = d3.geo.path()
     })
     
 map.load = (data) ->
-    map.preprocess(data)
+    _preprocess(data)
     _init_modes()
     
     ### fill the sea ###
@@ -461,42 +461,32 @@ map.load = (data) ->
     _update_lod(1)
     
 map.update_selection = (selection) ->
+    _preprocess_selection(selection)
     _move_cursor(selection.i, selection.j)
     
-    ### show relational links ###
-    relations_data = []
+    ### hierarchical bundling ###
+    bundle = d3.layout.bundle()
+    bundles = bundle(selection.relations)
     
-    ### outgoing links ###
-    selection.object_properties.outgoing.forEach (t) ->
-        if 'i' of t and 'j' of t
-            relations_data.push {'s': selection, 'p': t.p.value, 'o': {uri: t.o.value, i: t.i.value, j: t.j.value}}
-        else
-            console.error('Link to out-of-map entity: ' + t.o.value)
+    relation_line_generator = d3.svg.line()
+        .interpolate('bundle')
+        .tension(0.5)
+        .x((d) -> d.x)
+        .y((d) -> d.y)
         
-    ### incoming links ###
-    selection.object_properties.incoming.forEach (t) ->
-        if 'i' of t and 'j' of t
-            relations_data.push {'s': {uri: t.s.value, i: t.i.value, j: t.j.value}, 'p': t.p.value, 'o': selection}
-        else
-            console.error('Link from out-of-map entity: ' + t.s.value)
-        
-    ### FIXME links to self are currently ignored ###
+    
+    ### clear all relations and draw them again ###
+    relations_layer.selectAll('*').remove()
     
     relations = relations_layer.selectAll('.relation')
-        .data(relations_data, (r) -> "#{r.s.uri}>>>#{r.p}>>>#{r.o.uri}")
+        .data(bundles)
       
     relations.enter().append('path')
         .attr
             class: 'relation'
-            d: (r) ->
-                [sx, sy] = _ij_to_xy(r.s.i, r.s.j)
-                [ox, oy] = _ij_to_xy(r.o.i, r.o.j)
-                return "M#{sx} #{sy} L#{ox} #{oy}"
-                #return "M#{sx} #{sy} C#{sx} #{sy-12} #{ox} #{oy-12} #{ox} #{oy}"
-                
-    relations.exit()
-        .remove()
-        
+            d: relation_line_generator
+            
+            
 _ij_to_xy = (i, j) ->
     return [j*(cos30*CELL_RADIUS*2)+(if i % 2 is 0 then 0 else cos30*CELL_RADIUS), i*3/2*CELL_RADIUS]
     

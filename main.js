@@ -24,13 +24,17 @@ function on_new_selection(json) {
     try {
         json.i = parseInt(json.data_properties['http://wafi.iit.cnr.it/lod/ns/atlas#i'][0].value);
         json.j = parseInt(json.data_properties['http://wafi.iit.cnr.it/lod/ns/atlas#j'][0].value);
-
+        
         selection = json;
     } catch(e) {
         console.error("Entity out of map: " + json.uri);
     }
     
     if (selection != null) {
+        // preprocess selection
+        var filtered_types = selection.types.filter(function(d) {return (d.value.indexOf("http://dbpedia.org/ontology/") == 0 && d.value.indexOf("http://dbpedia.org/ontology/Wikidata:") == -1);});
+        selection.path = ontology.get_path(filtered_types);
+        
         selection_box.update(selection);
         map.update_selection(selection);
     }
