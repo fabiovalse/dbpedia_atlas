@@ -1,9 +1,9 @@
-_preprocess = (data) ->
-    features = topojson.feature(data, data.objects.leaf_regions).features
+_preprocess = (data, stats_data) ->
+    map.leaf_regions = topojson.feature(data, data.objects.leaf_regions).features
     geometries = data.objects.leaf_regions.geometries
     
     ### parse paths into arrays, and extract the class of each leaf region ###
-    features.forEach (f) ->
+    map.leaf_regions.forEach (f) ->
         f.properties.path = JSON.parse(f.properties.path)
         f.properties.class = f.properties.path[f.properties.path.length-1]
         
@@ -11,7 +11,7 @@ _preprocess = (data) ->
     topojson.presimplify(data)
     
     ### store all leaf_regions into the ontology tree, and store each node within the feature's properties ###
-    features.forEach (f) ->
+    map.leaf_regions.forEach (f) ->
         n = ontology.get_node_from_class(f.properties.class)
         n.leaf_region = f
         f.properties.node = n
@@ -32,6 +32,22 @@ _preprocess = (data) ->
     ### compute all region areas ###
     ontology.nodes.forEach (n) ->
         n.area = path_generator.area n.merged_region
+        
+    ### create a stats index ###
+    _stats = {}
+    stats_data.forEach (s) -> _stats[s.class] = s
+    
+    ### add stats to each leaf region ###
+    map.leaf_regions.forEach (f) ->
+        f.properties.node.stats = _stats[f.properties.node.name]
+        
+        console.error "Class not found in statistics data: #{f.properties.node.name}" if not f.properties.node.stats?
+        
+    ### compute additional stats ###
+    map.leaf_regions.forEach (f) ->
+        f.properties.node.stats.triple_density = f.properties.node.stats.triple_count / f.properties.node.leaf_count
+        f.properties.node.stats.obj_props_density = f.properties.node.stats.obj_props_count / f.properties.node.leaf_count
+        f.properties.node.stats.data_props_density = f.properties.node.stats.data_props_count / f.properties.node.leaf_count
         
     ### define readable, plural, multiline labels for level one regions ###
     _readable_labels =

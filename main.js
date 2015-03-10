@@ -7,16 +7,26 @@ search_box.init('#search_box');
 result_box.init('#result_box');
 selection_box.init('#selection_box');
 
+function import_leaf_regions_statistics(d) {
+    return {
+        class: d.class,
+        triple_count: +d.triple_count,
+        obj_props_count: +d.obj_props_count,
+        data_props_count: +d.data_props_count
+    };
+}
+
 // load the ontology hierarchy and the TopoJSON map
 queue()
-    .defer(d3.json, 'ontology/ontology_canonical.json')
-    .defer(d3.json, 'map/leaf_regions.topo.json')
-    .await(function(error, ontology_data, topojson_data){
+    .defer(d3.json, 'data/ontology_canonical.json')
+    .defer(d3.json, 'data/leaf_regions.topo.json')
+    .defer(d3.csv, 'data/leaf_regions_statistics.csv', import_leaf_regions_statistics)
+    .await(function(error, ontology_data, topojson_data, stats_data){
         if(error)
             throw error;
         
         ontology.init(ontology_data);
-        map.load(topojson_data);
+        map.load(topojson_data, stats_data);
     });
 
 function on_new_selection(json) {

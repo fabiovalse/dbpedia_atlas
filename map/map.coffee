@@ -148,8 +148,8 @@ path_generator = d3.geo.path()
                 this.stream.point(x * dx / 2, -(y - (2 - (y & 1)) / 3) * dy / 2)
     })
     
-map.load = (data) ->
-    _preprocess(data)
+map.load = (data, stats_data) ->
+    _preprocess(data, stats_data)
     _init_modes()
     
     ### fill the sea ###
