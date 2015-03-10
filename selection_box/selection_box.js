@@ -137,7 +137,7 @@ selection_box.update = function(selection) {
 				html += "<tr><td class='object_uri right_text' title='" + s["value"] + "' onclick='trigger(selection_box.node, \"select\", {uri: \"" + s["value"] + "\"})'>" + format_uri(s["value"]) + "</td>";
 
 				if (i == 0)
-					html += "<td class='predicate right_text' title='" + d["p"]["value"] +  "' rowspan='" + d["s"].length + "'>&nbsp;&#8592; " + format_uri(d["p"]["value"]) + "</td>";
+					html += "<td class='predicate right_text' title='" + d["p"]["value"] +  "' rowspan='" + d["s"].length + "'> &#8592;&nbsp;" + format_uri(d["p"]["value"]) + "</td>";
 				
 				html += "</tr>";
 			});

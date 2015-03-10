@@ -1,5 +1,6 @@
 <?php
 	header('content-type: application/json; charset=utf-8');
+	set_time_limit(0);
 
 	include "jena.php";
 

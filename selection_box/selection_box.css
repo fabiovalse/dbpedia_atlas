@@ -7,7 +7,7 @@ header {
 }
 
 section {
-	padding: 12px;
+	padding: 0px 12px 12px 12px;
 }
 
 .data_property {
@@ -16,11 +16,16 @@ section {
 }
 
 .data_box {
-	margin-bottom: 15px;
+	padding-bottom: 7.5px;
+	margin-bottom: 7.5px;
+	border-bottom: 1px dotted #808080;
 }
 
 .predicate {
-	font-weight: bold;
+	font-family: serif;
+	font-style: italic;
+	font-size: 16px;
+	color: #606060;
 }
 
 .object_uri:hover {
@@ -33,7 +38,8 @@ section {
 }
 
 .msc {
-	text-decoration: underline;
+	color: #404040;
+	font-weight: bold;
 }
 
 a {
@@ -53,6 +59,11 @@ a:hover {
 }
 
 #rdf_types {
-	color: #606060;
-	font-size: 15px;
+	color: #808080;
+	font-size: 16.5px;
+	font-weight: normal;
+	font-style: italic;
+	font-family: serif;
+	border-bottom: 1px solid;
+  	padding-bottom: 5px;
 }
