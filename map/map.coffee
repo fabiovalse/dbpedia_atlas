@@ -382,10 +382,6 @@ map.load = (data, stats_data) ->
         .data(cities_data)
         
     enter_cities = cities.enter().append('g')
-        .on 'mouseenter', () ->
-            d3.select(this).classed('focus', true)
-        .on 'mouseleave', () ->
-            d3.select(this).classed('focus', false)
         .on 'click', (c) ->
             ### trigger the selection of the city ###
             trigger map.node, 'select', {uri: c.uri}
@@ -470,13 +466,18 @@ map.update_selection = (selection) ->
     relations = relations_layer.selectAll('.relation')
         .data(selection.relations)
         
-    relations.enter().append('path')
+    enter_relations = relations.enter().append('path')
         .attr
             class: 'relation_end hex_cell'
             d: _hex_path
             transform: (r) -> "translate(#{r.end.x},#{r.end.y})"
+        .on 'click', (r) ->
+            ### trigger the selection of the relation end ###
+            trigger map.node, 'select', {uri: r.end.uri}
             
-            
+    enter_relations.append('title')
+        .text((r) -> r.end.uri.replace('http://dbpedia.org/resource/','').replace(/_/g,' '))
+        
 _ij_to_xy = (i, j) ->
     return [j*(cos30*CELL_RADIUS*2)+(if i % 2 is 0 then 0 else cos30*CELL_RADIUS), i*3/2*CELL_RADIUS]
     

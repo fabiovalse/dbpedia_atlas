@@ -147,6 +147,12 @@ svg {
 
 .relation_end {
   stroke: rgb(231, 26, 65);
+  fill: rgb(231, 26, 65);
   cursor: pointer;
   stroke-width: 4px;
+}
+.relation_end:hover {
+  stroke: red;
+  fill: red;
+  stroke-width: 5px;
 }

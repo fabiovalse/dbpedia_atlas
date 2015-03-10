@@ -412,11 +412,7 @@
       }
     ];
     cities = cities_layer.selectAll('.city').data(cities_data);
-    enter_cities = cities.enter().append('g').on('mouseenter', function() {
-      return d3.select(this).classed('focus', true);
-    }).on('mouseleave', function() {
-      return d3.select(this).classed('focus', false);
-    }).on('click', function(c) {
+    enter_cities = cities.enter().append('g').on('click', function(c) {
       /* trigger the selection of the city
       */
       return trigger(map.node, 'select', {
@@ -499,7 +495,7 @@
   };
 
   map.update_selection = function(selection) {
-    var relations;
+    var enter_relations, relations;
     _preprocess_selection(selection);
     _move_cursor(selection.i, selection.j);
     /* clear all relations and draw them again
@@ -507,12 +503,21 @@
 
     relations_layer.selectAll('*').remove();
     relations = relations_layer.selectAll('.relation').data(selection.relations);
-    return relations.enter().append('path').attr({
+    enter_relations = relations.enter().append('path').attr({
       "class": 'relation_end hex_cell',
       d: _hex_path,
       transform: function(r) {
         return "translate(" + r.end.x + "," + r.end.y + ")";
       }
+    }).on('click', function(r) {
+      /* trigger the selection of the relation end
+      */
+      return trigger(map.node, 'select', {
+        uri: r.end.uri
+      });
+    });
+    return enter_relations.append('title').text(function(r) {
+      return r.end.uri.replace('http://dbpedia.org/resource/', '').replace(/_/g, ' ');
     });
   };
 
