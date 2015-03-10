@@ -145,10 +145,8 @@ svg {
   -webkit-animation-iteration-count: infinite;
 }
 
-.relation {
-  vector-effect: non-scaling-stroke;
-  stroke: rgba(255,0,0,0.4);
-  stroke-width: 1px;
-  fill: none;
-  pointer-events: none;
+.relation_end {
+  stroke: rgb(231, 26, 65);
+  cursor: pointer;
+  stroke-width: 4px;
 }

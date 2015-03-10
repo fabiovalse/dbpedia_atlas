@@ -464,27 +464,17 @@ map.update_selection = (selection) ->
     _preprocess_selection(selection)
     _move_cursor(selection.i, selection.j)
     
-    ### hierarchical bundling ###
-    bundle = d3.layout.bundle()
-    bundles = bundle(selection.relations)
-    
-    relation_line_generator = d3.svg.line()
-        .interpolate('bundle')
-        .tension(0.5)
-        .x((d) -> d.x)
-        .y((d) -> d.y)
-        
-    
     ### clear all relations and draw them again ###
     relations_layer.selectAll('*').remove()
     
     relations = relations_layer.selectAll('.relation')
-        .data(bundles)
-      
+        .data(selection.relations)
+        
     relations.enter().append('path')
         .attr
-            class: 'relation'
-            d: relation_line_generator
+            class: 'relation_end hex_cell'
+            d: _hex_path
+            transform: (r) -> "translate(#{r.end.x},#{r.end.y})"
             
             
 _ij_to_xy = (i, j) ->
