@@ -1,7 +1,8 @@
 #search_textbox {
-	height: 26px;
+	height: 34px;
 	width: 250px;
-	font-size: 15px;
+	margin-top: -1px;
+	font-size: 16px;
 }
 
 #search_button {
