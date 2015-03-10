@@ -499,27 +499,20 @@
   };
 
   map.update_selection = function(selection) {
-    var bundle, bundles, relation_line_generator, relations;
+    var relations;
     _preprocess_selection(selection);
     _move_cursor(selection.i, selection.j);
-    /* hierarchical bundling
-    */
-
-    bundle = d3.layout.bundle();
-    bundles = bundle(selection.relations);
-    relation_line_generator = d3.svg.line().interpolate('bundle').tension(0.5).x(function(d) {
-      return d.x;
-    }).y(function(d) {
-      return d.y;
-    });
     /* clear all relations and draw them again
     */
 
     relations_layer.selectAll('*').remove();
-    relations = relations_layer.selectAll('.relation').data(bundles);
+    relations = relations_layer.selectAll('.relation').data(selection.relations);
     return relations.enter().append('path').attr({
-      "class": 'relation',
-      d: relation_line_generator
+      "class": 'relation_end hex_cell',
+      d: _hex_path,
+      transform: function(r) {
+        return "translate(" + r.end.x + "," + r.end.y + ")";
+      }
     });
   };
 
@@ -765,7 +758,7 @@
     /* incoming links
     */
 
-    return selection.object_properties.incoming.forEach(function(t) {
+    selection.object_properties.incoming.forEach(function(t) {
       var path, sx, sy, _ref1;
       if ('i' in t && 'j' in t) {
         _ref1 = _ij_to_xy(t.i.value, t.j.value), sx = _ref1[0], sy = _ref1[1];
@@ -784,6 +777,18 @@
         });
       } else {
         return console.error('Link from out-of-map entity: ' + t.s.value);
+      }
+    });
+    /* pointers relative to current selection
+    */
+
+    return selection.relations.forEach(function(r) {
+      if (r.source === selection) {
+        r.start = r.source;
+        return r.end = r.target;
+      } else {
+        r.start = r.target;
+        return r.end = r.source;
       }
     });
   };

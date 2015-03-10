@@ -144,3 +144,13 @@ _preprocess_selection = (selection) ->
             }
         else
             console.error('Link from out-of-map entity: ' + t.s.value)
+            
+    ### pointers relative to current selection ###
+    selection.relations.forEach (r) ->
+        if r.source is selection
+            r.start = r.source
+            r.end = r.target
+        else
+            r.start = r.target
+            r.end = r.source
+            
