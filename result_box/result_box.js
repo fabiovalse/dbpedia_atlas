@@ -5,28 +5,43 @@ result_box.init = function(dom_selector) {
     box = d3.select(dom_selector);
 
     result_box.node = box;
+    result_box.results = [];
 }
 
-result_box.update = function(selection) {
+result_box.update = function(data) {
+    result_box.results = data;
+    
 	result_box.node.html("");
-	result_box.node.style("display", "inline");
+	result_box.show();
 
-	var results = result_box.node.selectAll('.entity_result')
-		.data(selection);
+	results = result_box.node.selectAll('.entity_result')
+		.data(data);
 
 	results.enter().append('div')
 		.attr('class', function(d) {return (d.in_jena) ? 'entity_result' : 'entity_result disabled';})
 		.attr('id', function(d) {return d.uri;})
-		.attr('title', function(d) {return (d.in_jena) ? d.uri : d.uri + ' currently out of map.';})
+		.attr('title', function(d) {return (d.in_jena) ? 'Click to go to "' + format_uri(d.uri) + '".' : 'Entity "' + format_uri(d.uri) + '" is currently out of map.';})
 		.text(function(d) {return format_uri(d.uri);})
 		.on('click', function(d) {
 			if (d.in_jena) {
 				trigger(result_box.node, 'select', {uri: this.id});
 
-				result_box.node.style("display", "none");
+				result_box.hide();
 				d3.select('#search_textbox').text("");
 			}
 		});
+}
+
+result_box.hide = function() {
+    result_box.node.style('display', 'none');
+}
+result_box.show = function() {
+    if(result_box.results.length > 0) {
+        result_box.node.style('display', 'inline');
+    }
+    else {
+        result_box.node.style('display', 'none');
+    }
 }
 
 }).call(this);
