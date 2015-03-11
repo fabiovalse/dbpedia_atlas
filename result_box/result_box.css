@@ -1,16 +1,17 @@
 .entity_result {
-	padding: 5px 5px 5px 15px;
-	border-bottom: 1px solid #f6f6f6;
-	cursor: pointer;
+    padding: 10px 15px 10px 15px;
+    color: #444;
+    font-family: sans-serif;
+    font-size: 14px;
 }
-
-.entity_result:hover {
-	color: #606060;
+.entity_result:not(.disabled) {
+    cursor: pointer;
+}
+.entity_result:not(.disabled):hover {
+    color: black;
+    background: white;
 }
 
 .disabled {
-	color: #aaa;
-}
-.disabled:hover {
-	color: #aaa;
+    color: #AAA;
 }

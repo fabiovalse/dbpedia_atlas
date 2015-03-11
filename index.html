@@ -8,13 +8,17 @@
         <link type="text/css" href="search_box/search_box.css" rel="stylesheet"/>
         <link type="text/css" href="result_box/result_box.css" rel="stylesheet"/>
         <link type="text/css" href="selection_box/selection_box.css" rel="stylesheet"/>
+        
+        <!-- FontAwesome -->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        
         <script src="http://d3js.org/d3.v3.min.js"></script>
         <script src="http://d3js.org/queue.v1.min.js"></script>
         <script src="http://d3js.org/topojson.v1.min.js"></script>
     </head>
     <body>
         <svg id="map"></svg>
-        <div id="search_box"><input id="search_textbox" type="text"><div id="search_button">GO!</div></div>
+        <div id="search_box"><input id="search_textbox" type="text"></input><button id="search_button">&#xF002;</button></div>
         <div id="result_box"></div>
         <div id="selection_box_container"><div id="selection_box"><header></header><section></section></div></div>
         

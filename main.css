@@ -14,6 +14,8 @@ html, body {
 
 #search_box, #result_box, #selection_box {
     background: rgba(255,255,255,0.8);
+    border-radius: 3px;
+    border-bottom: 2px solid rgb(153, 153, 153);
 }
 
 #search_box, #result_box, #selection_box_container {
@@ -24,15 +26,19 @@ html, body {
     top: 20px;
     left: 20px;
     height: 32px;
+}
+#search_textbox {
     width: 300px;
 }
 #result_box {
-    top: 52px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    top: 49px;
     left: 20px;
     width: 300px;
-    height: 150px;
     display: none;
     overflow: auto;
+    z-index: 1000;
 }
 #selection_box_container {
     top: 0;
