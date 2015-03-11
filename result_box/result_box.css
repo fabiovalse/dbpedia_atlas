@@ -5,5 +5,12 @@
 }
 
 .entity_result:hover {
-	color: #404040;
+	color: #606060;
+}
+
+.disabled {
+	color: #aaa;
+}
+.disabled:hover {
+	color: #aaa;
 }
