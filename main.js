@@ -73,7 +73,8 @@ main.on('select', function() {
 // search event
 main.on('search', function() {
     if (d3.event.extra.string.length > 0) {
-        d3.json("api/get_entities_from_string.php?string=" + d3.event.extra.string, function(error, json) {
+        //d3.json("api/get_entities_from_string.php?string=" + d3.event.extra.string, function(error, json) {
+        d3.json("api/lookup.php?text=" + d3.event.extra.string, function(error, json) {
             if (error) return console.warn(error);
             
             result_box.update(json);
