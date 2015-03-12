@@ -30,14 +30,3 @@
 #selection_box header {
     display: inline;
 }
-#selection_box svg {
-    position: relative;
-    top: 5px;
-    margin-right: 1px;
-    left: -3px;
-}
-#selection_box .hex {
-    fill: #CCC;
-    stroke: #333;
-    stroke-width: 1.5px;
-}

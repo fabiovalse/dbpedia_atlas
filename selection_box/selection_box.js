@@ -6,28 +6,12 @@ var header;
 var dbpedia_link;
 var wikipedia_link;
 var path;
-var hex_tooltip;
 
 selection_box.init = function(dom_selector) {
     box = d3.select(dom_selector);
 
     selection_box.node = box;
     
-    var RADIUS = 14;
-    var sin30 = Math.sin(Math.PI/6);
-    var cos30 = Math.cos(Math.PI/6);
-    var hex_svg = box.append('svg')
-        .attr('width', '32px')
-        .attr('height', '32px')
-        .attr('viewBox', '-16 -16 32 32');
-        
-    var hex = hex_svg.append('path')
-        .attr('class', 'hex')
-        .attr('d', 'M0,'+RADIUS+' L'+(cos30*RADIUS)+','+(sin30*RADIUS)+' L'+(cos30*RADIUS)+','+(-sin30*RADIUS)+' L0,'+(-RADIUS)+' L'+(-cos30*RADIUS)+','+(-sin30*RADIUS)+' L'+(-cos30*RADIUS)+','+(sin30*RADIUS)+' Z');
-        
-    hex_tooltip = hex.append('title')
-        .text('Instance');
-        
     wikipedia_link = box.append('a')
         .attr('target', '_blank');
         

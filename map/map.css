@@ -121,28 +121,20 @@
 
 
 /* overlays */
-
-@keyframes cursor_pulse {
-  from { stroke: yellow; }
-  50% { stroke: brown; }
-  to { stroke: yellow; }
-}
-@-webkit-keyframes cursor_pulse {
-  from { stroke: yellow; }
-  50% { stroke: brown; }
-  to { stroke: yellow; }
-}
-
 .cursor {
+    pointer-events: none;
+}
+.cursor .hex_cell {
   fill: none;
-  pointer-events: none;
-  
-  animation-name: cursor_pulse;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  -webkit-animation-name: cursor_pulse;
-  -webkit-animation-duration: 2s;
-  -webkit-animation-iteration-count: infinite;
+  stroke: black;
+  stroke-width: 2px;
+}
+.cursor .placemark_symbol {
+  fill: yellow;
+  stroke: black;
+}
+.cursor .placemark_dot {
+  fill: black;
 }
 
 .relation_end {

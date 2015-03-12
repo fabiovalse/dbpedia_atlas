@@ -101,6 +101,10 @@ map.init = (dom_node) ->
                 .attr
                     transform: "scale(#{1/d3.event.scale}) rotate(60)"
                 
+            cursor.select('.placemark')
+                .attr
+                    transform: "scale(#{1/d3.event.scale}) scale(0.2) rotate(60)"
+                    
             ### LOD ###
             _update_lod(d3.event.scale)
             
@@ -116,12 +120,32 @@ map.init = (dom_node) ->
     region_labels_layer = map_layer.append('g')
     
     ### cursor ###
-    cursor = vis.append('path')
+    cursor = vis.append('g')
         .attr
-            class: 'cursor hex_cell'
-            d: (r) -> _hex_path
+            class: 'cursor'
         .style
             display: 'none'
+            
+    cursor.append('path')
+        .attr
+            class: 'hex_cell'
+            d: _hex_path
+            
+    placemark = cursor.append('g')
+        .attr
+            class: 'placemark'
+            transform: 'scale(0.2) rotate(60)'
+            
+    placemark.append('path')
+        .attr
+            class: 'placemark_symbol'
+            d: 'm 0,-16 c -3.1862583,0 -5.7692313,2.583 -5.7692313,5.7692 0,1.3042 0.424081,2.4953 1.153846,3.4616 L 0,0 l 4.615385,-6.7692 c 0.729765,-0.9663 1.153846,-2.1574 1.153846,-3.4616 0,-3.1862 -2.582973,-5.7692 -5.769231,-5.7692 z'
+            
+    placemark.append('circle')
+        .attr
+            class: 'placemark_dot'
+            cy: -10
+            r: 2.1
             
     land_layer.on 'click', () ->
         # disable cursor movement when panning
