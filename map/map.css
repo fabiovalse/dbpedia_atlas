@@ -13,7 +13,7 @@
 }
 
 /* prevent text selection highlighting */
-svg {
+#map {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -24,7 +24,7 @@ svg {
 
 /* cartography */
 
-svg {
+#map {
     background: #C8B9BD;
 }
 

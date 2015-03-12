@@ -2,164 +2,93 @@
 window.selection_box = {};
 
 var box;
+var header;
+var dbpedia_link;
+var wikipedia_link;
+var path;
+var hex_tooltip;
 
 selection_box.init = function(dom_selector) {
     box = d3.select(dom_selector);
 
     selection_box.node = box;
+    
+    var RADIUS = 14;
+    var sin30 = Math.sin(Math.PI/6);
+    var cos30 = Math.cos(Math.PI/6);
+    var hex_svg = box.append('svg')
+        .attr('width', '32px')
+        .attr('height', '32px')
+        .attr('viewBox', '-16 -16 32 32');
+        
+    var hex = hex_svg.append('path')
+        .attr('class', 'hex')
+        .attr('d', 'M0,'+RADIUS+' L'+(cos30*RADIUS)+','+(sin30*RADIUS)+' L'+(cos30*RADIUS)+','+(-sin30*RADIUS)+' L0,'+(-RADIUS)+' L'+(-cos30*RADIUS)+','+(-sin30*RADIUS)+' L'+(-cos30*RADIUS)+','+(sin30*RADIUS)+' Z');
+        
+    hex_tooltip = hex.append('title')
+        .text('Instance');
+        
+    wikipedia_link = box.append('a')
+        .attr('target', '_blank');
+        
+    wikipedia_link
+        .append('img')
+            .attr('class', 'external_link')
+            .attr('src', 'img/wikipedia_logo.png')
+            .attr();
+            
+    dbpedia_link = box.append('a')
+        .attr('target', '_blank');
+        
+    dbpedia_link
+        .append('img')
+            .attr('class', 'external_link')
+            .attr('src', 'img/dbpedia_logo.png');
+            
+    header = box.append('header');
+    
+    path = box.append('div')
+        .attr('class', 'path');
+        
+    
+    selection_box.hide();
 }
 
 selection_box.update = function(selection) {
-	/*	Sets the title, links (DBpedia, Wikipedia) and the most specific type
-	*/
-	box.select('header')
-		.text(decodeURI(selection["uri"].replace("http://dbpedia.org/resource/", "").replace(/_/g, " ")) + " ");
-		
-	box.select('header').append('a')
-		.attr('href', selection["uri"])
-		.attr('target', '_blank')
-		.append('img')
-			.attr('id', 'dbpedia_logo')
-			.attr('src', 'img/dbpedia_logo.png')
-			.attr();
-	box.select('header').append('a')
-		.attr('href', function() {
-			splitted = selection["uri"].split("/");
-			return "http://en.wikipedia.org/wiki/" + splitted[splitted.length-1];
-		}).attr('target', '_blank')
-		.append('img')
-			.attr('id', 'wikipedia_logo')
-			.attr('src', 'img/wikipedia_logo.png')
-			.attr();
+    /*  Sets the title, links (DBpedia, Wikipedia) and the most specific type
+    */
+    header.text(decodeURI(selection.uri.replace("http://dbpedia.org/resource/", "").replace(/_/g, " ")) + " ");
+    
+    dbpedia_link
+        .attr('href', selection.uri)
+        .attr('title', 'Open "'+format_uri(selection.uri)+'" in DBpedia.');
+        
+    wikipedia_link
+        .attr('href', function() {
+            splitted = selection.uri.split('/');
+            return 'http://en.wikipedia.org/wiki/' + splitted[splitted.length-1];
+        })
+        .attr('title', 'Open "'+format_uri(selection.uri)+'" in Wikipedia.');
 
-	var rdf_types = box.select('header').append('div')
-		.attr('id', 'rdf_types')
-		.selectAll('rdf_type')
-		.data(selection.path);
-
-	rdf_types.enter().append('span')
-		.attr('class', function(d, i) {return (i < selection.path.length-1) ? 'rdf_type' : 'rdf_type msc'})
-		.attr('title', function(d) {return d;})
-		.html(function(d, i) {
-			return (i < selection.path.length-1) ? format_uri(d) + "/" : format_uri(d);
-		});
-
-	var section = box.select('section');
-	section.selectAll("*").remove();
-
-	/*	Data properties
-	*/
-	data_properties = Object.keys(selection["data_properties"]).map(function(k){ var o = {}; o[k] = selection["data_properties"][k]; return o;});
-
-	var data_property = section
-		.append('div')
-		.attr('class', 'data_box')
-		.selectAll('.data_property')
-		.data(data_properties.sort(sort_data_prop));
-
-	data_property.enter().append('div')
-		.attr('class', 'data_property')
-		.html(function(d) {
-			for (key in d) {
-				return (d[key][0]["type"] == "uri") ? "<span class='predicate' title='" + key + "'>" + format_uri(key) + "&nbsp;&#8594; </span><span><a href='" + d[key][0]["value"] + "' target='_blank'>" + d[key][0]["value"] + "</a></span>" : "<span class='predicate' title='" + key + "'>" + format_uri(key) + "&nbsp;&#8594; </span><span>" + d[key][0]["value"] + "</span>";
-			}
-		});
-
-	/*	Object properties OUTGOING
-	*/
-	var data = selection["object_properties"]["outgoing"].sort(sort_obj_prop);
-	var data_outgoing = [];
-	var current_p = "";
-
-	data.forEach(function(d) {
-		if (current_p != d["p"]["value"]) {
-			data_outgoing.push({"p": d["p"], "o": [d["o"]]});
-			current_p = d["p"]["value"];
-		}
-		else {
-			data_outgoing.forEach(function(d2) {
-				if (d["p"]["value"] == d2["p"]["value"])
-					d2["o"].push(d["o"]);
-			});
-		}
-	});
-
-	var outgoing = section
-		.append('div')
-		.attr('class', 'data_box')
-		.selectAll('.outgoing')
-		.data(data_outgoing);
-
-	outgoing.enter().append('div')
-		.attr('class', 'outgoing')
-		.html(function(d) {
-			html = "<table><tr><td class='predicate' title='" + d["p"]["value"] +  "' rowspan='" + d["o"].length + "'>" + format_uri(d["p"]["value"]) + "&nbsp;&#8594; </td>";
-			d["o"].forEach(function(o, i) {
-				if (i > 0)
-					html += "<tr>";
-
-				html += "<td class='object_uri' title='" + o["value"] + "' onclick='trigger(selection_box.node, \"select\", {uri: \"" + o["value"] + "\"})'>" + format_uri(o["value"]) + "</td></tr>";
-			});
-			return html + "</table>";
-		});
-
-	/*	Object properties INCOMING
-	*/
-	data = selection["object_properties"]["incoming"].sort(sort_obj_prop);
-	var data_incoming = [];
-	current_p = "";
-
-	data.forEach(function(d) {
-		if (current_p != d["p"]["value"]) {
-			data_incoming.push({"p": d["p"], "s": [d["s"]]});
-			current_p = d["p"]["value"];
-		}
-		else {
-			data_incoming.forEach(function(d2) {
-				if (d["p"]["value"] == d2["p"]["value"])
-					d2["s"].push(d["s"]);
-			});
-		}
-	});
-
-	var incoming = section
-		.append('div')
-		.attr('class', 'data_box')
-		.selectAll('.incoming')
-		.data(data_incoming);
-
-	incoming.enter().append('div')
-		.attr('class', 'incoming')
-		.html(function(d) {
-			html = "<table>";
-
-			d["s"].forEach(function(s, i) {
-				html += "<tr><td class='object_uri right_text' title='" + s["value"] + "' onclick='trigger(selection_box.node, \"select\", {uri: \"" + s["value"] + "\"})'>" + format_uri(s["value"]) + "</td>";
-
-				if (i == 0)
-					html += "<td class='predicate right_text' title='" + d["p"]["value"] +  "' rowspan='" + d["s"].length + "'> &#8592;&nbsp;" + format_uri(d["p"]["value"]) + "</td>";
-				
-				html += "</tr>";
-			});
-
-			return html + "</table>";
-		});
+    path.selectAll('.class').remove();
+    
+    classes = path.selectAll('.class')
+        .data(selection.path);
+        
+    classes.enter().append('span')
+        .attr('class', function(d, i) {return (i < selection.path.length-1) ? 'class' : 'class msc'})
+        //.attr('title', function(d) {return d;}) FIXME provide original URIs
+        .html(function(d, i) {
+            var formatted_uri = format_uri(d).replace('Owl:','');
+            return (i < selection.path.length-1) ? formatted_uri + " > " : formatted_uri;
+        });
 }
 
-var sort_data_prop = function (a, b) {
-	if (Object.keys(a)[0] > Object.keys(b)[0])
-		return 1;
-	if (Object.keys(a)[0] < Object.keys(b)[0])
-    	return -1;
-  	return 0;
+selection_box.hide = function() {
+    selection_box.node.style('display', 'none');
 }
-
-var sort_obj_prop = function (a, b) {
-	if (a["p"]["value"] > b["p"]["value"])
-		return 1;
-	if (a["p"]["value"] < b["p"]["value"])
-    	return -1;
-  	return 0;
+selection_box.show = function() {
+    selection_box.node.style('display', 'inline');
 }
 
 }).call(this);

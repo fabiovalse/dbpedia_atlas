@@ -51,7 +51,7 @@
     opacity: 0.9;
     outline: none;
 }
-#search_button:focus {
+#search_button:focus, #search_button:hover {
     opacity: 1;
 }
 #search_button:active {

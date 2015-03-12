@@ -138,6 +138,8 @@
       d: function(r) {
         return _hex_path;
       }
+    }).style({
+      display: 'none'
     });
     return land_layer.on('click', function() {
       var h;
@@ -530,6 +532,8 @@
     _ref = _ij_to_xy(i, j), x = _ref[0], y = _ref[1];
     return cursor.attr({
       transform: "translate(" + x + ", " + y + ")"
+    }).style({
+      display: 'inline'
     });
   };
 

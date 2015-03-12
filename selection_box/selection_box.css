@@ -1,69 +1,43 @@
-header {
-	font-size: 20px;
-	font-weight: bold;
-	color: black;
-
-	padding: 12px;
+#selection_box {
+    padding: 12px;
+    padding-top: 8px;
 }
 
-section {
-	padding: 0px 12px 12px 12px;
-}
-
-.data_property {
-	width: 100%;
-	text-align: inter-word;
-}
-
-.data_box {
-	padding-bottom: 7.5px;
-	margin-bottom: 7.5px;
-	border-bottom: 1px dotted #808080;
-}
-
-.predicate {
-	font-family: serif;
-	font-style: italic;
-	font-size: 16px;
-	color: #606060;
-}
-
-.object_uri:hover {
-	color: #404040;
-	cursor: pointer;
-}
-
-.right_text {
-	text-align: right;
+#selection_box header {
+    font-size: 31px;
+    font-weight: bold;
+    color: black;
 }
 
 .msc {
-	color: #404040;
-	font-weight: bold;
+    color: #404040;
+    font-weight: bold;
 }
 
-a {
-	color: black;
-}
-a:hover {
-	color: #404040;
-	text-decoration: none;
-}
-
-#dbpedia_logo {
-	width: 30px;
+.path {
+    color: #999;
+    font-size: 12px;
+    font-weight: normal;
+    font-family: sans-serif;
+    padding-top: 5px;
 }
 
-#wikipedia_logo {
-	width: 30px;
+#selection_box .external_link {
+    float: right;
+    width: 22px;
+    margin: 4px;
 }
-
-#rdf_types {
-	color: #808080;
-	font-size: 16.5px;
-	font-weight: normal;
-	font-style: italic;
-	font-family: serif;
-	border-bottom: 1px solid;
-  	padding-bottom: 5px;
+#selection_box header {
+    display: inline;
+}
+#selection_box svg {
+    position: relative;
+    top: 5px;
+    margin-right: 1px;
+    left: -3px;
+}
+#selection_box .hex {
+    fill: #CCC;
+    stroke: #333;
+    stroke-width: 1.5px;
 }

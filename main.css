@@ -12,13 +12,13 @@ html, body {
     height: 100%;
 }
 
-#search_box, #result_box, #selection_box {
-    background: rgba(255,255,255,0.8);
+#search_box, #result_box, #selection_box, #details_box {
+    background: rgba(255,255,255,0.9);
     border-radius: 3px;
     border-bottom: 2px solid rgb(153, 153, 153);
 }
 
-#search_box, #result_box, #selection_box_container {
+#search_box, #result_box, #right_container {
     position: absolute;
 }
 
@@ -40,18 +40,24 @@ html, body {
     overflow: auto;
     z-index: 1000;
 }
-#selection_box_container {
+#right_container {
     top: 0;
     right: 0;
     box-sizing: border-box;
     border-top: 20px solid transparent;
     border-right: 20px solid transparent;
     border-bottom: 20px solid transparent;
-    width: 25%;
+    width: 30%;
     height: 100%;
+    
+    display: flex;
+    flex-flow: column;
 }
-#selection_box {
+#details_box {
+    box-sizing: border-box;
+    margin-top: 2px;
     width: 100%;
-    height: 100%;
     overflow-y: auto;
+    
+    flex: 1;
 }

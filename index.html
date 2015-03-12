@@ -8,6 +8,7 @@
         <link type="text/css" href="search_box/search_box.css" rel="stylesheet"/>
         <link type="text/css" href="result_box/result_box.css" rel="stylesheet"/>
         <link type="text/css" href="selection_box/selection_box.css" rel="stylesheet"/>
+        <link type="text/css" href="details_box/details_box.css" rel="stylesheet"/>
         
         <!-- FontAwesome -->
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -20,7 +21,11 @@
         <svg id="map"></svg>
         <div id="search_box"><input id="search_textbox" type="text"></input><button id="search_button">&#xF002;</button></div>
         <div id="result_box"></div>
-        <div id="selection_box_container"><div id="selection_box"><header></header><section></section></div></div>
+        
+        <div id="right_container" style="pointer-events: none;">
+            <div id="selection_box" style="pointer-events: all;"></div>
+            <div id="details_box" style="pointer-events: all;"></div>
+        </div>
         
         <script src="utils.js"></script>
         <script src="ontology/ontology.js"></script>
@@ -28,6 +33,7 @@
         <script src="search_box/search_box.js"></script>
         <script src="result_box/result_box.js"></script>
         <script src="selection_box/selection_box.js"></script>
+        <script src="details_box/details_box.js"></script>
         <script src="main.js"></script>
     </body>
 </html>

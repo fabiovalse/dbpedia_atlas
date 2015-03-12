@@ -120,7 +120,9 @@ map.init = (dom_node) ->
         .attr
             class: 'cursor hex_cell'
             d: (r) -> _hex_path
-    
+        .style
+            display: 'none'
+            
     land_layer.on 'click', () ->
         # disable cursor movement when panning
         # see https://github.com/mbostock/d3/wiki/Drag-Behavior
@@ -486,6 +488,8 @@ _move_cursor = (i, j) ->
     cursor
         .attr
             transform: "translate(#{x}, #{y})"
+        .style
+            display: 'inline'
             
 ### find a hex given SVG coordinates ###
 GRID_HEIGHT = sin30*CELL_RADIUS*3

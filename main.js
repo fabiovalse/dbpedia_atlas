@@ -6,6 +6,7 @@ map.init('#map');
 search_box.init('#search_box');
 result_box.init('#result_box');
 selection_box.init('#selection_box');
+details_box.init('#details_box');
 
 function import_leaf_regions_statistics(d) {
     return {
@@ -46,7 +47,11 @@ function on_new_selection(json) {
         selection.path = ontology.get_path(filtered_types);
         
         selection_box.update(selection);
+        details_box.update(selection);
         map.update_selection(selection);
+        
+        selection_box.show();
+        details_box.show();
     }
 }
 
@@ -92,6 +97,9 @@ map.node.on('click', function() {
     result_box.hide();
 });
 selection_box.node.on('click', function() {
+    result_box.hide();
+});
+details_box.node.on('click', function() {
     result_box.hide();
 });
 search_box.node.select('#search_textbox').on('click', function() {

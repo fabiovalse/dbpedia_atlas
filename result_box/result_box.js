@@ -20,7 +20,7 @@ result_box.update = function(data) {
 	results.enter().append('div')
 		.attr('class', function(d) {return (d.in_jena) ? 'entity_result' : 'entity_result disabled';})
 		.attr('id', function(d) {return d.uri;})
-		.attr('title', function(d) {return (d.in_jena) ? 'Click to go to "' + format_uri(d.uri) + '".' : 'Entity "' + format_uri(d.uri) + '" is currently out of map.';})
+		.attr('title', function(d) {return (d.in_jena) ? 'Click to focus on "' + format_uri(d.uri) + '".' : 'Instance "' + format_uri(d.uri) + '" is currently out of map.';})
 		.text(function(d) {return format_uri(d.uri);})
 		.on('click', function(d) {
 			if (d.in_jena) {
@@ -40,7 +40,7 @@ result_box.show = function() {
         result_box.node.style('display', 'inline');
     }
     else {
-        result_box.node.style('display', 'none');
+        result_box.hide();
     }
 }
 
