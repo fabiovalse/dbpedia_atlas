@@ -20,7 +20,7 @@
 		$result = json_decode(shell_exec($command));
 
 		foreach ($result->results as $entity) {
-			$query_result = make_query(urlencode("SELECT ?i ?j ?msc {<" . $entity->uri . "> <http://wafi.iit.cnr.it/lod/ns/atlas#i> ?i; <http://wafi.iit.cnr.it/lod/ns/atlas#j> ?j; <http://wafi.iit.cnr.it/lod/ns/atlas#msc> ?msc.}"));
+			$query_result = make_query(urlencode("SELECT ?i ?j ?msc {<" . $entity->uri . "> <http://wafi.iit.cnr.it/lod/ns/atlas#i> ?i; <http://wafi.iit.cnr.it/lod/ns/atlas#j> ?j. OPTIONAL { <" . $entity->uri . "> <http://wafi.iit.cnr.it/lod/ns/atlas#msc> ?msc.}}"));
 
 			$data[] = array("uri" => $entity->uri, "i" => $query_result["results"]["bindings"][0]["i"]["value"], "j" => $query_result["results"]["bindings"][0]["j"]["value"], "msc" => $query_result["results"]["bindings"][0]["msc"]["value"], "in_jena" => count($query_result["results"]["bindings"]) == 1);
 		}

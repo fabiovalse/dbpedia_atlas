@@ -1,6 +1,6 @@
 <?php
 	function make_query($query) {
-		return json_decode(curl_request("http://localhost:3030/dbpedia2/sparql?query=" . $query . "&output=json"), true);
+		return json_decode(curl_request("http://localhost:3030/dbpedia3/sparql?query=" . $query . "&output=json"), true);
 	}
 
 	function curl_request($url) {
