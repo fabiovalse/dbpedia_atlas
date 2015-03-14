@@ -47,8 +47,12 @@
 			if ($current_entity != $triple["o"]["value"]) {
 				$current_entity = $triple["o"]["value"];
 
-				if (array_key_exists("i", $triple))
-					array_push($data["object_properties"]["outgoing"], array("p" => $triple["p"], "o" => $triple["o"], "c" => array($triple["c"]), "i" => $triple["i"], "j" => $triple["j"]));
+				if (array_key_exists("i", $triple)) {
+					if ($triple["c"] != null)
+						array_push($data["object_properties"]["outgoing"], array("p" => $triple["p"], "o" => $triple["o"], "c" => array($triple["c"]), "i" => $triple["i"], "j" => $triple["j"]));
+					else
+						array_push($data["object_properties"]["outgoing"], array("p" => $triple["p"], "o" => $triple["o"], "c" => array(), "i" => $triple["i"], "j" => $triple["j"]));
+				}
 				else
 					array_push($data["object_properties"]["outgoing"], array("p" => $triple["p"], "o" => $triple["o"]));
 			} else {
@@ -60,8 +64,12 @@
 			if ($current_entity != $triple["s"]["value"]) {
 				$current_entity = $triple["s"]["value"];
 				
-				if (array_key_exists("i", $triple))
-					array_push($data["object_properties"]["incoming"], array("s" => $triple["s"], "p" => $triple["p"], "c" => array($triple["c"]), "i" => $triple["i"], "j" => $triple["j"]));
+				if (array_key_exists("i", $triple)) {
+					if ($triple["c"] != null)
+						array_push($data["object_properties"]["incoming"], array("s" => $triple["s"], "p" => $triple["p"], "c" => array($triple["c"]), "i" => $triple["i"], "j" => $triple["j"]));
+					else
+						array_push($data["object_properties"]["incoming"], array("s" => $triple["s"], "p" => $triple["p"], "c" => array(), "i" => $triple["i"], "j" => $triple["j"]));
+				}
 				else	
 					array_push($data["object_properties"]["incoming"], array("s" => $triple["s"], "p" => $triple["p"]));
 			} else {
