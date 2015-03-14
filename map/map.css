@@ -148,3 +148,17 @@
   fill: red;
   stroke-width: 5px;
 }
+
+
+/* untyped island */
+.untyped_island {
+  fill: #D8D6CC;
+  stroke: #777;
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+}
+.untyped_island_label text {
+  font-style: italic;
+  fill: #777;
+  text-transform: none;
+}

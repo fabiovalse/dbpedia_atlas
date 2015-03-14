@@ -8,10 +8,14 @@ vis = null
 map_layer = null
 cursor = null
 sea_layer = null
+untyped_layer = null
+untyped_land_layer = null
+untyped_relations_layer = null
 land_layer = null
 cities_layer = null
 relations_layer = null
 region_labels_layer = null
+cursor_layer = null
 
 SIZE = 100
 CELL_RADIUS = 0.02
@@ -110,17 +114,23 @@ map.init = (dom_node) ->
             
     vis = zoom_layer.append('g')
         .attr
-            transform: 'translate(22,-28) rotate(-60)'
+            transform: 'translate(22,-34) rotate(-60)'
         
     map_layer = vis.append('g')
     sea_layer = map_layer.append('g')
+    untyped_layer = map_layer.append('g')
+        .attr
+            transform: 'translate(-6, 0)'
+    untyped_land_layer = untyped_layer.append('g')
+    untyped_relations_layer = untyped_layer.append('g')
     land_layer = map_layer.append('g')
     relations_layer = map_layer.append('g')
     cities_layer = map_layer.append('g')
     region_labels_layer = map_layer.append('g')
+    cursor_layer = map_layer.append('g')
     
     ### cursor ###
-    cursor = vis.append('g')
+    cursor = cursor_layer.append('g')
         .attr
             class: 'cursor'
         .style
@@ -147,19 +157,21 @@ map.init = (dom_node) ->
             cy: -10
             r: 2.1
             
-    land_layer.on 'click', () ->
-        # disable cursor movement when panning
-        # see https://github.com/mbostock/d3/wiki/Drag-Behavior
-        return if d3.event.defaultPrevented
-        
-        ### move the cursor to provide feedback ###
-        h = _get_hexagon(d3.mouse(this))
-        _move_cursor(h[0], h[1])
-        
-        ### trigger a selection event ###
-        trigger map.node, 'select', {i: h[0], j: h[1]}
-        
-        
+    land_layer.on 'click', () -> _on_hex_click(_get_hexagon(d3.mouse(this)), true)
+    untyped_land_layer.on 'click', () -> _on_hex_click(_get_hexagon(d3.mouse(this)), false)
+    
+_on_hex_click = (hex, typed) ->
+    # disable cursor movement when panning
+    # see https://github.com/mbostock/d3/wiki/Drag-Behavior
+    return if d3.event.defaultPrevented
+    
+    ### move the cursor to provide feedback ###
+    _move_cursor(hex[0], hex[1], typed)
+    
+    ### trigger a selection event ###
+    trigger map.node, 'select', {i: hex[0], j: hex[1]}
+    
+    
 ### custom projection to make hexagons appear regular (y axis is also flipped) ###
 dx = CELL_RADIUS * 2 * Math.sin(Math.PI / 3)
 dy = CELL_RADIUS * 1.5
@@ -174,8 +186,8 @@ path_generator = d3.geo.path()
                 this.stream.point(x * dx / 2, -(y - (2 - (y & 1)) / 3) * dy / 2)
     })
     
-map.load = (data, stats_data) ->
-    _preprocess(data, stats_data)
+map.load = (data, untyped_data, stats_data) ->
+    _preprocess(data, untyped_data, stats_data)
     _init_modes()
     
     ### fill the sea ###
@@ -205,6 +217,38 @@ map.load = (data, stats_data) ->
         .attr('class', 'land-glow-inner')
         .attr('xlink:href', '#land')
         
+        
+    ### draw the untyped island ###
+    untyped_island = untyped_land_layer.selectAll('.untyped_island')
+        .data(topojson.feature(untyped_data, untyped_data.objects.untyped_region).features)
+    
+    untyped_island.enter().append('path')
+        .attr
+            class: 'untyped_island'
+            d: path_generator
+            
+    [ux, uy] = path_generator.centroid(topojson.feature(untyped_data, untyped_data.objects.untyped_region).features[0].geometry)
+    untyped_label = untyped_land_layer.append('g')
+        .attr
+            class: 'untyped_island_label region_label'
+            transform: "translate(#{ux-1},#{uy+1})" # WARNING hardcoded relative position
+            
+    untyped_label.append('text')
+        .text('untyped instances')
+        .attr
+            class: 'label halo'
+            dx: 0.5
+            dy: -0.5
+            transform: 'rotate(60)'
+            
+    untyped_label.append('text')
+        .text('untyped instances')
+        .attr
+            class: 'label foreground'
+            dx: 0.5
+            dy: -0.5
+            transform: 'rotate(60)'
+    
     ### actual regions ###
     land_layer.selectAll('.leaf_region')
         .data(topojson.feature(data, data.objects.leaf_regions).features)
@@ -246,6 +290,7 @@ map.load = (data, stats_data) ->
             class: 'high_region'
             d: (n) -> path_generator(n.merged_region)
             'clip-path': (n) -> "url(#region_clip-#{n.name})"
+            
             
     ### draw the high-level boundaries ###
     land_layer.append('path')
@@ -484,13 +529,17 @@ map.load = (data, stats_data) ->
     
 map.update_selection = (selection) ->
     _preprocess_selection(selection)
-    _move_cursor(selection.i, selection.j)
+    _move_cursor(selection.i, selection.j, selection.parent isnt null)
     
+    _draw_relations(selection.relations.filter((r) -> r.end.parent isnt null), relations_layer)
+    _draw_relations(selection.relations.filter((r) -> r.end.parent is null), untyped_relations_layer)
+    
+_draw_relations = (relations_data, layer) ->
     ### clear all relations and draw them again ###
-    relations_layer.selectAll('*').remove()
+    layer.selectAll('*').remove()
     
-    relations = relations_layer.selectAll('.relation')
-        .data(selection.relations)
+    relations = layer.selectAll('.relation')
+        .data(relations_data)
         
     enter_relations = relations.enter().append('path')
         .attr
@@ -507,7 +556,9 @@ map.update_selection = (selection) ->
 _ij_to_xy = (i, j) ->
     return [j*(cos30*CELL_RADIUS*2)+(if i % 2 is 0 then 0 else cos30*CELL_RADIUS), i*3/2*CELL_RADIUS]
     
-_move_cursor = (i, j) ->
+_move_cursor = (i, j, typed) ->
+    typed = true if not typed?
+    
     [x, y] = _ij_to_xy(i, j)
     cursor
         .attr
@@ -515,6 +566,16 @@ _move_cursor = (i, j) ->
         .style
             display: 'inline'
             
+    ### shift the cursor if we are on the untyped island ###
+    if not typed
+        cursor_layer
+            .attr
+                transform: untyped_layer.attr('transform')
+    else
+        cursor_layer
+            .attr
+                transform: ''
+                
 ### find a hex given SVG coordinates ###
 GRID_HEIGHT = sin30*CELL_RADIUS*3
 GRID_WIDTH = cos30*CELL_RADIUS*2

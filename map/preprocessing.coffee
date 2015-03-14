@@ -1,4 +1,4 @@
-_preprocess = (data, stats_data) ->
+_preprocess = (data, untyped_data, stats_data) ->
     map.leaf_regions = topojson.feature(data, data.objects.leaf_regions).features
     geometries = data.objects.leaf_regions.geometries
     
@@ -7,8 +7,9 @@ _preprocess = (data, stats_data) ->
         f.properties.path = JSON.parse(f.properties.path)
         f.properties.class = f.properties.path[f.properties.path.length-1]
         
-    ### presimplify the topology (compute the effective area (z) of each point) ###
+    ### presimplify the topologies (compute the effective area (z) of each point) ###
     topojson.presimplify(data)
+    topojson.presimplify(untyped_data)
     
     ### store all leaf_regions into the ontology tree, and store each node within the feature's properties ###
     map.leaf_regions.forEach (f) ->
@@ -96,9 +97,12 @@ _preprocess_selection = (selection) ->
     ### compute cartesian coordinates ###
     [selection.x, selection.y] = _ij_to_xy(selection.i, selection.j)
     
-    ### compute selection parent ###
-    selection.parent = ontology.get_node_from_class(selection.path[selection.path.length-1])
-    
+    ### compute selection parent, if any ###
+    if selection.path.length > 0
+        selection.parent = ontology.get_node_from_class(selection.path[selection.path.length-1])
+    else
+        selection.parent = null
+        
     ### extract relational links ###
     ### FIXME links to self are currently ignored ###
     selection.relations = []
@@ -118,7 +122,7 @@ _preprocess_selection = (selection) ->
                     j: t.j.value,
                     x: ox,
                     y: oy,
-                    parent: ontology.get_node_from_class(path[path.length-1])
+                    parent: if path.length > 0 then ontology.get_node_from_class(path[path.length-1]) else null
                 }
             }
         else
@@ -137,7 +141,7 @@ _preprocess_selection = (selection) ->
                     j: t.j.value,
                     x: sx,
                     y: sy,
-                    parent: ontology.get_node_from_class(path[path.length-1])
+                    parent: if path.length > 0 then ontology.get_node_from_class(path[path.length-1]) else null
                 },
                 predicate: t.p.value,
                 target: selection
