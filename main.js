@@ -62,8 +62,6 @@ function on_new_selection(json) {
 // selection event
 main.on('select', function() {
     if (d3.event.extra.hasOwnProperty("uri")) {
-        console.log(d3.event.extra.uri);
-        
         d3.json("api/get_entity.php?uri=" + d3.event.extra.uri, function(error, json) {
             if (error) return console.warn(error);
             

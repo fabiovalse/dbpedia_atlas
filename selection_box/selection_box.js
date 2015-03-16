@@ -41,7 +41,7 @@ selection_box.init = function(dom_selector) {
 selection_box.update = function(selection) {
     /*  Sets the title, links (DBpedia, Wikipedia) and the most specific type
     */
-    header.text(decodeURI(selection.uri.replace("http://dbpedia.org/resource/", "").replace(/_/g, " ")) + " ");
+    header.text(format_uri(selection.uri));
     
     dbpedia_link
         .attr('href', selection.uri)
