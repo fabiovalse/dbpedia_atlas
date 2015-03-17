@@ -7,20 +7,8 @@
 	/*	Given the URI of entity, returns the triples in which it is subject and the triples in which it is object
 	*/
 	if (isset($_GET["uri"])) {
-		$entity = urlencode(end(split("/", $_GET["uri"])));
-		$uri = "http://dbpedia.org/resource/" . $entity;
-		
-		$entity = str_replace("%", "%25", $entity);		
-
-		$uri_query = "<" . urlencode("http://dbpedia.org/resource/") . $entity . ">";
-
-		#$query = urlencode("SELECT ?s ?p ?o ?i ?j {{?g ?p ?o .OPTIONAL {?o <http://wafi.iit.cnr.it/lod/ns/atlas#i> ?i.?o <http://wafi.iit.cnr.it/lod/ns/atlas#j> ?j.}FILTER (?g = ") . $uri_query . urlencode(" && ?p != <http://www.w3.org/2002/07/owl#sameAs>)BIND (?g AS ?s)}UNION{?s ?p ?g .OPTIONAL {?s <http://wafi.iit.cnr.it/lod/ns/atlas#i> ?i.?s <http://wafi.iit.cnr.it/lod/ns/atlas#j> ?j.}FILTER (?g = ") . $uri_query . urlencode(" && ?p != <http://www.w3.org/2002/07/owl#sameAs>)BIND (?g AS ?o)}}");
-		$query = urlencode("SELECT ?s ?p ?o ?c ?i ?j {{?g ?p ?o .OPTIONAL {?o <http://wafi.iit.cnr.it/lod/ns/atlas#i> ?i.?o <http://wafi.iit.cnr.it/lod/ns/atlas#j> ?j.}OPTIONAL {?o a ?c.FILTER (STRSTARTS(STR(?c), 'http://dbpedia.org/ontology/') && !STRSTARTS(STR(?c), 'http://dbpedia.org/ontology/Wikidata'))}FILTER (?g = ") . $uri_query . urlencode(" && ?p != <http://www.w3.org/2002/07/owl#sameAs>)BIND (?g AS ?s)}UNION{?s ?p ?g .OPTIONAL {?s <http://wafi.iit.cnr.it/lod/ns/atlas#i> ?i.?s <http://wafi.iit.cnr.it/lod/ns/atlas#j> ?j.}OPTIONAL {?s a ?c.FILTER (STRSTARTS(STR(?c), 'http://dbpedia.org/ontology/') && !STRSTARTS(STR(?c), 'http://dbpedia.org/ontology/Wikidata'))}FILTER (?g = ") . $uri_query . urlencode(" && ?p != <http://www.w3.org/2002/07/owl#sameAs>)BIND (?g AS ?o)}}");
-
-		$query = str_replace("%3C", "<", $query);
-		$query = str_replace("%3E", ">", $query);
-
-		$result = make_query($query);
+		$result = run_query(build_query($_GET["uri"]));
+		$uri = format_uri($_GET["uri"]);
 	}
 	/*	Given the coordinates (i, j) of a certain entity in the map, returns the triples of the entity (both in subject and object position)
 	*/
@@ -28,9 +16,8 @@
 		$i = $_GET["i"];
 		$j = $_GET["j"];
 
-		#$query = urlencode('SELECT ?s ?p ?o ?i ?j {{?g <http://wafi.iit.cnr.it/lod/ns/atlas#i> "' . $i . '"^^<http://www.w3.org/2001/XMLSchema#integer>;<http://wafi.iit.cnr.it/lod/ns/atlas#j> "' . $j . '"^^<http://www.w3.org/2001/XMLSchema#integer>;?p ?o .OPTIONAL {?o <http://wafi.iit.cnr.it/lod/ns/atlas#i> ?i.?o <http://wafi.iit.cnr.it/lod/ns/atlas#j> ?j.}FILTER (?p != <http://www.w3.org/2002/07/owl#sameAs>)BIND (?g AS ?s)}UNION{?g <http://wafi.iit.cnr.it/lod/ns/atlas#i> "' . $i . '"^^<http://www.w3.org/2001/XMLSchema#integer>;<http://wafi.iit.cnr.it/lod/ns/atlas#j> "' . $j . '"^^<http://www.w3.org/2001/XMLSchema#integer>.?s ?p ?g .OPTIONAL {?s <http://wafi.iit.cnr.it/lod/ns/atlas#i> ?i.?s <http://wafi.iit.cnr.it/lod/ns/atlas#j> ?j.}FILTER (?p != <http://www.w3.org/2002/07/owl#sameAs>)BIND (?g AS ?o)}}');
 		$query = urlencode('SELECT ?s ?p ?o ?c ?i ?j {{?g <http://wafi.iit.cnr.it/lod/ns/atlas#i> "' . $i . '"^^<http://www.w3.org/2001/XMLSchema#integer>;<http://wafi.iit.cnr.it/lod/ns/atlas#j> "' . $j . '"^^<http://www.w3.org/2001/XMLSchema#integer>;?p ?o .OPTIONAL {?o <http://wafi.iit.cnr.it/lod/ns/atlas#i> ?i.?o <http://wafi.iit.cnr.it/lod/ns/atlas#j> ?j.}OPTIONAL {?o a ?c.FILTER (STRSTARTS(STR(?c), "http://dbpedia.org/ontology/") && !STRSTARTS(STR(?c), "http://dbpedia.org/ontology/Wikidata"))}FILTER (?p != <http://www.w3.org/2002/07/owl#sameAs>)BIND (?g AS ?s)}UNION{?g <http://wafi.iit.cnr.it/lod/ns/atlas#i> "' . $i . '"^^<http://www.w3.org/2001/XMLSchema#integer>;<http://wafi.iit.cnr.it/lod/ns/atlas#j> "' . $j . '"^^<http://www.w3.org/2001/XMLSchema#integer>.?s ?p ?g .OPTIONAL {?s <http://wafi.iit.cnr.it/lod/ns/atlas#i> ?i.?s <http://wafi.iit.cnr.it/lod/ns/atlas#j> ?j.}OPTIONAL {?s a ?c.FILTER (STRSTARTS(STR(?c), "http://dbpedia.org/ontology/") && !STRSTARTS(STR(?c), "http://dbpedia.org/ontology/Wikidata"))}FILTER (?p != <http://www.w3.org/2002/07/owl#sameAs>)BIND (?g AS ?o)}}');
-		$result = make_query($query);
+		$result = run_query($query);
 
 		$uri = $result["results"]["bindings"][0]["s"]["value"];
 	}
@@ -39,7 +26,11 @@
 	$current_entity = "";
 
 	foreach ($result["results"]["bindings"] as $triple) {
-		# object_properties -> itself
+		/*var_dump($triple["s"]["value"]);
+		var_dump($uri);
+		var_dump("");
+		exit;*/
+
 		if ($triple["s"]["value"] == $uri && $triple["o"]["value"] == $uri)
 			array_push($data["object_properties"]["itself"], $triple["p"]);
 		# object_properties -> outgoing
@@ -88,4 +79,29 @@
 	}
 
 	echo json_encode($data);
+
+	function format_uri($uri) {
+		$target = array("%28", "%29", "%2C", "%27", "%21");
+		$replacement = array("(", ")", ",", "'", "!");
+
+		$uri = "http://dbpedia.org/resource/" . urlencode(end(split("/", $uri)));
+		$uri = str_replace($target, $replacement, $uri);
+
+		return $uri;
+	}
+
+	function build_query($entity) {
+		$uri_query = "<" . urlencode("http://dbpedia.org/resource/") . str_replace("%", "%25", urlencode(end(split("/", $entity)))) . ">";
+
+		$query = urlencode("SELECT ?s ?p ?o ?c ?i ?j {{?g ?p ?o .OPTIONAL {?o <http://wafi.iit.cnr.it/lod/ns/atlas#i> ?i.?o <http://wafi.iit.cnr.it/lod/ns/atlas#j> ?j.}OPTIONAL {?o a ?c.FILTER (STRSTARTS(STR(?c), 'http://dbpedia.org/ontology/') && !STRSTARTS(STR(?c), 'http://dbpedia.org/ontology/Wikidata'))}FILTER (?g = ") . $uri_query . urlencode(" && ?p != <http://www.w3.org/2002/07/owl#sameAs>)BIND (?g AS ?s)}UNION{?s ?p ?g .OPTIONAL {?s <http://wafi.iit.cnr.it/lod/ns/atlas#i> ?i.?s <http://wafi.iit.cnr.it/lod/ns/atlas#j> ?j.}OPTIONAL {?s a ?c.FILTER (STRSTARTS(STR(?c), 'http://dbpedia.org/ontology/') && !STRSTARTS(STR(?c), 'http://dbpedia.org/ontology/Wikidata'))}FILTER (?g = ") . $uri_query . urlencode(" && ?p != <http://www.w3.org/2002/07/owl#sameAs>)BIND (?g AS ?o)}}");
+
+		$query = str_replace("%2528", "(", $query);
+		$query = str_replace("%2529", ")", $query);
+		$query = str_replace("%252C", ",", $query);
+		$query = str_replace("%2527", "'", $query);
+		$query = str_replace("%2521", "!", $query);
+		$query = str_replace("%E2%80%93", "%25E2%2580%2593", $query);
+
+		return $query;
+	}
 ?>

@@ -1,5 +1,5 @@
 <?php
-	function make_query($query) {
+	function run_query($query) {
 		return json_decode(curl_request("http://localhost:3030/dbpedia3/sparql?query=" . $query . "&output=json"), true);
 	}
 
