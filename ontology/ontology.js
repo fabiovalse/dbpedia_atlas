@@ -46,7 +46,7 @@ ontology.init = function(data) {
 
 // Returns the correct path (sequence of classes ordered according to the ontology hierarchy) given a set of classes
 ontology.get_path = function(classes) {
-    classes = classes.map(function(c) { return c.value.replace("http://dbpedia.org/ontology/", ""); });
+    //classes = classes.map(function(c) { return c.value.replace("http://dbpedia.org/ontology/", ""); });
     
     path = [];
     classes.forEach(function(c){
@@ -64,7 +64,7 @@ ontology.get_node_from_class = function(klass) {
 
 // Returns the path corresponding to the given class
 ontology.get_path_from_class = function(klass) {
-    var node = ontology.get_node_from_class(klass);
+    var node = ontology.get_node_from_class(klass.value);
     return ontology.get_path_from_node(node);
 }
 

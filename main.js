@@ -44,7 +44,7 @@ function on_new_selection(json) {
     
     if (selection != null) {
         // preprocess selection
-        var filtered_types = selection.types.filter(function(d) {return (d.value.indexOf("http://dbpedia.org/ontology/") == 0 && d.value.indexOf("http://dbpedia.org/ontology/Wikidata:") == -1);});
+        var filtered_types = selection.types.filter(function(d) {return ((d.value.indexOf("http://dbpedia.org/ontology/") == 0 && d.value.indexOf("http://dbpedia.org/ontology/Wikidata:") == -1) || d.value == "http://www.w3.org/2002/07/owl#Thing" || d.value == "http://www.opengis.net/gml/_Feature");});
         selection.path = ontology.get_path(filtered_types);
         
         selection_box.update(selection);
