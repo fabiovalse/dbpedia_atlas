@@ -96,7 +96,7 @@ map.init = (dom_node) ->
     ### ZOOM and PAN ###
     zoom_layer = svg.append('g')
     svg.call d3.behavior.zoom()
-        .scaleExtent([0.6, 200])
+        .scaleExtent([0.6, 600])
         .on 'zoom', () ->
             zoom_layer.attr
                 transform: "translate(#{d3.event.translate})scale(#{d3.event.scale})"
