@@ -113,6 +113,23 @@
     fill: #D22;
 }
 
+.leaf_label text {
+    font-family: 'Lacuna';
+    font-size: 1.5px;
+    fill: white;
+    text-anchor: middle;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: -2px  0   rgba(216, 214, 204, 0.8),
+                  0    2px rgba(216, 214, 204, 0.8),
+                  2px  0   rgba(216, 214, 204, 0.8),
+                  0   -2px rgba(216, 214, 204, 0.8),
+                 -1px -1px rgba(216, 214, 204, 0.8),
+                  1px -1px rgba(216, 214, 204, 0.8),
+                  1px  1px rgba(216, 214, 204, 0.8),
+                 -1px  1px rgba(216, 214, 204, 0.8);
+}
+
 /* hex cells */
 .hex_cell {
     vector-effect: non-scaling-stroke;
