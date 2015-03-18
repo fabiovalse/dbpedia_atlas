@@ -80,7 +80,10 @@ main.on('select', function() {
 main.on('search', function() {
     if (d3.event.extra.string.length > 0) {
         d3.json("api/lookup.php?text=" + d3.event.extra.string, function(error, json) {
-            if (error) return console.warn(error);
+            if (error) {
+                alert("The DBpedia lookup service is down");
+                return console.warn(error);
+            };
             
             result_box.update(json);
         });
