@@ -21,10 +21,20 @@
 		$result = json_decode(shell_exec($command));
 
 		foreach ($result->results as $entity) {
-			$query_result = run_query(urlencode("SELECT ?i ?j ?msc {<" . $entity->uri . "> <http://wafi.iit.cnr.it/lod/ns/atlas#i> ?i; <http://wafi.iit.cnr.it/lod/ns/atlas#j> ?j. OPTIONAL { <" . $entity->uri . "> <http://wafi.iit.cnr.it/lod/ns/atlas#msc> ?msc.}}"));
-			$data[] = array("uri" => $entity->uri, "i" => $query_result["results"]["bindings"][0]["i"]["value"], "j" => $query_result["results"]["bindings"][0]["j"]["value"], "msc" => $query_result["results"]["bindings"][0]["msc"]["value"], "in_jena" => count($query_result["results"]["bindings"]) == 1);
+			$query_result = run_query(urlencode("SELECT ?i ?j ?msc {<" . format_uri($entity->uri) . "> <http://wafi.iit.cnr.it/lod/ns/atlas#i> ?i; <http://wafi.iit.cnr.it/lod/ns/atlas#j> ?j. OPTIONAL { <" . format_uri($entity->uri) . "> <http://wafi.iit.cnr.it/lod/ns/atlas#msc> ?msc.}}"));
+			$data[] = array("uri" => format_uri($entity->uri), "i" => $query_result["results"]["bindings"][0]["i"]["value"], "j" => $query_result["results"]["bindings"][0]["j"]["value"], "msc" => $query_result["results"]["bindings"][0]["msc"]["value"], "in_jena" => count($query_result["results"]["bindings"]) == 1);
 		}
 
 		echo json_encode($data);
+	}
+
+	function format_uri($uri) {
+		$target = array("%28", "%29", "%2C", "%27", "%21");
+		$replacement = array("(", ")", ",", "'", "!");
+
+		$uri = "http://dbpedia.org/resource/" . urlencode(end(split("/", $uri)));
+		$uri = str_replace($target, $replacement, $uri);
+
+		return $uri;
 	}
 ?>

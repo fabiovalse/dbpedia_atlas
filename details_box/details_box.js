@@ -102,7 +102,10 @@ function redraw_table(data, table, property_type) {
             var predicate_cell = '<td class="predicate'+(i === 0 ? '' : ' omitted')+'" title="'+prop.p+'">'+(property_type === 'outgoing' ? '<span class="dir">has </span>' : '')+(property_type === 'incoming' ? '<span class="dir">is </span>' : '')+format_uri(prop.p)+(property_type === 'incoming' ? '<span class="dir"> of</span>' : '')+'</td>';
             
             var value_cell;
-            if(property_type === 'data') {
+            if (property_type === 'data' && prop.p == 'http://dbpedia.org/ontology/thumbnail' && (d.value.search(/.jpg/i) != -1 || d.value.search(/.png/i) != -1 || d.value.search(/.svg/i) != -1 || d.value.search(/.gif/i) != -1)) {
+                value_cell = '<td><img src="'+d.value+'"></td>';
+            }
+            else if (property_type === 'data') {
                 value_cell = d.type === 'uri' ? '<td><a href="'+d.value+'">'+d.value+'</a></td>' : '<td>'+d.value+'</td>';
             }
             else {
