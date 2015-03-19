@@ -22,7 +22,7 @@
 		$uri = $result["results"]["bindings"][0]["s"]["value"];
 	}
 
-	$data = array("uri" => $uri, "data_properties" => array(), "object_properties" => array("incoming" => array(), "outgoing" => array(), "itself" => array()), "types" => array());
+	$data = array("ts" => $_GET["ts"], "uri" => $uri, "data_properties" => array(), "object_properties" => array("incoming" => array(), "outgoing" => array(), "itself" => array()), "types" => array());
 	$current_entity = "";
 
 	foreach ($result["results"]["bindings"] as $triple) {
