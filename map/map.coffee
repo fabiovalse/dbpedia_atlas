@@ -10,7 +10,6 @@ cursor = null
 sea_layer = null
 untyped_layer = null
 untyped_land_layer = null
-untyped_relations_layer = null
 land_layer = null
 leaf_labels_layer = null
 cities_layer = null
@@ -126,12 +125,6 @@ map.init = (dom_node) ->
         .attr
             transform: "translate(#{UNTYPED_DX},#{UNTYPED_DY})"
     untyped_land_layer = untyped_layer.append('g')
-
-    untyped_relations_layer = untyped_layer.append('g')
-    untyped_relations_layer.append('g')
-      .attr
-        class: 'links'
-
     land_layer = map_layer.append('g')
     leaf_labels_layer = map_layer.append('g')
 
@@ -546,9 +539,6 @@ map.load = (data, untyped_data, stats_data) ->
 map.update_selection = (selection) ->
     _preprocess_selection(selection)
     _move_cursor(selection.i, selection.j, selection.parent isnt null)
-
-    # _draw_relations(selection.relations.filter((r) -> r.end.parent isnt null), relations_layer)
-    # _draw_relations(selection.relations.filter((r) -> r.end.parent is null), untyped_relations_layer)
 
     ### clear all relations and draw them again ###
     relations_layer.selectAll('.relation_end').remove()
