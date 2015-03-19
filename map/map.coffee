@@ -23,6 +23,9 @@ CELL_RADIUS = 0.02
 sin30 = Math.sin(Math.PI/6)
 cos30 = Math.cos(Math.PI/6)
 
+UNTYPED_DX = -6
+UNTYPED_DY = 0
+
 map.init = (dom_node) ->
     svg = d3.select(dom_node)
     map.node = svg
@@ -121,12 +124,22 @@ map.init = (dom_node) ->
     sea_layer = map_layer.append('g')
     untyped_layer = map_layer.append('g')
         .attr
-            transform: 'translate(-6, 0)'
+            transform: "translate(#{UNTYPED_DX},#{UNTYPED_DY})"
     untyped_land_layer = untyped_layer.append('g')
+
     untyped_relations_layer = untyped_layer.append('g')
+    untyped_relations_layer.append('g')
+      .attr
+        class: 'links'
+
     land_layer = map_layer.append('g')
     leaf_labels_layer = map_layer.append('g')
+
     relations_layer = map_layer.append('g')
+    relations_layer.append('g')
+      .attr
+        class: 'links'
+
     cities_layer = map_layer.append('g')
     region_labels_layer = map_layer.append('g')
     cursor_layer = map_layer.append('g')
@@ -464,7 +477,7 @@ map.load = (data, untyped_data, stats_data) ->
         .attr
             class: 'city'
             transform: (c) ->
-                [x, y] = _ij_to_xy(c.i, c.j)
+                [x, y] = _ij_to_xy(c.i, c.j) # WARNING this should be able to tell if a city has no type
                 "translate(#{x},#{y})"
 
     enter_cities.append('text')
@@ -495,9 +508,7 @@ map.load = (data, untyped_data, stats_data) ->
     enter_region_labels = region_labels.enter().append('g')
         .attr
             class: 'region_label'
-            transform: (n) ->
-                [x,y] = path_generator.centroid(n.merged_region)
-                return "translate(#{x},#{y})"
+            transform: (n) -> "translate(#{n.x},#{n.y})"
 
     enter_region_labels_halo = enter_region_labels.append('text')
         .attr
@@ -536,15 +547,15 @@ map.update_selection = (selection) ->
     _preprocess_selection(selection)
     _move_cursor(selection.i, selection.j, selection.parent isnt null)
 
-    _draw_relations(selection.relations.filter((r) -> r.end.parent isnt null), relations_layer)
-    _draw_relations(selection.relations.filter((r) -> r.end.parent is null), untyped_relations_layer)
+    # _draw_relations(selection.relations.filter((r) -> r.end.parent isnt null), relations_layer)
+    # _draw_relations(selection.relations.filter((r) -> r.end.parent is null), untyped_relations_layer)
 
-_draw_relations = (relations_data, layer) ->
     ### clear all relations and draw them again ###
-    layer.selectAll('*').remove()
+    relations_layer.selectAll('.relation_end').remove()
+    relations_layer.select('.links').selectAll('.link').remove()
 
-    relations = layer.selectAll('.relation')
-        .data(relations_data)
+    relations = relations_layer.selectAll('.relation')
+        .data(selection.relations)
 
     enter_relations = relations.enter().append('path')
         .attr
@@ -558,28 +569,38 @@ _draw_relations = (relations_data, layer) ->
     enter_relations.append('title')
         .text((r) -> r.end.uri.replace('http://dbpedia.org/resource/','').replace(/_/g,' '))
 
-_ij_to_xy = (i, j) ->
-    return [j*(cos30*CELL_RADIUS*2)+(if i % 2 is 0 then 0 else cos30*CELL_RADIUS), i*3/2*CELL_RADIUS]
+    ### show relation links ###
+    links = relations_layer.select('.links').selectAll('.link')
+      .data(selection.relations)
+
+    links.enter().append('path')
+        .attr
+            class: 'link'
+            d: (r) -> "M#{r.start.x} #{r.start.y} L#{r.end.x} #{r.end.y}"
+
+_ij_to_xy = (i, j, typed) ->
+    typed = true if not typed?
+
+    dx = 0
+    dy = 0
+    if not typed
+      dx = UNTYPED_DX
+      dy = UNTYPED_DY
+
+    return [
+      j*(cos30*CELL_RADIUS*2)+(if i % 2 is 0 then 0 else cos30*CELL_RADIUS) + dx,
+      i*3/2*CELL_RADIUS + dy
+    ]
 
 _move_cursor = (i, j, typed) ->
     typed = true if not typed?
 
-    [x, y] = _ij_to_xy(i, j)
+    [x, y] = _ij_to_xy(i, j, typed)
     cursor
         .attr
             transform: "translate(#{x}, #{y})"
         .style
             display: 'inline'
-
-    ### shift the cursor if we are on the untyped island ###
-    if not typed
-        cursor_layer
-            .attr
-                transform: untyped_layer.attr('transform')
-    else
-        cursor_layer
-            .attr
-                transform: ''
 
 ### find a hex given SVG coordinates ###
 GRID_HEIGHT = sin30*CELL_RADIUS*3

@@ -433,14 +433,14 @@ _preprocess = (data, untyped_data, stats_data) ->
           n.readable_label = _readable_labels[n.name]
 
 _preprocess_selection = (selection) ->
-    ### compute cartesian coordinates ###
-    [selection.x, selection.y] = _ij_to_xy(selection.i, selection.j)
-
     ### compute selection parent, if any ###
     if selection.path.length > 0
         selection.parent = ontology.get_node_from_class(selection.path[selection.path.length-1])
     else
         selection.parent = null
+
+    ### compute cartesian coordinates ###
+    [selection.x, selection.y] = _ij_to_xy(selection.i, selection.j, selection.parent?)
 
     ### extract relational links ###
     ### FIXME links to self are currently ignored ###
@@ -449,8 +449,8 @@ _preprocess_selection = (selection) ->
     ### outgoing links ###
     selection.object_properties.outgoing.forEach (t) ->
         if 'i' of t and 'j' of t
-            [ox, oy] = _ij_to_xy(t.i.value, t.j.value)
             path = ontology.get_path(t.c)
+            [ox, oy] = _ij_to_xy(t.i.value, t.j.value, path.length > 0)
 
             selection.relations.push {
                 source: selection,
@@ -470,8 +470,8 @@ _preprocess_selection = (selection) ->
     ### incoming links ###
     selection.object_properties.incoming.forEach (t) ->
         if 'i' of t and 'j' of t
-            [sx, sy] = _ij_to_xy(t.i.value, t.j.value)
             path = ontology.get_path(t.c)
+            [sx, sy] = _ij_to_xy(t.i.value, t.j.value, path.length > 0)
 
             selection.relations.push {
                 source: {
