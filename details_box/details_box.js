@@ -87,7 +87,8 @@ details_box.update = function(selection) {
 
 function redraw_table(data, table, property_type) {
     table.selectAll('*').remove();
-    
+    var current_img = null;
+
     var groups = table.selectAll('tbody')
         .data(data);
         
@@ -103,10 +104,13 @@ function redraw_table(data, table, property_type) {
             
             var value_cell;
             if (property_type === 'data' && prop.p == 'http://dbpedia.org/ontology/thumbnail' && (d.value.search(/.jpg/i) != -1 || d.value.search(/.png/i) != -1 || d.value.search(/.svg/i) != -1 || d.value.search(/.gif/i) != -1)) {
-                value_cell = '<td><img src="'+d.value+'"></td>';
+                value_cell = '<td><a href="'+current_img+'" target="_blank"><img src="'+d.value+'"></a></td>';
             }
             else if (property_type === 'data') {
-                value_cell = d.type === 'uri' ? '<td><a href="'+d.value+'">'+d.value+'</a></td>' : '<td>'+d.value+'</td>';
+                if (prop.p == 'http://xmlns.com/foaf/0.1/depiction')
+                    current_img = d.value;
+
+                value_cell = d.type === 'uri' ? '<td><a href="'+d.value+'" target="_blank">'+d.value+'</a></td>' : '<td>'+d.value+'</td>';
             }
             else {
                 value_cell = '<td class="object_uri">'+format_uri(d.value)+'</td>';

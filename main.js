@@ -1,6 +1,7 @@
 main = d3.select(document);
 
 var selection = null;
+var last_request = null;
 
 map.init('#map');
 search_box.init('#search_box');
@@ -61,17 +62,21 @@ function on_new_selection(json) {
 
 // selection event
 main.on('select', function() {
+    last_request = new Date().getTime()
+
     if (d3.event.extra.hasOwnProperty("uri")) {
-        d3.json("api/get_entity.php?uri=" + d3.event.extra.uri, function(error, json) {
+        d3.json("api/get_entity.php?uri=" + d3.event.extra.uri + "&ts=" + last_request, function(error, json) {
             if (error) return console.warn(error);
             
-            on_new_selection(json);
+            if (last_request == json["ts"])
+                on_new_selection(json);
         });
     } else {
-        d3.json("api/get_entity.php?i=" + d3.event.extra.i + "&j=" + d3.event.extra.j, function(error, json) {
+        d3.json("api/get_entity.php?i=" + d3.event.extra.i + "&j=" + d3.event.extra.j + "&ts=" + last_request, function(error, json) {
             if (error) return console.warn(error);
             
-            on_new_selection(json);
+            if (last_request == json["ts"])
+                on_new_selection(json);
         });
     }
 });
