@@ -590,7 +590,7 @@
       });
     });
     enter_relations.append('title').text(function(r) {
-      return r.end.uri.replace('http://dbpedia.org/resource/', '').replace(/_/g, ' ');
+      return format_uri(r.end.uri);
     });
     /* show relation links
     */

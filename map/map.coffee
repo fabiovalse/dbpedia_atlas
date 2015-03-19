@@ -557,7 +557,7 @@ map.update_selection = (selection) ->
             trigger map.node, 'select', {uri: r.end.uri}
 
     enter_relations.append('title')
-        .text((r) -> r.end.uri.replace('http://dbpedia.org/resource/','').replace(/_/g,' '))
+        .text((r) -> format_uri(r.end.uri))
 
     ### show relation links ###
     links = relations_layer.select('.links').selectAll('.link')
