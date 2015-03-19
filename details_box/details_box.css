@@ -65,3 +65,7 @@
     color: black;
     text-decoration: underline;
 }
+
+#details_box td img {
+  width: 100%;
+}
