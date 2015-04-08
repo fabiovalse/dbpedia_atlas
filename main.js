@@ -64,12 +64,16 @@ function on_new_selection(json) {
 main.on('select', function() {
     last_request = new Date().getTime()
 
+    d3.select('body').style('cursor', 'wait');
+
     if (d3.event.extra.hasOwnProperty("uri")) {
         d3.json("api/get_entity.php?uri=" + d3.event.extra.uri + "&ts=" + last_request, function(error, json) {
             if (error) return console.warn(error);
             
             if (last_request == json["ts"])
                 on_new_selection(json);
+
+            d3.select('body').style('cursor', 'auto');
         });
     } else {
         d3.json("api/get_entity.php?i=" + d3.event.extra.i + "&j=" + d3.event.extra.j + "&ts=" + last_request, function(error, json) {
@@ -77,6 +81,8 @@ main.on('select', function() {
             
             if (last_request == json["ts"])
                 on_new_selection(json);
+
+            d3.select('body').style('cursor', 'auto');
         });
     }
 });
