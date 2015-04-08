@@ -9,6 +9,24 @@ result_box.init('#result_box');
 selection_box.init('#selection_box');
 details_box.init('#details_box');
 
+// History handling
+if (location.hash != '') {
+    if (history.state != null)
+        on_new_selection(history.state);
+}
+
+window.onpopstate = function(evt) {
+    if (history.state != null)
+        on_new_selection(history.state);
+}
+
+d3.select('#back').on('click', function() {
+    history.back();
+});
+d3.select('#forward').on('click', function() {
+   history.forward(); 
+});
+
 function import_leaf_regions_statistics(d) {
     return {
         class: d.class,
@@ -69,6 +87,8 @@ main.on('select', function() {
     if (d3.event.extra.hasOwnProperty("uri")) {
         d3.json("api/get_entity.php?uri=" + d3.event.extra.uri + "&ts=" + last_request, function(error, json) {
             if (error) return console.warn(error);
+
+            history.pushState(json, json.uri.split('/')[4], '#'+json.uri.split('/')[4]);
             
             if (last_request == json["ts"])
                 on_new_selection(json);
@@ -78,7 +98,9 @@ main.on('select', function() {
     } else {
         d3.json("api/get_entity.php?i=" + d3.event.extra.i + "&j=" + d3.event.extra.j + "&ts=" + last_request, function(error, json) {
             if (error) return console.warn(error);
-            
+
+            history.pushState(json, json.uri.split('/')[4], '#'+json.uri.split('/')[4]);
+
             if (last_request == json["ts"])
                 on_new_selection(json);
 

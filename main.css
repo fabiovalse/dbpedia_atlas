@@ -18,6 +18,20 @@ html, body {
     border-bottom: 2px solid rgb(153, 153, 153);
 }
 
+#back, #forward {
+    position: absolute;
+    top: 26px;
+    font-size: 23px;
+    color: #404040;
+    cursor: pointer;
+}
+#back {
+    left: -19px;
+}
+#forward {
+    right: -19px;
+}
+
 #search_box, #result_box, #right_container {
     position: absolute;
 }
