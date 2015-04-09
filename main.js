@@ -2,6 +2,8 @@ main = d3.select(document);
 
 var selection = null;
 var last_request = null;
+var initial_history_length = history.length;
+var current_history_index = history.length;
 
 map.init('#map');
 search_box.init('#search_box');
@@ -10,21 +12,41 @@ selection_box.init('#selection_box');
 details_box.init('#details_box');
 
 // History handling
-if (location.hash != '') {
-    if (history.state != null)
-        on_new_selection(history.state);
-}
+/*if (window.parent.location.hash != "") {
 
-window.onpopstate = function(evt) {
-    if (history.state != null)
-        on_new_selection(history.state);
+}*/
+
+window.onpopstate = function (event) {
+    if (event.state != null)
+        on_new_selection(event.state);
+    else {
+        details_box.hide();
+        selection_box.hide();
+    }
+};
+
+var add_state = function(json) {
+    history.pushState(json, "DBpedia Atlas: " + json.uri.split('/')[4], '#'+json.uri.split('/')[4]);
+    document.title = "DBpedia Atlas: " + json.uri.split('/')[4];
+
+    /*current_history_index += 1;*/
 }
 
 d3.select('#back').on('click', function() {
     history.back();
+
+    /*if (current_history_index > initial_history_length+1) {
+        current_history_index -= 1;
+        history.back();
+    }*/
 });
 d3.select('#forward').on('click', function() {
-   history.forward(); 
+    history.forward();
+
+    /*if (current_history_index < history.length) {
+        current_history_index += 1;
+        history.forward();
+    }*/
 });
 
 function import_leaf_regions_statistics(d) {
@@ -82,13 +104,13 @@ function on_new_selection(json) {
 main.on('select', function() {
     last_request = new Date().getTime()
 
-    d3.select('body').style('cursor', 'wait');
+    d3.select('body').style('cursor', 'progress');
 
     if (d3.event.extra.hasOwnProperty("uri")) {
         d3.json("api/get_entity.php?uri=" + d3.event.extra.uri + "&ts=" + last_request, function(error, json) {
             if (error) return console.warn(error);
 
-            history.pushState(json, json.uri.split('/')[4], '#'+json.uri.split('/')[4]);
+            add_state(json);
             
             if (last_request == json["ts"])
                 on_new_selection(json);
@@ -99,7 +121,7 @@ main.on('select', function() {
         d3.json("api/get_entity.php?i=" + d3.event.extra.i + "&j=" + d3.event.extra.j + "&ts=" + last_request, function(error, json) {
             if (error) return console.warn(error);
 
-            history.pushState(json, json.uri.split('/')[4], '#'+json.uri.split('/')[4]);
+            add_state(json);
 
             if (last_request == json["ts"])
                 on_new_selection(json);
