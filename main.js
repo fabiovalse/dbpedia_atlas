@@ -11,44 +11,6 @@ result_box.init('#result_box');
 selection_box.init('#selection_box');
 details_box.init('#details_box');
 
-// History handling
-/*if (window.parent.location.hash != "") {
-
-}*/
-
-window.onpopstate = function (event) {
-    if (event.state != null)
-        on_new_selection(event.state);
-    else {
-        details_box.hide();
-        selection_box.hide();
-    }
-};
-
-var add_state = function(json) {
-    history.pushState(json, "DBpedia Atlas: " + json.uri.split('/')[4], '#'+json.uri.split('/')[4]);
-    document.title = "DBpedia Atlas: " + json.uri.split('/')[4];
-
-    /*current_history_index += 1;*/
-}
-
-d3.select('#back').on('click', function() {
-    history.back();
-
-    /*if (current_history_index > initial_history_length+1) {
-        current_history_index -= 1;
-        history.back();
-    }*/
-});
-d3.select('#forward').on('click', function() {
-    history.forward();
-
-    /*if (current_history_index < history.length) {
-        current_history_index += 1;
-        history.forward();
-    }*/
-});
-
 function import_leaf_regions_statistics(d) {
     return {
         class: d.class,
@@ -64,13 +26,52 @@ queue()
     .defer(d3.json, 'data/leaf_regions.topo.json')
     .defer(d3.json, 'data/untyped_region.topo.json')
     .defer(d3.csv, 'data/leaf_regions_statistics.csv', import_leaf_regions_statistics)
-    .await(function(error, ontology_data, leaf_regions_data, untyped_region_data, stats_data){
+    .await(function(error, ontology_data, leaf_regions_data, untyped_region_data, stats_data) {
         if(error)
             throw error;
         
         ontology.init(ontology_data);
         map.load(leaf_regions_data, untyped_region_data, stats_data);
+
+        // History handling
+        if (location.hash != "") {
+            load_instance("http://dbpedia.org/resource/" + location.hash.replace('#', ''), true);
+        }
     });
+
+window.onpopstate = function (event) {
+    if (event.state != null) {
+        load_instance(event.state.uri, false);
+    } else {
+        details_box.hide();
+        selection_box.hide();
+    }
+};
+
+function load_instance(uri, init) {
+    last_request = new Date().getTime()
+
+    d3.select('body').style('cursor', 'progress');
+
+    console.log("api/get_entity.php?uri=" + decodeURIComponent(uri) + "&ts=" + last_request);
+
+    d3.json("api/get_entity.php?uri=" + decodeURIComponent(uri) + "&ts=" + last_request, function(error, json) {
+        if (error) return console.warn(error);
+        
+        if (last_request == json["ts"]) {
+            if (init)
+                add_state(json);
+            on_new_selection(json);
+        }
+
+        d3.select('body').style('cursor', 'auto');
+    });
+}
+
+function add_state(json) {
+    history.pushState(json, "DBpedia Atlas: " + json.uri.split('/')[4], '#'+json.uri.split('/')[4]);
+    document.title = "DBpedia Atlas: " + json.uri.split('/')[4];
+}
 
 function on_new_selection(json) {
     // extract integer coordinates from RDF
@@ -109,11 +110,11 @@ main.on('select', function() {
     if (d3.event.extra.hasOwnProperty("uri")) {
         d3.json("api/get_entity.php?uri=" + d3.event.extra.uri + "&ts=" + last_request, function(error, json) {
             if (error) return console.warn(error);
-
-            add_state(json);
             
-            if (last_request == json["ts"])
+            if (last_request == json["ts"]) {
+                add_state(json);
                 on_new_selection(json);
+            }
 
             d3.select('body').style('cursor', 'auto');
         });
@@ -121,10 +122,10 @@ main.on('select', function() {
         d3.json("api/get_entity.php?i=" + d3.event.extra.i + "&j=" + d3.event.extra.j + "&ts=" + last_request, function(error, json) {
             if (error) return console.warn(error);
 
-            add_state(json);
-
-            if (last_request == json["ts"])
+            if (last_request == json["ts"]) {
+                add_state(json);
                 on_new_selection(json);
+            }
 
             d3.select('body').style('cursor', 'auto');
         });

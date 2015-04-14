@@ -17,6 +17,7 @@
 		$j = $_GET["j"];
 
 		$query = urlencode('SELECT ?s ?p ?o ?c ?i ?j {{?g <http://wafi.iit.cnr.it/lod/ns/atlas#i> "' . $i . '"^^<http://www.w3.org/2001/XMLSchema#integer>;<http://wafi.iit.cnr.it/lod/ns/atlas#j> "' . $j . '"^^<http://www.w3.org/2001/XMLSchema#integer>;?p ?o .OPTIONAL {?o <http://wafi.iit.cnr.it/lod/ns/atlas#i> ?i.?o <http://wafi.iit.cnr.it/lod/ns/atlas#j> ?j.}OPTIONAL {?o a ?c.FILTER (STRSTARTS(STR(?c), "http://dbpedia.org/ontology/") && !STRSTARTS(STR(?c), "http://dbpedia.org/ontology/Wikidata"))}FILTER (?p != <http://www.w3.org/2002/07/owl#sameAs>)BIND (?g AS ?s)}UNION{?g <http://wafi.iit.cnr.it/lod/ns/atlas#i> "' . $i . '"^^<http://www.w3.org/2001/XMLSchema#integer>;<http://wafi.iit.cnr.it/lod/ns/atlas#j> "' . $j . '"^^<http://www.w3.org/2001/XMLSchema#integer>.?s ?p ?g .OPTIONAL {?s <http://wafi.iit.cnr.it/lod/ns/atlas#i> ?i.?s <http://wafi.iit.cnr.it/lod/ns/atlas#j> ?j.}OPTIONAL {?s a ?c.FILTER (STRSTARTS(STR(?c), "http://dbpedia.org/ontology/") && !STRSTARTS(STR(?c), "http://dbpedia.org/ontology/Wikidata"))}FILTER (?p != <http://www.w3.org/2002/07/owl#sameAs>)BIND (?g AS ?o)}}');
+
 		$result = run_query($query);
 
 		$uri = $result["results"]["bindings"][0]["s"]["value"];
@@ -26,11 +27,6 @@
 	$current_entity = "";
 
 	foreach ($result["results"]["bindings"] as $triple) {
-		/*var_dump($triple["s"]["value"]);
-		var_dump($uri);
-		var_dump("");
-		exit;*/
-
 		if ($triple["s"]["value"] == $uri && $triple["o"]["value"] == $uri)
 			array_push($data["object_properties"]["itself"], $triple["p"]);
 		# object_properties -> outgoing
@@ -100,6 +96,7 @@
 		$query = str_replace("%252C", ",", $query);
 		$query = str_replace("%2527", "'", $query);
 		$query = str_replace("%2521", "!", $query);
+		$query = str_replace("%253A", ":", $query);
 		$query = str_replace("%E2%80%93", "%25E2%2580%2593", $query);
 
 		return $query;

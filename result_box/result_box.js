@@ -36,7 +36,7 @@ result_box.hide = function() {
     result_box.node.style('display', 'none');
 }
 result_box.show = function() {
-    if(result_box.results.length > 0) {
+    if(result_box.results != null && result_box.results.length > 0) {
         result_box.node.style('display', 'inline');
     }
     else {
