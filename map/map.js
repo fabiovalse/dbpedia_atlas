@@ -689,6 +689,8 @@
   REGION_LABEL_MIN_AREA = 80;
 
   _update_lod = function(z) {
+    console.log(z);
+    
     region_labels_layer.selectAll('.region_label').classed('hidden', function(n) {
       return n.area * z * z < REGION_LABEL_MIN_AREA;
     });

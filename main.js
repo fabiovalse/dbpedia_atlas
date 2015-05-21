@@ -53,8 +53,6 @@ function load_instance(uri, init) {
 
     d3.select('body').style('cursor', 'progress');
 
-    console.log("api/get_entity.php?uri=" + decodeURIComponent(uri) + "&ts=" + last_request);
-
     d3.json("api/get_entity.php?uri=" + decodeURIComponent(uri) + "&ts=" + last_request, function(error, json) {
         if (error) return console.warn(error);
         
