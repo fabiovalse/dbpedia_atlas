@@ -24,14 +24,12 @@ function import_leaf_regions_statistics(d) {
 queue()
     .defer(d3.json, 'data/ontology_canonical.json')
     .defer(d3.json, 'data/leaf_regions.topo.json')
-    .defer(d3.json, 'data/untyped_region.topo.json')
-    .defer(d3.csv, 'data/leaf_regions_statistics.csv', import_leaf_regions_statistics)
-    .await(function(error, ontology_data, leaf_regions_data, untyped_region_data, stats_data) {
+    .await(function(error, ontology_data, leaf_regions_data) {
         if(error)
             throw error;
         
         ontology.init(ontology_data);
-        map.load(leaf_regions_data, untyped_region_data, stats_data);
+        map.load(leaf_regions_data);
 
         // History handling
         if (location.hash != "") {

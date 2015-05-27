@@ -44,11 +44,14 @@ details_box.update = function(selection) {
     selection.object_properties.outgoing.sort(sort_obj_prop).forEach(function(d) {
         // group by predicate
         if (current_p != d.p.value) {
+            d.o['label'] = d.label.value;
+
             outgoing_data.push({p: d.p.value, objs: [d.o]});
             current_p = d.p.value;
         }
         else {
             // data is already sorted by predicate, value can be added to last group
+            d.o['label'] = d.label.value;
             outgoing_data[outgoing_data.length-1].objs.push(d.o);
         }
     });
@@ -68,11 +71,13 @@ details_box.update = function(selection) {
     selection.object_properties.incoming.sort(sort_obj_prop).forEach(function(d) {
         // group by predicate
         if (current_p != d.p.value) {
+            d.s['label'] = d.label.value;
             incoming_data.push({p: d.p.value, objs: [d.s]});
             current_p = d.p.value;
         }
         else {
             // data is already sorted by predicate, value can be added to last group
+            d.s['label'] = d.label.value;
             incoming_data[incoming_data.length-1].objs.push(d.s);
         }
     });
@@ -103,18 +108,12 @@ function redraw_table(data, table, property_type) {
             var predicate_cell = '<td class="predicate'+(i === 0 ? '' : ' omitted')+'" title="'+prop.p+'">'+(property_type === 'outgoing' ? '<span class="dir">has </span>' : '')+(property_type === 'incoming' ? '<span class="dir">is </span>' : '')+format_uri(prop.p)+(property_type === 'incoming' ? '<span class="dir"> of</span>' : '')+'</td>';
             
             var value_cell;
-            if (property_type === 'data' && prop.p == 'http://dbpedia.org/ontology/thumbnail' && (d.value.search(/.jpg/i) != -1 || d.value.search(/.png/i) != -1 || d.value.search(/.svg/i) != -1 || d.value.search(/.gif/i) != -1)) {
-                value_cell = '<td><a href="'+current_img+'" target="_blank"><img src="'+d.value+'"></a></td>';
-            }
-            else if (property_type === 'data') {
-                if (prop.p == 'http://xmlns.com/foaf/0.1/depiction')
-                    current_img = d.value;
-
+            if (property_type === 'data')
                 value_cell = d.type === 'uri' ? '<td><a href="'+d.value+'" target="_blank">'+d.value+'</a></td>' : '<td>'+d.value+'</td>';
-            }
-            else {
+            else if ('label' in prop.objs[i])
+                value_cell = '<td class="object_uri">'+prop.objs[i].label+'</td>';
+            else
                 value_cell = '<td class="object_uri">'+format_uri(d.value)+'</td>';
-            }
             
             return predicate_cell + value_cell;
         });

@@ -41,7 +41,7 @@ selection_box.init = function(dom_selector) {
 selection_box.update = function(selection) {
     /*  Sets the title, links (DBpedia, Wikipedia) and the most specific type
     */
-    header.text(format_uri(selection.uri));
+    header.text(selection['data_properties']['http://www.w3.org/2000/01/rdf-schema#label'][0].value);
     
     dbpedia_link
         .attr('href', selection.uri)
