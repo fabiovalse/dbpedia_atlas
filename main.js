@@ -33,7 +33,7 @@ queue()
 
         // History handling
         if (location.hash != "") {
-            load_instance("http://dbpedia.org/resource/" + location.hash.replace('#', ''), true);
+            load_instance("http://data.linkedmdb.org/resource/" + location.hash.replace('#', ''), true);
         }
     });
 
@@ -65,8 +65,8 @@ function load_instance(uri, init) {
 }
 
 function add_state(json) {
-    history.pushState(json, "DBpedia Atlas: " + json.uri.split('/')[4], '#'+json.uri.split('/')[4]);
-    document.title = "DBpedia Atlas: " + json.uri.split('/')[4];
+    history.pushState(json, "LinkedMDB Atlas: " + json.uri.split('/').slice(-2).join('/'), '#'+json.uri.split('/').slice(-2).join('/'));
+    document.title = "LinkedMDB Atlas: " + json.uri.split('/').slice(-2).join('/');
 }
 
 function on_new_selection(json) {

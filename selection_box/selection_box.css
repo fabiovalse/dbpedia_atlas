@@ -30,3 +30,7 @@
 #selection_box header {
     display: inline;
 }
+
+.hidden {
+    display: none;
+}

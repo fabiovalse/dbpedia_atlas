@@ -3,8 +3,8 @@ window.selection_box = {};
 
 var box;
 var header;
-var dbpedia_link;
-var wikipedia_link;
+var linkedmdb_link;
+var freebase_link;
 var path;
 
 selection_box.init = function(dom_selector) {
@@ -12,22 +12,22 @@ selection_box.init = function(dom_selector) {
 
     selection_box.node = box;
     
-    wikipedia_link = box.append('a')
+    freebase_link = box.append('a')
         .attr('target', '_blank');
         
-    wikipedia_link
+    freebase_link
         .append('img')
             .attr('class', 'external_link')
-            .attr('src', 'img/wikipedia_logo.png')
+            .attr('src', 'img/freebase_logo.png')
             .attr();
             
-    dbpedia_link = box.append('a')
+    linkedmdb_link = box.append('a')
         .attr('target', '_blank');
         
-    dbpedia_link
+    linkedmdb_link
         .append('img')
             .attr('class', 'external_link')
-            .attr('src', 'img/dbpedia_logo.png');
+            .attr('src', 'img/linkedmdb_logo.png');
             
     header = box.append('header');
     
@@ -39,32 +39,36 @@ selection_box.init = function(dom_selector) {
 }
 
 selection_box.update = function(selection) {
-    /*  Sets the title, links (DBpedia, Wikipedia) and the most specific type
+    /*  Sets the title, links (LinkedMDB, Freebase) and the most specific type
     */
-    header.text(selection['data_properties']['http://www.w3.org/2000/01/rdf-schema#label'][0].value);
+    if ('http://www.w3.org/2000/01/rdf-schema#label' in selection['data_properties'])
+        header.text(selection['data_properties']['http://www.w3.org/2000/01/rdf-schema#label'][0].value);
+    else
+        header.text(selection.uri.split("/").slice(-2)[0].replace(/_/g, ' ') + " #" + selection.uri.split("/").slice(-2)[1]);
     
-    dbpedia_link
+    linkedmdb_link
         .attr('href', selection.uri)
-        .attr('title', 'Open "'+format_uri(selection.uri)+'" in DBpedia.');
+        .attr('title', 'Open "'+format_uri(selection.uri)+'" in LinkedMDB.');
         
-    wikipedia_link
-        .attr('href', function() {
-            splitted = selection.uri.split('/');
-            return 'http://en.wikipedia.org/wiki/' + splitted[splitted.length-1];
-        })
-        .attr('title', 'Open "'+format_uri(selection.uri)+'" in Wikipedia.');
+
+    if ('http://xmlns.com/foaf/0.1/page' in selection.data_properties) {
+        freebase_link.classed('hidden', false);
+        freebase_link
+            .attr('href', selection.data_properties['http://xmlns.com/foaf/0.1/page'][0].value)
+            .attr('title', 'Open "'+format_uri(selection.uri)+'" in Freebase.');
+    } else {
+        freebase_link.classed('hidden', true);
+    }
 
     path.selectAll('.class').remove();
     
     classes = path.selectAll('.class')
-        .data(selection.path);
+        .data(selection.types);
         
     classes.enter().append('span')
-        .attr('class', function(d, i) {return (i < selection.path.length-1) ? 'class' : 'class msc'})
-        //.attr('title', function(d) {return d;}) FIXME provide original URIs
-        .html(function(d, i) {
-            var formatted_uri = format_uri(d).replace('Owl:','');
-            return (i < selection.path.length-1) ? formatted_uri + " > " : formatted_uri;
+        .attr('class', 'class msc')
+        .html(function(d) {
+            return (d.value.indexOf("/movie/") > -1) ? d.value.replace("http://data.linkedmdb.org/resource/movie/", "").replace(/_/g, " ") : d.value.replace("http://data.linkedmdb.org/resource/oddlinker/", "").replace(/_/g, " ");
         });
 }
 

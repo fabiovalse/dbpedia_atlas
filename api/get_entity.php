@@ -10,6 +10,10 @@
 		$query = urlencode("SELECT ?s ?p ?o ?c ?label ?i ?j {{?g ?p ?o .OPTIONAL {?o <http://www.w3.org/2000/01/rdf-schema#label> ?label.}OPTIONAL {?o <http://wafi.iit.cnr.it/lod/ns/atlas#i> ?i.?o <http://wafi.iit.cnr.it/lod/ns/atlas#j> ?j.}OPTIONAL {?o a ?c.FILTER (!STRSTARTS(STR(?c), 'http://xmlns.com/foaf/'))}FILTER (?g = <" . $_GET["uri"] . "> && ?p != <http://www.w3.org/2002/07/owl#sameAs>)BIND (?g AS ?s)}UNION{?s ?p ?g .OPTIONAL {?s <http://www.w3.org/2000/01/rdf-schema#label> ?label.}OPTIONAL {?s <http://wafi.iit.cnr.it/lod/ns/atlas#i> ?i.?s <http://wafi.iit.cnr.it/lod/ns/atlas#j> ?j.}OPTIONAL {?s a ?c.FILTER (!STRSTARTS(STR(?c), 'http://xmlns.com/foaf/'))}FILTER (?g = <" . $_GET["uri"] . "> && ?p != <http://www.w3.org/2002/07/owl#sameAs>)BIND (?g AS ?o)}}");
 
 		$result = run_query($query);
+
+		/*echo json_encode($result);
+		exit;*/
+
 		$uri = $_GET["uri"];
 	}
 	/*	Given the coordinates (i, j) of a certain entity in the map, returns the triples of the entity (both in subject and object position)
@@ -42,9 +46,9 @@
 
 				if (array_key_exists("i", $triple)) {
 					if ($triple["c"] != null)
-						array_push($data["object_properties"]["outgoing"], array("p" => $triple["p"], "o" => $triple["o"], "c" => array($triple["c"]), "label" => $triple["label"], "i" => $triple["i"], "j" => $triple["j"]));
+						array_push($data["object_properties"]["outgoing"], array("p" => $triple["p"], "o" => $triple["o"], "c" => array($triple["c"]), "label" => (array_key_exists('label', $triple) ? $triple["label"] : array("value" => "")), "i" => $triple["i"], "j" => $triple["j"]));
 					else
-						array_push($data["object_properties"]["outgoing"], array("p" => $triple["p"], "o" => $triple["o"], "c" => array(), "label" => $triple["label"], "i" => $triple["i"], "j" => $triple["j"]));
+						array_push($data["object_properties"]["outgoing"], array("p" => $triple["p"], "o" => $triple["o"], "c" => array(), "label" => (array_key_exists('label', $triple) ? $triple["label"] : array("value" => "")), "i" => $triple["i"], "j" => $triple["j"]));
 				}
 				else
 					array_push($data["object_properties"]["outgoing"], array("p" => $triple["p"], "o" => $triple["o"]));
@@ -54,14 +58,15 @@
 		}
 		# object_properties -> incoming
 		elseif ($triple["o"]["value"] == $uri && strpos($triple["s"]["value"], "http://data.linkedmdb.org/resource/") > -1) {
+
 			if ($current_entity != $triple["s"]["value"]) {
 				$current_entity = $triple["s"]["value"];
 				
 				if (array_key_exists("i", $triple)) {
 					if ($triple["c"] != null)
-						array_push($data["object_properties"]["incoming"], array("s" => $triple["s"], "p" => $triple["p"], "c" => array($triple["c"]), "label" => $triple["label"], "i" => $triple["i"], "j" => $triple["j"]));
+						array_push($data["object_properties"]["incoming"], array("s" => $triple["s"], "p" => $triple["p"], "c" => array($triple["c"]), "label" => (array_key_exists('label', $triple) ? $triple["label"] : array("value" => "")), "i" => $triple["i"], "j" => $triple["j"]));
 					else
-						array_push($data["object_properties"]["incoming"], array("s" => $triple["s"], "p" => $triple["p"], "c" => array(), "label" => $triple["label"], "i" => $triple["i"], "j" => $triple["j"]));
+						array_push($data["object_properties"]["incoming"], array("s" => $triple["s"], "p" => $triple["p"], "c" => array(), "label" => (array_key_exists('label', $triple) ? $triple["label"] : array("value" => "")), "i" => $triple["i"], "j" => $triple["j"]));
 				}
 				else	
 					array_push($data["object_properties"]["incoming"], array("s" => $triple["s"], "p" => $triple["p"]));
@@ -71,12 +76,14 @@
 		}
 		# data_properties
 		else {
+			$current_entity = "";
+
 			if (!array_key_exists($triple["p"]["value"], $data["data_properties"]))
 				$data["data_properties"][$triple["p"]["value"]] = array($triple["o"]);
 			else
 				array_push($data["data_properties"][$triple["p"]["value"]], $triple["o"]);
 		}
 	}
-
+	
 	echo json_encode($data);
 ?>

@@ -128,7 +128,7 @@
       return _update_lod(d3.event.scale);
     }));
     vis = zoom_layer.append('g').attr({
-      transform: 'translate(22,-34) rotate(-60)'
+      transform: 'translate(-10,-15) rotate(-60)'
     });
     map_layer = vis.append('g');
     sea_layer = map_layer.append('g');
@@ -676,7 +676,9 @@
 
     map.leaf_regions.forEach(function(f) {
       var n;
+
       n = ontology.get_node_from_class(f.properties["class"]);
+
       n.leaf_region = f;
       return f.properties.node = n;
     });
