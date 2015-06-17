@@ -21,6 +21,15 @@
         <svg id="map"></svg>
         <div id="search_box"><input id="search_textbox" type="text"></input><button id="search_button">&#xF002;</button></div>
         <div id="result_box"></div>
+        <div id="layer_box">
+            <select onchange="map.mode(this[this.selectedIndex].id)">
+                <option id="classes">Classes</option>
+                <option id="depth">Depth</option>
+                <option id="triple_density">Triples</option>
+                <option id="obj_props_density">Object properties</option>
+                <option id="data_props_density">Data properties</option>
+            </select>
+        </div>
         
         <div id="right_container" style="pointer-events: none;">
             <div id="selection_box" style="pointer-events: all;"></div>

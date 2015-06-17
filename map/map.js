@@ -35,7 +35,7 @@
 
   SIZE = 100;
 
-  CELL_RADIUS = 0.02;
+  CELL_RADIUS = 0.1;
 
   sin30 = Math.sin(Math.PI / 6);
 
@@ -47,6 +47,7 @@
     map.node = svg;
     svg.attr({
       viewBox: "" + (-SIZE / 2) + " " + (-SIZE / 2) + " " + SIZE + " " + SIZE
+      //viewBox: "" + (-SIZE / 2) + " " + (-SIZE / 30) + " " + SIZE + " " + SIZE/4
     });
     defs = svg.append('defs');
     /* define sea pattern
@@ -109,7 +110,7 @@
     */
 
     zoom_layer = svg.append('g');
-    svg.call(d3.behavior.zoom().scaleExtent([0.6, 600]).on('zoom', function() {
+    svg.call(d3.behavior.zoom().scaleExtent([0.3, 600]).on('zoom', function() {
       zoom_layer.attr({
         transform: "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")"
       });
@@ -166,9 +167,9 @@
       cy: -10,
       r: 2.1
     });
-    land_layer.on('click', function() {
+    /*land_layer.on('click', function() {
       return _on_hex_click(_get_hexagon(d3.mouse(this)), true);
-    });
+    });*/
   };
 
   _on_hex_click = function(hex, typed) {
@@ -178,7 +179,7 @@
     /* move the cursor to provide feedback
     */
 
-    _move_cursor(hex[0], hex[1], typed);
+    /*_move_cursor(hex[0], hex[1], typed);*/
     /* trigger a selection event
     */
 
@@ -230,40 +231,53 @@
     /* define the level zero region (the land)
     */
 
-    defs.append('path').datum(topojson.mesh(data, data.objects.leaf_regions, function(a, b) {
+    /*defs.append('path').datum(topojson.mesh(data, data.objects.leaf_regions, function(a, b) {
       return a === b;
-    })).attr('id', 'land').attr('d', path_generator);
+    })).attr('id', 'land').attr('d', path_generator);*/
+    sea_layer.selectAll('.land-glow-outer').data(topojson.feature(data, data.objects.leaf_regions).features).enter().append('path').attr({
+      "class": 'land-glow-outer land-glow-inner',
+      d: path_generator,
+      "transform": function(d) {
+        return "translate(" + d.properties.dx + ", " + d.properties.dy + ")";
+      }
+    });
     /* faux land glow (using filters takes too much resources)
     */
 
-    sea_layer.append('use').attr('class', 'land-glow-outer').attr('xlink:href', '#land');
-    sea_layer.append('use').attr('class', 'land-glow-inner').attr('xlink:href', '#land');
-    
+    /*sea_layer.append('use').attr('class', 'land-glow-outer').attr('xlink:href', '#land');
+    sea_layer.append('use').attr('class', 'land-glow-inner').attr('xlink:href', '#land');*/
     /* actual regions
     */
 
     land_layer.selectAll('.leaf_region').data(topojson.feature(data, data.objects.leaf_regions).features).enter().append('path').attr({
       "class": 'leaf_region',
-      d: path_generator
+      d: path_generator,
+      "transform": function(d) {
+        return "translate(" + d.properties.dx + ", " + d.properties.dy + ")";
+      }
+    })
+    .on('click', function() {
+      return _on_hex_click(_get_hexagon(d3.mouse(this)), true);
     });
     /* draw the leaf regions boundaries
     */
 
-    land_layer.append('path').datum(topojson.mesh(data, data.objects.leaf_regions, function(a, b) {
-      return a !== b && a.properties.path[1] === b.properties.path[1];
-    })).attr('d', path_generator).attr('class', 'boundary low').style('stroke-width', '0.5px');
+    /*land_layer.append('path')
+      .datum(topojson.mesh(data, data.objects.leaf_regions, function(a, b) {
+        return a !== b && a.properties.path[1] === b.properties.path[1];
+      })).attr('d', path_generator).attr('class', 'boundary low').style('stroke-width', '0.5px');*/
     /* draw the level two boundaries
     */
 
-    land_layer.append('path').datum(topojson.mesh(data, data.objects.leaf_regions, function(a, b) {
+    /*land_layer.append('path').datum(topojson.mesh(data, data.objects.leaf_regions, function(a, b) {
       return a.properties.path.length > 2 && b.properties.path.length > 2 && a.properties.path[1] === b.properties.path[1] && a.properties.path[2] !== b.properties.path[2];
-    })).attr('d', path_generator).attr('class', 'boundary low').style('stroke-width', '0.9px');
+    })).attr('d', path_generator).attr('class', 'boundary low').style('stroke-width', '0.9px');*/
     /* inset clipping of level one regions
     */
 
     region_clips = land_layer.selectAll('.region_clip').data(ontology.levels[1]);
     region_clips.enter().append('clipPath').attr({
-      "class": 'region_clip',
+      "class": function(d) {return (d.name != "http://data.linkedmdb.org/resource/untyped" ? 'region_clip' : 'untyped_island');},
       id: function(n) {
         return "region_clip-" + n.name;
       }
@@ -273,20 +287,33 @@
       }
     });
     land_layer.selectAll('.high_region').data(ontology.levels[1]).enter().append('path').attr({
-      "class": 'high_region',
+      "class": function(d) {return (d.name != "http://data.linkedmdb.org/resource/untyped" ? 'high_region' : 'untyped_island');},
       d: function(n) {
         return path_generator(n.merged_region);
       },
       'clip-path': function(n) {
         return "url(#region_clip-" + n.name + ")";
+      },
+      "transform": function(d) {
+        return "translate(" + d.leaf_region.properties.dx + ", " + d.leaf_region.properties.dy + ")";
       }
     });
     /* draw the high-level boundaries
     */
 
-    land_layer.append('path').datum(topojson.mesh(data, data.objects.leaf_regions, function(a, b) {
+
+    land_layer.selectAll('.boundary').data(topojson.feature(data, data.objects.leaf_regions).features).enter().append('path').attr({
+      "class": function(d) {
+        return (d.properties.class != "http://data.linkedmdb.org/resource/untyped" ? 'boundary high' : 'untyped_island');},
+      d: path_generator,
+      "transform": function(d) {
+        return "translate(" + d.properties.dx + ", " + d.properties.dy + ")";
+      }
+    }).style('stroke-width', '1.1px');
+
+    /*land_layer.append('path').datum(topojson.mesh(data, data.objects.leaf_regions, function(a, b) {
       return a === b || a.properties.path[1] !== b.properties.path[1];
-    })).attr('d', path_generator).attr('class', 'boundary high').style('stroke-width', '1.1px');
+    })).attr('d', path_generator).attr('class', 'boundary high').style('stroke-width', '1.1px');*/
     /* draw labels of leaf regions
     */
 
@@ -296,150 +323,6 @@
 
     cities_data = [
       /*{
-        "uri": "http://dbpedia.org/resource/Isaac_Newton",
-        "i": 573,
-        "j": -865
-      }, {
-        "uri": "http://dbpedia.org/resource/Pablo_Picasso",
-        "i": 1365,
-        "j": -1237
-      }, {
-        "uri": "http://dbpedia.org/resource/Rome",
-        "i": 72,
-        "j": -519
-      }, {
-        "uri": "http://dbpedia.org/resource/New_York_City",
-        "i": 353,
-        "j": -453
-      }, {
-        "uri": "http://dbpedia.org/resource/Earth",
-        "i": -1225,
-        "j": -1047
-      }, {
-        "uri": "http://dbpedia.org/resource/Microsoft",
-        "i": 264,
-        "j": -1060
-      }, {
-        "uri": "http://dbpedia.org/resource/Google",
-        "i": 7,
-        "j": -1110
-      }, {
-        "uri": "http://dbpedia.org/resource/Apple_Inc.",
-        "i": 106,
-        "j": -1042
-      }, {
-        "uri": "http://dbpedia.org/resource/Pink_Floyd",
-        "i": -126,
-        "j": -1518
-      }, {
-        "uri": "http://dbpedia.org/resource/Yale_University",
-        "i": 89,
-        "j": -1227
-      }, {
-        "uri": "http://dbpedia.org/resource/CNN",
-        "i": 473,
-        "j": -1203
-      }, {
-        "uri": "http://dbpedia.org/resource/Dog",
-        "i": -278,
-        "j": -897
-      }, {
-        "uri": "http://dbpedia.org/resource/Mosquito",
-        "i": -419,
-        "j": -880
-      }, {
-        "uri": "http://dbpedia.org/resource/Bamboo",
-        "i": -896,
-        "j": -844
-      }, {
-        "uri": "http://dbpedia.org/resource/Crow",
-        "i": -856,
-        "j": -1253
-      }, {
-        "uri": "http://dbpedia.org/resource/Tulip",
-        "i": -880,
-        "j": -1062
-      }, {
-        "uri": "http://dbpedia.org/resource/The_Matrix",
-        "i": -900,
-        "j": -503
-      }, {
-        "uri": "http://dbpedia.org/resource/Yesterday",
-        "i": -802,
-        "j": -724
-      }, {
-        "uri": "http://dbpedia.org/resource/The_Wall",
-        "i": -331,
-        "j": -519
-      }, {
-        "uri": "http://dbpedia.org/resource/Scott_Pilgrim",
-        "i": -728,
-        "j": -646
-      }, {
-        "uri": "http://dbpedia.org/resource/Images_and_Words",
-        "i": -558,
-        "j": -636
-      }, {
-        "uri": "http://dbpedia.org/resource/Pizza",
-        "i": -1227,
-        "j": -873
-      }, {
-        "uri": "http://dbpedia.org/resource/Christopher_Columbus",
-        "i": -350,
-        "j": -1461
-      }, {
-        "uri": "http://dbpedia.org/resource/Cantonese",
-        "i": -299,
-        "j": -2043
-      }, {
-        "uri": "http://dbpedia.org/resource/Euro",
-        "i": -185,
-        "j": -1989
-      }, {
-        "uri": "http://dbpedia.org/resource/Jews",
-        "i": -287,
-        "j": -1944
-      }, {
-        "uri": "http://dbpedia.org/resource/Oscar_Wilde",
-        "i": 1226,
-        "j": -1199
-      }, {
-        "uri": "http://dbpedia.org/resource/IPhone",
-        "i": -1291,
-        "j": -901
-      }, {
-        "uri": "http://dbpedia.org/resource/Adenosine_triphosphate",
-        "i": -1182,
-        "j": -1233
-      }, {
-        "uri": "http://dbpedia.org/resource/Pneumonia",
-        "i": -1012,
-        "j": -1154
-      }, {
-        "uri": "http://dbpedia.org/resource/Michael_Jordan",
-        "i": 1043,
-        "j": -802
-      }, {
-        "uri": "http://dbpedia.org/resource/Elizabeth_II",
-        "i": 1421,
-        "j": -1282
-      }, {
-        "uri": "http://dbpedia.org/resource/Julian_Assange",
-        "i": -454,
-        "j": -1585
-      }, {
-        "uri": "http://dbpedia.org/resource/Alan_Turing",
-        "i": 667,
-        "j": -847
-      }, {
-        "uri": "http://dbpedia.org/resource/Winston_Churchill",
-        "i": 464,
-        "j": -1042
-      }, {
-        "uri": "http://dbpedia.org/resource/Stanley_Kubrick",
-        "i": 464,
-        "j": -1451
-      }, {
         "uri": "http://dbpedia.org/resource/Freddie_Mercury",
         "i": 1232,
         "j": -918
@@ -487,9 +370,10 @@
       return n.merged_region.coordinates.length > 0;
     }));
     enter_region_labels = region_labels.enter().append('g').attr({
-      "class": 'region_label',
+      "class": function(d) {
+        return (d.name != "http://data.linkedmdb.org/resource/untyped") ? 'region_label' : 'untyped_island_label region_label'},
       transform: function(n) {
-        return "translate(" + n.x + "," + n.y + ")";
+        return "translate(" + (n.x + n.leaf_region.properties.dx) + "," + (n.y + n.leaf_region.properties.dy) + ")";
       }
     });
     enter_region_labels_halo = enter_region_labels.append('text').attr({
@@ -529,7 +413,9 @@
   map.update_selection = function(selection) {
     var enter_relations, links, relations;
     _preprocess_selection(selection);
-    _move_cursor(selection.i, selection.j, selection.parent !== null);
+    
+    translation_coordinates = ontology.get_translation_from_class((selection.types.length > 0) ? selection.types[0].value : "http://data.linkedmdb.org/resource/untyped");
+    _move_cursor(selection.i, selection.j, translation_coordinates[0], translation_coordinates[1], selection.parent !== null);
     /* clear all relations and draw them again
     */
 
@@ -540,7 +426,9 @@
       "class": 'relation_end hex_cell',
       d: _hex_path,
       transform: function(r) {
-        return "translate(" + r.end.x + "," + r.end.y + ")";
+        object_translation_coordinates = (selection.uri == r.source.uri) ? ontology.get_translation_from_class(r.target.c) : ontology.get_translation_from_class(r.source.c);
+
+        return "translate(" + (r.end.x + object_translation_coordinates[0]) + "," + (r.end.y + object_translation_coordinates[1]) + ")";
       }
     }).on('click', function(r) {
       /* trigger the selection of the relation end
@@ -559,7 +447,9 @@
     return links.enter().append('path').attr({
       "class": 'link',
       d: function(r) {
-        return "M" + r.start.x + " " + r.start.y + " L" + r.end.x + " " + r.end.y;
+        object_translation_coordinates = (selection.uri == r.source.uri) ? ontology.get_translation_from_class(r.target.c) : ontology.get_translation_from_class(r.source.c);
+
+        return "M" + (r.start.x + translation_coordinates[0]) + " " + (r.start.y + translation_coordinates[1]) + " L" + (r.end.x + object_translation_coordinates[0]) + " " + (r.end.y + object_translation_coordinates[1]);
       }
     });
   };
@@ -574,14 +464,14 @@
     return [j * (cos30 * CELL_RADIUS * 2) + (i % 2 === 0 ? 0 : cos30 * CELL_RADIUS) + dx, i * 3 / 2 * CELL_RADIUS + dy];
   };
 
-  _move_cursor = function(i, j, typed) {
+  _move_cursor = function(i, j, dx, dy, typed) {
     var x, y, _ref;
     if (!(typed != null)) {
       typed = true;
     }
     _ref = _ij_to_xy(i, j, typed), x = _ref[0], y = _ref[1];
     return cursor.attr({
-      transform: "translate(" + x + ", " + y + ")"
+      transform: "translate(" + (x + dx) + ", " + (y + dy) + ")"
     }).style({
       display: 'inline'
     });
@@ -643,7 +533,7 @@
   */
 
 
-  REGION_LABEL_MIN_AREA = 80;
+  REGION_LABEL_MIN_AREA = 50;
 
   _update_lod = function(z) {
     //console.log(z);
@@ -766,6 +656,7 @@
             j: t.j.value,
             x: ox,
             y: oy,
+            c: t.c[0].value,
             parent: path.length > 0 ? ontology.get_node_from_class(path[path.length - 1]) : null
           }
         });
@@ -788,6 +679,7 @@
             j: t.j.value,
             x: sx,
             y: sy,
+            c: t.c[0].value,
             parent: path.length > 0 ? ontology.get_node_from_class(path[path.length - 1]) : null
           },
           predicate: t.p.value,
@@ -829,8 +721,7 @@
     */
 
     var classes, colors;
-    //classes = ["http://dbpedia.org/ontology/MeanOfTransportation", "http://dbpedia.org/ontology/SportsSeason", "http://dbpedia.org/ontology/Agent", "http://dbpedia.org/ontology/Device", "http://dbpedia.org/ontology/Place", "http://dbpedia.org/ontology/Biomolecule", "http://dbpedia.org/ontology/Species", "http://www.opengis.net/gml/_Feature", "http://dbpedia.org/ontology/Event", "http://dbpedia.org/ontology/CareerStation", "http://dbpedia.org/ontology/Work", "http://dbpedia.org/ontology/TopicalConcept", "http://dbpedia.org/ontology/AnatomicalStructure", "http://dbpedia.org/ontology/Holiday", "http://dbpedia.org/ontology/Food", "http://dbpedia.org/ontology/ChemicalSubstance", "http://dbpedia.org/ontology/Medicine", "http://dbpedia.org/ontology/Name", "http://dbpedia.org/ontology/CelestialBody", "http://dbpedia.org/ontology/SportCompetitionResult", "http://dbpedia.org/ontology/UnitOfWork", "http://dbpedia.org/ontology/GeneLocation", "http://dbpedia.org/ontology/Satellite", "http://dbpedia.org/ontology/PersonFunction", "http://dbpedia.org/ontology/TimePeriod", "http://dbpedia.org/ontology/Language", "http://dbpedia.org/ontology/Sales", "http://dbpedia.org/ontology/Colour", "http://dbpedia.org/ontology/EthnicGroup", "http://dbpedia.org/ontology/Award", "http://dbpedia.org/ontology/Drug", "http://dbpedia.org/ontology/Activity", "http://dbpedia.org/ontology/Currency", "http://dbpedia.org/ontology/SnookerWorldRanking", "http://dbpedia.org/ontology/Swarm", "http://dbpedia.org/ontology/Competition", "http://dbpedia.org/ontology/List"];
-    classes = ["Person", "Work", "Organisation", "Place"];
+    classes = ["", "", "", "", "", "", "", ""];
     colors = classes.map(function(c, i) {
       var chroma;
       chroma = c === "http://dbpedia.org/ontology/TimePeriod" || c === "http://dbpedia.org/ontology/CareerStation" || c === "http://dbpedia.org/ontology/PersonFunction" || c === "http://www.opengis.net/gml/_Feature" || c === "http://dbpedia.org/ontology/Sales" ? 30 : 55;
@@ -840,7 +731,7 @@
     /* depth
     */
 
-    /*depth_color = d3.scale.linear().domain([0, ontology.levels.length - 1]).range([d3.hcl(200, 0, 90), d3.hcl(360, 30, 30)]).interpolate(d3.interpolateHcl);*/
+    depth_color = d3.scale.linear().domain([0, ontology.levels.length - 1]).range([d3.hcl(200, 0, 90), d3.hcl(360, 30, 30)]).interpolate(d3.interpolateHcl);
     /* triple density
     */
 

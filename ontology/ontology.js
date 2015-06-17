@@ -3,7 +3,7 @@ window.ontology = {}
 
 var _index = {}
 
-ontology.init = function(data) {
+ontology.init = function(data, translation_data) {
     ontology.tree = data;
     
     // Create support structures for using the tree
@@ -16,6 +16,10 @@ ontology.init = function(data) {
     }
     _create_index(ontology.tree);
     
+    translation_data.forEach(function(d, i) {
+        _index[d.id].dx = translation_data[i].x - translation_data[i].cx;
+        _index[d.id].dy = translation_data[i].y - translation_data[i].cy;
+    })
     
     ontology.levels = [];
     ontology.nodes = [];
@@ -66,6 +70,11 @@ ontology.get_node_from_class = function(klass) {
 ontology.get_path_from_class = function(klass) {
     var node = ontology.get_node_from_class(klass.value);
     return ontology.get_path_from_node(node);
+}
+
+// Returns the path corresponding to the given class
+ontology.get_translation_from_class = function(klass) {
+    return [_index[klass].dx, _index[klass].dy];
 }
 
 // Returns the path corresponding to the given node

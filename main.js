@@ -24,11 +24,18 @@ function import_leaf_regions_statistics(d) {
 queue()
     .defer(d3.json, 'data/ontology_canonical.json')
     .defer(d3.json, 'data/leaf_regions.topo.json')
-    .await(function(error, ontology_data, leaf_regions_data) {
+    .defer(d3.json, 'data/translation.json')
+    .await(function(error, ontology_data, leaf_regions_data, translation_data) {
         if(error)
             throw error;
         
-        ontology.init(ontology_data);
+        ontology.init(ontology_data, translation_data);
+
+        leaf_regions_data.objects['leaf_regions'].geometries.forEach(function(d, i) {
+            d.properties.dx = translation_data[i].x - translation_data[i].cx;
+            d.properties.dy = translation_data[i].y - translation_data[i].cy;
+        });
+
         map.load(leaf_regions_data);
 
         // History handling
