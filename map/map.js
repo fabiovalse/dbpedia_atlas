@@ -438,7 +438,8 @@
       });
     });
     enter_relations.append('title').text(function(r) {
-      return format_uri(r.end.uri);
+      //return format_uri(r.end.uri);
+      return r.end.label;
     });
     /* show relation links
     */
@@ -681,7 +682,8 @@
             j: t.j.value,
             x: ox,
             y: oy,
-            c: t.c[0].value,
+            c: (t.c.length > 0) ? t.c[0].value : "http://data.linkedmdb.org/resource/untyped",
+            label: t.label.value,
             parent: path.length > 0 ? ontology.get_node_from_class(path[path.length - 1]) : null
           }
         });
@@ -704,7 +706,8 @@
             j: t.j.value,
             x: sx,
             y: sy,
-            c: t.c[0].value,
+            c: (t.c.length > 0) ? t.c[0].value : "http://data.linkedmdb.org/resource/untyped",
+            label: t.label.value,
             parent: path.length > 0 ? ontology.get_node_from_class(path[path.length - 1]) : null
           },
           predicate: t.p.value,
