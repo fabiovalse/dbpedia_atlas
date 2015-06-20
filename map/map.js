@@ -209,9 +209,9 @@
     }
   }));
 
-  map.load = function(data) {
+  map.load = function(data, stats_data) {
     var cities, cities_data, enter_cities, enter_region_labels, enter_region_labels_foreground, enter_region_labels_halo, region_clips, region_labels, ux, uy, _ref;
-    _preprocess(data);
+    _preprocess(data, stats_data);
     _init_modes();
     /* fill the sea
     */
@@ -546,7 +546,7 @@
     });
   };
 
-  _preprocess = function(data) {
+  _preprocess = function(data, stats_data) {
     var geometries, _merge;
     map.leaf_regions = topojson.feature(data, data.objects.leaf_regions).features;
     geometries = data.objects.leaf_regions.geometries;
@@ -599,7 +599,32 @@
     ontology.nodes.forEach(function(n) {
       return n.area = path_generator.area(n.merged_region);
     });
+    /* create a stats index
+    */
 
+    _stats = {};
+    stats_data.forEach(function(s) {
+      return _stats[s["class"]] = s;
+    });
+    /* add stats to each leaf region
+    */
+
+    map.leaf_regions.forEach(function(f) {
+      f.properties.node.stats = _stats[f.properties.node.name];
+      if (!(f.properties.node.stats != null)) {
+        //console.error("Class not found in statistics data: " + f.properties.node.name);
+      }
+    });
+    /* compute additional stats
+    */
+
+    map.leaf_regions.forEach(function(f) {
+      if (f.properties.node.name != "http://data.linkedmdb.org/resource/untyped") {
+        f.properties.node.stats.triple_density = f.properties.node.stats.triple_count / f.properties.node.leaf_count;
+        f.properties.node.stats.obj_props_density = f.properties.node.stats.obj_props_count / f.properties.node.leaf_count;
+        return f.properties.node.stats.data_props_density = f.properties.node.stats.data_props_count / f.properties.node.leaf_count;
+      }
+    });
     /* define readable, plural, multiline labels for level one regions
     */
 
@@ -735,27 +760,30 @@
     /* triple density
     */
 
-    /*triple_density_color = d3.scale.linear().domain([
+    triple_density_color = d3.scale.linear().domain([
       0, d3.max(map.leaf_regions, function(f) {
-        return f.properties.node.stats.triple_density;
+        if (f.properties.node.name != "http://data.linkedmdb.org/resource/untyped")
+          return f.properties.node.stats.triple_density;
       })
-    ]).range([d3.hcl(100, 0, 90), d3.hcl(260, 30, 30)]).interpolate(d3.interpolateHcl);*/
+    ]).range([d3.hcl(100, 0, 90), d3.hcl(260, 30, 30)]).interpolate(d3.interpolateHcl);
     /* object properties density
     */
 
-    /*obj_props_density_color = d3.scale.linear().domain([
+    obj_props_density_color = d3.scale.linear().domain([
       0, d3.max(map.leaf_regions, function(f) {
-        return f.properties.node.stats.obj_props_density;
+        if (f.properties.node.name != "http://data.linkedmdb.org/resource/untyped")
+          return f.properties.node.stats.obj_props_density;
       })
-    ]).range([d3.hcl(0, 0, 90), d3.hcl(160, 30, 30)]).interpolate(d3.interpolateHcl);*/
+    ]).range([d3.hcl(0, 0, 90), d3.hcl(160, 30, 30)]).interpolate(d3.interpolateHcl);
     /* data properties density
     */
 
-    /*return data_props_density_color = d3.scale.linear().domain([
+    return data_props_density_color = d3.scale.linear().domain([
       0, d3.max(map.leaf_regions, function(f) {
-        return f.properties.node.stats.data_props_density;
+        if (f.properties.node.name != "http://data.linkedmdb.org/resource/untyped")
+          return f.properties.node.stats.data_props_density;
       })
-    ]).range([d3.hcl(50, 0, 90), d3.hcl(210, 30, 30)]).interpolate(d3.interpolateHcl);*/
+    ]).range([d3.hcl(50, 0, 90), d3.hcl(210, 30, 30)]).interpolate(d3.interpolateHcl);
   };
 
   map.mode = function(requested_mode) {
@@ -784,7 +812,8 @@
       case 'triple_density':
         land_layer.selectAll('.leaf_region').attr({
           fill: function(r) {
-            return triple_density_color(r.properties.node.stats.triple_density);
+            if (r.properties.node.name != "http://data.linkedmdb.org/resource/untyped")
+              return triple_density_color(r.properties.node.stats.triple_density);
           }
         });
         land_layer.selectAll('.high_region').attr({
@@ -794,7 +823,8 @@
       case 'obj_props_density':
         land_layer.selectAll('.leaf_region').attr({
           fill: function(r) {
-            return obj_props_density_color(r.properties.node.stats.obj_props_density);
+            if (r.properties.node.name != "http://data.linkedmdb.org/resource/untyped")
+              return obj_props_density_color(r.properties.node.stats.obj_props_density);
           }
         });
         land_layer.selectAll('.high_region').attr({
@@ -804,7 +834,8 @@
       case 'data_props_density':
         land_layer.selectAll('.leaf_region').attr({
           fill: function(r) {
-            return data_props_density_color(r.properties.node.stats.data_props_density);
+            if (r.properties.node.name != "http://data.linkedmdb.org/resource/untyped")
+              return data_props_density_color(r.properties.node.stats.data_props_density);
           }
         });
         land_layer.selectAll('.high_region').attr({

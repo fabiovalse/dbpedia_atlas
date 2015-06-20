@@ -25,7 +25,8 @@ queue()
     .defer(d3.json, 'data/ontology_canonical.json')
     .defer(d3.json, 'data/leaf_regions.topo.json')
     .defer(d3.json, 'data/translation.json')
-    .await(function(error, ontology_data, leaf_regions_data, translation_data) {
+    .defer(d3.csv, 'data/leaf_regions_statistics.csv', import_leaf_regions_statistics)
+    .await(function(error, ontology_data, leaf_regions_data, translation_data, stats_data) {
         if(error)
             throw error;
         
@@ -36,7 +37,7 @@ queue()
             d.properties.dy = translation_data[i].y - translation_data[i].cy;
         });
 
-        map.load(leaf_regions_data);
+        map.load(leaf_regions_data, stats_data);
 
         // History handling
         if (location.hash != "") {
