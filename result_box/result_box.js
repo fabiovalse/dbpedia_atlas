@@ -20,8 +20,8 @@ result_box.update = function(data) {
 	results.enter().append('div')
 		.attr('class', function(d) {return (d.in_jena) ? 'entity_result' : 'entity_result disabled';})
 		.attr('id', function(d) {return d.uri;})
-		.attr('title', function(d) {return (d.in_jena) ? 'Click to focus on "' + format_uri(d.uri) + '".' : 'Instance "' + format_uri(d.uri) + '" is currently out of map.';})
-		.text(function(d) {return format_uri(d.uri);})
+		.attr('title', function(d) {return (d.in_jena) ? 'Click to focus on "' + d.label + '".' : 'Instance "' + d.label + '" is currently out of map.';})
+		.text(function(d) {return d.label;})
 		.on('click', function(d) {
 			if (d.in_jena) {
 				trigger(result_box.node, 'select', {uri: this.id});

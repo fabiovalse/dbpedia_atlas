@@ -141,7 +141,7 @@ main.on('search', function() {
     if (d3.event.extra.string.length > 0) {
         d3.json("api/lookup.php?text=" + d3.event.extra.string, function(error, json) {
             if (error) {
-                alert("The DBpedia lookup service is down");
+                alert("The lookup service is down");
                 return console.warn(error);
             };
             
