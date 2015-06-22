@@ -682,7 +682,7 @@
             j: t.j.value,
             x: ox,
             y: oy,
-            c: (t.c.length > 0) ? t.c[0].value : "http://data.linkedmdb.org/resource/untyped",
+            c: t.c[0].value,
             label: t.label.value,
             parent: path.length > 0 ? ontology.get_node_from_class(path[path.length - 1]) : null
           }
@@ -706,7 +706,7 @@
             j: t.j.value,
             x: sx,
             y: sy,
-            c: (t.c.length > 0) ? t.c[0].value : "http://data.linkedmdb.org/resource/untyped",
+            c: t.c[0].value,
             label: t.label.value,
             parent: path.length > 0 ? ontology.get_node_from_class(path[path.length - 1]) : null
           },
@@ -759,7 +759,7 @@
     /* depth
     */
 
-    depth_color = d3.scale.linear().domain([0, ontology.levels.length - 1]).range([d3.hcl(200, 0, 90), d3.hcl(360, 30, 30)]).interpolate(d3.interpolateHcl);
+    depth_color = d3.scale.linear().domain([0, ontology.levels.length - 1]).range([d3.hcl(360, 30, 30), d3.hcl(200, 0, 90)]).interpolate(d3.interpolateHcl);
     /* triple density
     */
 
